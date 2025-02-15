@@ -27,11 +27,21 @@ export const getUserFromRequest = (req: Request) => {
   return new User(validatedUser);
 };
 
-export const isMongoError = (error: unknown): error is { code: number } => {
+type MongoError = {
+  code: number;
+  errorResponse: {
+    errmsg: string;
+  };
+};
+export const isMongoError = (error: unknown): error is MongoError => {
   return (
     typeof error === "object" &&
     error !== null &&
     "code" in error &&
-    typeof (error as any).code === "number"
+    typeof (error as any).code === "number" &&
+    "errorResponse" in error &&
+    typeof (error as any).errorResponse === "object" &&
+    "errmsg" in (error as any).errorResponse &&
+    typeof (error as any).errorResponse.errmsg === "string"
   );
 };

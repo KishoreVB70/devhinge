@@ -9,6 +9,29 @@ import {
 import { User } from "../model/user.js";
 import { z } from "zod";
 
+export const putUser = async (req: Request, res: Response) => {
+  try {
+    const user = getUserFromRequest(req).toObject();
+    const { email, _id, ...updateUser } = user;
+    console.log(updateUser);
+    const result = await User.findOneAndUpdate({ email }, updateUser, {
+      new: true,
+    });
+    successResponse(res, "User updated", result);
+  } catch (error) {
+    console.error("Error updating user: ", error);
+    if (isMongoError(error)) {
+      errorResponse(
+        res,
+        400,
+        "Invalid user data: " + error.errorResponse.errmsg
+      );
+      return;
+    }
+    errorResponse(res, 500, "Internal server error, unable to update user");
+  }
+};
+
 export const postUser = async (req: Request, res: Response) => {
   try {
     const user = getUserFromRequest(req);

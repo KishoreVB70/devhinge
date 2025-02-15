@@ -1,7 +1,7 @@
 import express, { Request, Response, NextFunction } from "express";
 import { connectDB } from "./config/mongoose.js";
 import { User } from "./model/user.js";
-import { getUser, postUser } from "./api/user.js";
+import { getUser, postUser, putUser } from "./api/user.js";
 
 const app = express();
 const PORT = 3000;
@@ -35,6 +35,8 @@ async function main() {
   app.get("/user/:email", getUser);
 
   app.post("/user", postUser);
+
+  app.put("/user", putUser);
 
   // Fallback error handler
   app.use("/", (err: any, req: Request, res: Response, next: NextFunction) => {
