@@ -1,9 +1,6 @@
 import { User, zUser } from "../model/user.js";
 import { errorResponse, successResponse } from "../utils/utils.js";
 import { Request, Response } from "express";
-import env from "../utils/envVariables.js";
-import jwt from "jsonwebtoken";
-import { JWT_EXPIRY } from "../utils/constants.js";
 
 export async function login(req: Request, res: Response) {
   const loginSchema = zUser.pick({ email: true, password: true });
@@ -21,10 +18,12 @@ export async function login(req: Request, res: Response) {
 
     if (!isMatch) throw new Error("Invalid Password");
 
-    const token = jwt.sign(
-      { id: user._id, exp: Math.floor(Date.now() / 1000) + JWT_EXPIRY },
-      env.JWT_SECRET
-    );
+    const token = (
+      user as unknown as {
+        getJwt: () => string;
+      }
+    ).getJwt();
+
     res.cookie("token", token, { httpOnly: true });
     successResponse(res, "User logged in", user);
   } catch (error) {

@@ -4,6 +4,8 @@ import { z } from "zod";
 import { extendZod } from "@zodyac/zod-mongoose";
 import { MAX_HOBBIES, MAX_SKILLS } from "../utils/constants.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import env from "../utils/envVariables.js";
 
 extendZod(z);
 
@@ -94,6 +96,10 @@ userSchema.pre("save", async function (next) {
     next(new Error("Error hashing password"));
   }
 });
+
+userSchema.methods.signJwt = function () {
+  return jwt.sign({ id: this._id }, env.JWT_SECRET);
+};
 
 userSchema.methods.comparePassword = async function (
   candidatePassword: string
