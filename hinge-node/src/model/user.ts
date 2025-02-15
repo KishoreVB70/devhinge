@@ -3,6 +3,7 @@ import { model } from "mongoose";
 import { z } from "zod";
 import { extendZod } from "@zodyac/zod-mongoose";
 import { MAX_HOBBIES, MAX_SKILLS } from "../utils/constants.js";
+import bcrypt from "bcrypt";
 
 extendZod(z);
 
@@ -78,5 +79,26 @@ export const zUser = z.object({
 const userSchema = zodSchema(zUser, { timestamps: true });
 userSchema.path("email").unique(true);
 userSchema.path("email").immutable(true);
-userSchema.path("password").immutable(true);
+
+// Password related checks
+
+userSchema.pre("save", async function (next) {
+  // Skip hashing if password is unchanged
+  if (!this.isModified("password")) return next();
+  try {
+    const saltRounds = 10;
+    this.password = await bcrypt.hash(this.password, saltRounds);
+    next();
+  } catch (error) {
+    console.error("Error hashing password: ", error);
+    next(new Error("Error hashing password"));
+  }
+});
+
+userSchema.methods.comparePassword = async function (
+  candidatePassword: string
+) {
+  return await bcrypt.compare(candidatePassword, this.password);
+};
+
 export const User = model("User", userSchema);
