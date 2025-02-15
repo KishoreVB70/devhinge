@@ -4,6 +4,7 @@ import {
   errorResponse,
   getUserFromRequest,
   isMongoError,
+  successResponse,
 } from "../utils/utils.js";
 import { User } from "../model/user.js";
 import { z } from "zod";
@@ -13,7 +14,7 @@ export const postUser = async (req: Request, res: Response) => {
     const user = getUserFromRequest(req);
     const result = await user.save();
     console.log(result);
-    res.status(200).send({ message: "User created" });
+    successResponse(res, "User created", result);
   } catch (error) {
     console.error("Error:", error);
 
