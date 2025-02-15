@@ -2,29 +2,33 @@ import { zodSchema } from "@zodyac/zod-mongoose";
 import { model } from "mongoose";
 import { z } from "zod";
 import { extendZod } from "@zodyac/zod-mongoose";
+import { MAX_HOBBIES, MAX_SKILLS } from "../utils/constants.js";
 
 extendZod(z);
 
 const passwordSchema = z
   .string()
-  .min(8, "Password must be at least 8 characters long")
-  .max(32, "Password must be at most 32 characters long")
-  .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
-  .regex(/[a-z]/, "Password must contain at least one lowercase letter")
-  .regex(/[0-9]/, "Password must contain at least one number")
+  .min(8, { message: "Password must be at least 8 characters long" })
+  .max(32, { message: "Password must be at most 32 characters long" })
+  .regex(/[A-Z]/, {
+    message: "Password must contain at least one uppercase letter",
+  })
+  .regex(/[a-z]/, {
+    message: "Password must contain at least one lowercase letter",
+  })
+  .regex(/[0-9]/, { message: "Password must contain at least one number" })
   .regex(
     /[!@#$%^&*(),.?":{}|<>]/,
     "Password must contain at least one special character"
   )
-  .refine((password) => !/\s/.test(password), {
-    message: "Password must not contain spaces", // No spaces allowed
-  });
+  .regex(/^\S+$/, "Password must not contain spaces");
 
 export const zUser = z.object({
   name: z
     .string({ message: "Name must be a string" })
     .min(3, { message: "Name must be at least 3 characters long" })
-    .max(18, { message: "Name must be at most 18 characters long" }),
+    .max(18, { message: "Name must be at most 18 characters long" })
+    .regex(/^\S+$/, { message: "Name must not contain spaces" }),
 
   email: z.string().email(),
 
@@ -52,18 +56,18 @@ export const zUser = z.object({
     .array(
       z
         .string()
-        .max(20, { message: "Skill must be at most 20 characters long" })
+        .max(25, { message: "Skill must be at most 25 characters long" })
     )
-    .max(5, { message: "Maximum 5 skills allowed" })
+    .max(MAX_SKILLS, { message: `Maximum ${MAX_SKILLS} skills allowed` })
     .optional(),
 
   hobbies: z
     .array(
       z
         .string()
-        .max(20, { message: "Hobbies must be at most 20 characters long" })
+        .max(25, { message: "Hobbies must be at most 25 characters long" })
     )
-    .max(5, { message: "Maximum 5 hobbies allowed" })
+    .max(MAX_HOBBIES, { message: `Maximum ${MAX_HOBBIES} hobbies allowed` })
     .optional(),
 
   website: z.string().url().optional(),
@@ -74,4 +78,5 @@ export const zUser = z.object({
 const userSchema = zodSchema(zUser, { timestamps: true });
 userSchema.path("email").unique(true);
 userSchema.path("email").immutable(true);
+userSchema.path("password").immutable(true);
 export const User = model("User", userSchema);

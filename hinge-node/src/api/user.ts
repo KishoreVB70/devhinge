@@ -12,14 +12,27 @@ import { z } from "zod";
 export const putUser = async (req: Request, res: Response) => {
   try {
     const user = getUserFromRequest(req).toObject();
-    const { email, _id, ...updateUser } = user;
+    const { email, _id, password, ...updateUser } = user;
     console.log(updateUser);
     const result = await User.findOneAndUpdate({ email }, updateUser, {
       new: true,
     });
+    if (!result) {
+      errorResponse(res, 404, "User not found");
+      return;
+    }
     successResponse(res, "User updated", result);
   } catch (error) {
     console.error("Error updating user: ", error);
+    if (error instanceof z.ZodError) {
+      const message = `Validation failed: ${error.errors[0].message}`;
+      const errors: ErrorResponse[] = error.errors.map((err) => ({
+        field: err.path.join("."),
+        message: err.message,
+      }));
+      errorResponse(res, 400, message, errors);
+      return;
+    }
     if (isMongoError(error)) {
       errorResponse(
         res,
