@@ -1,5 +1,6 @@
 import express, { Request, Response, NextFunction } from "express";
 import { isAuthenticated } from "./middleware/authenticated.js";
+import { connectDB } from "./config/mongoose.js";
 
 const app = express();
 const PORT = 3000;
@@ -10,6 +11,7 @@ const user = {
   password: "puffy@123",
 };
 
+await connectDB();
 app.listen(PORT, () => {
   console.log(`Server is running at http://localhost:${PORT}`);
 });
