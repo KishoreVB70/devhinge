@@ -1,16 +1,42 @@
 import { Request, Response } from "express";
-import { getUserFromRequest } from "../utils/utils.js";
+import {
+  ErrorResponse,
+  errorResponse,
+  getUserFromRequest,
+  isMongoError,
+} from "../utils/utils.js";
 import { User } from "../model/user.js";
+import { z } from "zod";
 
 export const postUser = async (req: Request, res: Response) => {
   try {
     const user = getUserFromRequest(req);
     const result = await user.save();
     console.log(result);
-    res.send("User created");
+    res.status(200).send({ message: "User created" });
   } catch (error) {
-    console.error(error);
-    res.status(500).send("Unable to create user");
+    console.error("Error:", error);
+
+    // Zod validation error
+    if (error instanceof z.ZodError) {
+      const message = `Validation failed: ${error.errors[0].message}`;
+      const errors: ErrorResponse[] = error.errors.map((err) => ({
+        field: err.path.join("."),
+        message: err.message,
+      }));
+      errorResponse(res, 400, message, errors);
+      return;
+    }
+
+    // Handle MongoDB duplicate email error
+    if (isMongoError(error) && error.code === 11000) {
+      const message = "Email is already in use";
+      errorResponse(res, 400, message);
+      return;
+    }
+
+    // Handle other unexpected errors
+    errorResponse(res, 500, "Internal server error, unable to create user");
   }
 };
 

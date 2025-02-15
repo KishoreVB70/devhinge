@@ -21,9 +21,12 @@ const passwordSchema = z
   });
 
 export const zUser = z.object({
-  name: z.string().min(3).max(18),
+  name: z
+    .string({ message: "Name must be a string" })
+    .min(3, { message: "Name must be at least 3 characters long" })
+    .max(18, { message: "Name must be at most 18 characters long" }),
   email: z.string().email().unique(),
-  image: z.string().url(),
+  image: z.string().url({ message: "Invalid image URL" }),
   password: passwordSchema,
 });
 
