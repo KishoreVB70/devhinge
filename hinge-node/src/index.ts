@@ -1,7 +1,6 @@
 import express, { Request, Response, NextFunction } from "express";
 import { connectDB } from "./config/mongoose.js";
 import { User } from "./model/user.js";
-import { getUserFromRequest } from "./utils/utils.js";
 import { getUser, postUser } from "./api/user.js";
 
 const app = express();
