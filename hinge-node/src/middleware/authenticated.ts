@@ -9,17 +9,17 @@ export function authentication(
 ) {
   try {
     const { token } = req.cookies;
-    if (!token) throw new Error("Unauthorized");
+    if (!token) throw new Error("Unauthenticated");
 
     // Verify token
     const decoded = jwt.verify(token, env.JWT_SECRET);
-    if (!decoded || typeof decoded === "string" || !decoded.email) {
-      throw new Error("Unauthorized");
+    if (!decoded || typeof decoded === "string" || !decoded.id) {
+      throw new Error("Unauthenticated");
     }
-    req.body.email = decoded.email;
+    req.body.id = decoded.id;
     next();
   } catch (error) {
     console.error("Error authenticating user: ", error);
-    res.status(401).send("Unauthorized");
+    res.status(401).send("Unauthenticated");
   }
 }

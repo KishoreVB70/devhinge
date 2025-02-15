@@ -8,11 +8,12 @@ import {
 } from "../utils/utils.js";
 import { User } from "../model/user.js";
 import { z } from "zod";
+import { error } from "console";
 
 export const getUserSelf = async (req: Request, res: Response) => {
   try {
-    const email = req.body.email;
-    const user = await User.findOne({ email });
+    const id = req.body.id;
+    const user = await User.findById(id);
     if (!user) throw new Error("User not found");
     successResponse(res, "User found", user);
   } catch (error) {
@@ -20,14 +21,26 @@ export const getUserSelf = async (req: Request, res: Response) => {
     errorResponse(res, 404, "User not found");
   }
 };
+
 export const putUser = async (req: Request, res: Response) => {
   try {
     const user = getUserFromRequest(req).toObject();
-    const { email, _id, password, ...updateUser } = user;
-    console.log(updateUser);
-    const result = await User.findOneAndUpdate({ email }, updateUser, {
+    const id = req.body.id;
+
+    const { email, _id, ...updateUser } = user;
+
+    const existingUser = await User.findOne({ email });
+
+    if (!existingUser) throw new Error("User not found");
+
+    if (id !== existingUser._id) {
+      throw new Error("Unauthorized");
+    }
+
+    const result = await User.findByIdAndUpdate(id, updateUser, {
       new: true,
     });
+
     if (!result) {
       errorResponse(res, 404, "User not found");
       return;
