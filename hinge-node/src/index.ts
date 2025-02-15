@@ -1,9 +1,10 @@
 import express, { Request, Response, NextFunction } from "express";
 import { connectDB } from "./config/mongoose.js";
-import { User, zUser } from "./model/user.js";
+import { User } from "./model/user.js";
+import cookieParser from "cookie-parser";
 import { getUser, postUser, putUser } from "./api/user.js";
-import { errorResponse, successResponse } from "./utils/utils.js";
 import { login } from "./api/login.js";
+import { authentication } from "./middleware/authenticated.js";
 
 const app = express();
 const PORT = 3000;
@@ -22,6 +23,7 @@ async function main() {
   });
 
   app.use(express.json());
+  app.use(cookieParser());
 
   app.get("/feed", async (req, res) => {
     try {
@@ -36,7 +38,7 @@ async function main() {
   app.post("/login", login);
 
   // Get user by email
-  app.get("/user/:email", getUser);
+  app.get("/user/:email", authentication, getUser);
 
   app.post("/user", postUser);
 
