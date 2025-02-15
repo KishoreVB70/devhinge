@@ -13,10 +13,11 @@ export function authentication(
 
     // Verify token
     const decoded = jwt.verify(token, env.JWT_SECRET);
-    console.log("Decoded: ", decoded);
-    if (decoded) {
-      next();
-    } else throw new Error("Unauthorized");
+    if (!decoded || typeof decoded === "string" || !decoded.email) {
+      throw new Error("Unauthorized");
+    }
+    req.body.email = decoded.email;
+    next();
   } catch (error) {
     console.error("Error authenticating user: ", error);
     res.status(401).send("Unauthorized");

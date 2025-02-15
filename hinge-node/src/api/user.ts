@@ -9,6 +9,17 @@ import {
 import { User } from "../model/user.js";
 import { z } from "zod";
 
+export const getUserSelf = async (req: Request, res: Response) => {
+  try {
+    const email = req.body.email;
+    const user = await User.findOne({ email });
+    if (!user) throw new Error("User not found");
+    successResponse(res, "User found", user);
+  } catch (error) {
+    console.error("Error fetching user: ", error);
+    errorResponse(res, 404, "User not found");
+  }
+};
 export const putUser = async (req: Request, res: Response) => {
   try {
     const user = getUserFromRequest(req).toObject();

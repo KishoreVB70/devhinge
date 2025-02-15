@@ -2,7 +2,7 @@ import express, { Request, Response, NextFunction } from "express";
 import { connectDB } from "./config/mongoose.js";
 import { User } from "./model/user.js";
 import cookieParser from "cookie-parser";
-import { getUser, postUser, putUser } from "./api/user.js";
+import { getUser, getUserSelf, postUser, putUser } from "./api/user.js";
 import { login } from "./api/login.js";
 import { authentication } from "./middleware/authenticated.js";
 
@@ -25,7 +25,7 @@ async function main() {
   app.use(express.json());
   app.use(cookieParser());
 
-  app.get("/feed", async (req, res) => {
+  app.get("/feed", authentication, async (req, res) => {
     try {
       const feed = await User.aggregate([{ $sample: { size: 10 } }]);
       res.json(feed);
@@ -40,9 +40,12 @@ async function main() {
   // Get user by email
   app.get("/user/:email", authentication, getUser);
 
+  // Get self profile
+  app.get("/user", authentication, getUserSelf);
+
   app.post("/user", postUser);
 
-  app.put("/user", putUser);
+  app.put("/user", authentication, putUser);
 
   // Fallback error handler
   app.use("/", (err: any, req: Request, res: Response, next: NextFunction) => {

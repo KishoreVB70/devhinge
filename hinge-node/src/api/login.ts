@@ -22,7 +22,7 @@ export async function login(req: Request, res: Response) {
     if (!isMatch) throw new Error("Invalid Password");
 
     const token = jwt.sign(
-      { data: email, exp: Math.floor(Date.now() / 1000) + JWT_EXPIRY },
+      { email, exp: Math.floor(Date.now() / 1000) + JWT_EXPIRY },
       env.JWT_SECRET
     );
     res.cookie("token", token, { httpOnly: true });
