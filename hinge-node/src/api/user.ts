@@ -22,7 +22,7 @@ export const getUserSelf = async (req: Request, res: Response) => {
   }
 };
 
-export const putUser = async (req: Request, res: Response) => {
+export const patchUser = async (req: Request, res: Response) => {
   try {
     const user = getUserFromRequest(req).toObject();
     const id = req.body.id;

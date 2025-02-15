@@ -2,7 +2,7 @@ import express, { Request, Response, NextFunction } from "express";
 import { connectDB } from "./config/mongoose.js";
 import { User } from "./model/user.js";
 import cookieParser from "cookie-parser";
-import { getUser, getUserSelf, postUser, putUser } from "./api/user.js";
+import { getUser, getUserSelf, postUser, patchUser } from "./api/user.js";
 import { login } from "./api/login.js";
 import { authentication } from "./middleware/authenticated.js";
 
@@ -45,7 +45,7 @@ async function main() {
 
   app.post("/user", postUser);
 
-  app.put("/user", authentication, putUser);
+  app.patch("/user", authentication, patchUser);
 
   // Fallback error handler
   app.use("/", (err: any, req: Request, res: Response, next: NextFunction) => {
