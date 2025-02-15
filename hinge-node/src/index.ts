@@ -21,9 +21,30 @@ async function main() {
 
   app.use(express.json());
 
-  app.get("/user/:id", isAuthenticated, async (req, res) => {
-    console.log("user: ", req.params.id);
-    res.send("hi");
+  // Get user by email
+  app.get("/user/:email", async (req, res) => {
+    try {
+      const email = req.params.email;
+      const user = await User.findOne({ email });
+      if (!user) {
+        res.status(404).send("User not found");
+        return;
+      }
+      res.json(user);
+    } catch (error) {
+      console.error("Error fetching user: ", error);
+      res.status(500).send("Internal server error");
+    }
+  });
+
+  app.get("/feed", async (req, res) => {
+    try {
+      const feed = await User.aggregate([{ $sample: { size: 10 } }]);
+      res.json(feed);
+    } catch (error) {
+      console.error("Error fetching feed: ", error);
+      res.status(500).send("Internal server error");
+    }
   });
 
   app.post("/user", async (req, res) => {
