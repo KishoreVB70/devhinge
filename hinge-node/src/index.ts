@@ -1,7 +1,7 @@
 import express, { Request, Response, NextFunction } from "express";
-import { isAuthenticated } from "./middleware/authenticated.js";
 import { connectDB } from "./config/mongoose.js";
 import { User } from "./model/user.js";
+import { getUserFromRequest } from "./utils/utils.js";
 
 const app = express();
 const PORT = 3000;
@@ -49,16 +49,7 @@ async function main() {
 
   app.post("/user", async (req, res) => {
     try {
-      const name = req.body.name;
-      const email = req.body.email;
-      const password = req.body.password;
-      const image = req.body.image;
-      const user = new User({
-        name,
-        email,
-        password,
-        image,
-      });
+      const user = getUserFromRequest(req);
       const result = await user.save();
       console.log(result);
       res.send("User created");
