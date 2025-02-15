@@ -5,7 +5,7 @@ import { extendZod } from "@zodyac/zod-mongoose";
 
 extendZod(z);
 
-const zUser = z.object({
+export const zUser = z.object({
   name: z.string().min(3).max(18),
   email: z.string().email().unique(),
   image: z.string().url(),

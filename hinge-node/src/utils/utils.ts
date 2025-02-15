@@ -1,20 +1,12 @@
 import { Request } from "express";
-import { User } from "../model/user.js";
+import { User, zUser } from "../model/user.js";
 
 export const getUserFromRequest = (req: Request) => {
-  const name = req.body.name;
-  const email = req.body.email;
-  const password = req.body.password;
-  const image = req.body.image;
-  if (!name || !email || !password || !image) {
-    throw new Error("Invalid user data");
+  try {
+    const validatedUser = zUser.parse(req.body);
+    return new User(validatedUser);
+  } catch (error) {
+    console.error(error);
+    throw new Error("Unable to create user");
   }
-
-  const user = new User({
-    name,
-    email,
-    password,
-    image,
-  });
-  return user;
 };
