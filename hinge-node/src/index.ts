@@ -25,6 +25,7 @@ app.post("/user", (req, res) => {
   res.send("User created");
 });
 
+// Fallback error handler
 app.use("/", (err: any, req: Request, res: Response, next: NextFunction) => {
   if (err) {
     console.error(err);
