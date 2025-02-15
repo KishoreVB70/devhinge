@@ -2,6 +2,7 @@ import express, { Request, Response, NextFunction } from "express";
 import { connectDB } from "./config/mongoose.js";
 import { User } from "./model/user.js";
 import { getUserFromRequest } from "./utils/utils.js";
+import { getUser, postUser } from "./api/user.js";
 
 const app = express();
 const PORT = 3000;
@@ -21,22 +22,6 @@ async function main() {
 
   app.use(express.json());
 
-  // Get user by email
-  app.get("/user/:email", async (req, res) => {
-    try {
-      const email = req.params.email;
-      const user = await User.findOne({ email });
-      if (!user) {
-        res.status(404).send("User not found");
-        return;
-      }
-      res.json(user);
-    } catch (error) {
-      console.error("Error fetching user: ", error);
-      res.status(500).send("Internal server error");
-    }
-  });
-
   app.get("/feed", async (req, res) => {
     try {
       const feed = await User.aggregate([{ $sample: { size: 10 } }]);
@@ -47,17 +32,10 @@ async function main() {
     }
   });
 
-  app.post("/user", async (req, res) => {
-    try {
-      const user = getUserFromRequest(req);
-      const result = await user.save();
-      console.log(result);
-      res.send("User created");
-    } catch (error) {
-      console.error(error);
-      res.status(500).send("Unable to create user");
-    }
-  });
+  // Get user by email
+  app.get("/user/:email", getUser);
+
+  app.post("/user", postUser);
 
   // Fallback error handler
   app.use("/", (err: any, req: Request, res: Response, next: NextFunction) => {
