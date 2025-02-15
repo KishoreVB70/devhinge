@@ -3,8 +3,7 @@ import { connectDB } from "./config/mongoose.js";
 import { User, zUser } from "./model/user.js";
 import { getUser, postUser, putUser } from "./api/user.js";
 import { errorResponse, successResponse } from "./utils/utils.js";
-import { fail } from "assert";
-import { error } from "console";
+import { login } from "./api/login.js";
 
 const app = express();
 const PORT = 3000;
@@ -34,34 +33,7 @@ async function main() {
     }
   });
 
-  app.post("/login", async (req, res) => {
-    const loginSchema = zUser.pick({ email: true, password: true });
-    try {
-      const { email, password } = loginSchema.parse(req.body);
-
-      const user = await User.findOne({ email });
-      if (!user) {
-        res.status(404).send("User not found");
-        return;
-      }
-
-      const isMatch = await (
-        user as unknown as {
-          comparePassword: (pwd: string) => Promise<boolean>;
-        }
-      ).comparePassword(password);
-
-      if (!isMatch) {
-        errorResponse(res, 400, "Invalid email or password");
-        return;
-      }
-
-      successResponse(res, "User logged in", user);
-    } catch (error) {
-      console.error("Error logging in: ", error);
-      errorResponse(res, 400, "Invalid email or password");
-    }
-  });
+  app.post("/login", login);
 
   // Get user by email
   app.get("/user/:email", getUser);
