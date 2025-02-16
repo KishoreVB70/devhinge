@@ -2,7 +2,9 @@ import express, { Request, Response, NextFunction } from "express";
 import { connectDB } from "./config/mongoose.js";
 import { User } from "./model/user.js";
 import cookieParser from "cookie-parser";
-import { getUser, getUserSelf, postUser, patchUser } from "./api/user.js";
+import authRouter from "./routes/auth.js";
+import userRouter from "./routes/user.js";
+
 import { authentication } from "./middleware/authenticated.js";
 
 const app = express();
@@ -23,6 +25,9 @@ async function main() {
 
   app.use(express.json());
   app.use(cookieParser());
+
+  app.use("/", authRouter);
+  app.use("/", userRouter);
 
   app.get("/feed", authentication, async (req, res) => {
     try {

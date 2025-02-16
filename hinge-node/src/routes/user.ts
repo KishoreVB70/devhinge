@@ -12,3 +12,4 @@ app.get("/user", authentication, getUserSelf);
 app.post("/user", postUser);
 
 app.patch("/user", authentication, patchUser);
+export default app;
