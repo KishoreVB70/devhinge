@@ -3,7 +3,6 @@ import { connectDB } from "./config/mongoose.js";
 import { User } from "./model/user.js";
 import cookieParser from "cookie-parser";
 import { getUser, getUserSelf, postUser, patchUser } from "./api/user.js";
-import { login } from "./api/login.js";
 import { authentication } from "./middleware/authenticated.js";
 
 const app = express();
@@ -34,18 +33,6 @@ async function main() {
       res.status(500).send("Internal server error");
     }
   });
-
-  app.post("/login", login);
-
-  // Get user by email
-  app.get("/user/:email", authentication, getUser);
-
-  // Get self profile
-  app.get("/user", authentication, getUserSelf);
-
-  app.post("/user", postUser);
-
-  app.patch("/user", authentication, patchUser);
 
   // Fallback error handler
   app.use("/", (err: any, req: Request, res: Response, next: NextFunction) => {

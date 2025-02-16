@@ -8,7 +8,6 @@ import {
 } from "../utils/utils.js";
 import { User } from "../model/user.js";
 import { z } from "zod";
-import { error } from "console";
 
 export const getUserSelf = async (req: Request, res: Response) => {
   try {
