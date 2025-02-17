@@ -43,12 +43,22 @@ export async function getConnections(req: Request, res: Response) {
 
 export async function getInterestedConnections(req: Request, res: Response) {
   try {
-    const user = req.body.id;
+    const userID = req.body.id;
     const connections = await Connection.find({
-      $and: [{ targetId: user }, { status: "interested" }],
+      $and: [{ targetId: userID }, { status: "interested" }],
     })
       .lean()
-      .select("senderId");
+      .select("senderId")
+      .populate({
+        path: "senderId",
+        select: "name avatar",
+        match: { _id: { $ne: userID } },
+      })
+      .populate({
+        path: "targetId",
+        select: "name avatar",
+        match: { _id: { $ne: userID } },
+      });
 
     if (!connections) {
       return successResponse(res, "No connections found", []);
