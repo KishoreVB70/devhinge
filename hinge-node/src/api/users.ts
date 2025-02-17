@@ -6,7 +6,7 @@ import {
   isMongoError,
   successResponse,
 } from "../utils/utils.js";
-import { User } from "../model/user.js";
+import { User, zUserPatch } from "../model/user.js";
 import { z } from "zod";
 
 export const getUser = async (req: Request, res: Response) => {
@@ -23,22 +23,19 @@ export const getUser = async (req: Request, res: Response) => {
 
 export const patchUser = async (req: Request, res: Response) => {
   try {
-    const user = getUserFromRequest(req).toObject();
     const id = req.body.id;
+    const updateUserData = zUserPatch.parse(req.body);
 
-    // Remove password since separate route for updating password
-    const { email, _id, password, ...updateUser } = user;
-
-    const result = await User.findByIdAndUpdate(id, updateUser, {
+    const updatedUser = await User.findByIdAndUpdate(id, updateUserData, {
       new: true,
     });
 
-    if (!result) {
+    if (!updatedUser) {
       errorResponse(res, 404, "User not found");
       return;
     }
 
-    successResponse(res, "User updated", result);
+    successResponse(res, "User updated", updatedUser);
   } catch (error) {
     console.error("Error updating user: ", error);
     if (error instanceof z.ZodError) {

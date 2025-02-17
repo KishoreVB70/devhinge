@@ -78,6 +78,20 @@ export const zUser = z.object({
   experienceYears: z.number().int().optional(),
 });
 
+export const zUserPatch = zUser
+  .pick({
+    name: true,
+    age: true,
+    avatar: true,
+    website: true,
+    gender: true,
+    bio: true,
+    skills: true,
+    hobbies: true,
+    experienceYears: true,
+  })
+  .partial(); // Makes all fields optional
+
 const userSchema = zodSchema(zUser, { timestamps: true });
 userSchema.path("email").unique(true);
 userSchema.path("email").immutable(true);
