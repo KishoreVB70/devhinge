@@ -9,7 +9,7 @@ import {
 import { User } from "../model/user.js";
 import { z } from "zod";
 
-export const getUserSelf = async (req: Request, res: Response) => {
+export const getUser = async (req: Request, res: Response) => {
   try {
     const id = req.body.id;
     const user = await User.findById(id);
@@ -26,15 +26,8 @@ export const patchUser = async (req: Request, res: Response) => {
     const user = getUserFromRequest(req).toObject();
     const id = req.body.id;
 
-    const { email, _id, ...updateUser } = user;
-
-    const existingUser = await User.findOne({ email });
-
-    if (!existingUser) throw new Error("User not found");
-
-    if (id !== existingUser._id) {
-      throw new Error("Unauthorized");
-    }
+    // Remove password since separate route for updating password
+    const { email, _id, password, ...updateUser } = user;
 
     const result = await User.findByIdAndUpdate(id, updateUser, {
       new: true,
@@ -44,6 +37,7 @@ export const patchUser = async (req: Request, res: Response) => {
       errorResponse(res, 404, "User not found");
       return;
     }
+
     successResponse(res, "User updated", result);
   } catch (error) {
     console.error("Error updating user: ", error);
@@ -100,7 +94,7 @@ export const postUser = async (req: Request, res: Response) => {
   }
 };
 
-export const getUser = async (req: Request, res: Response) => {
+export const getUserByEmail = async (req: Request, res: Response) => {
   try {
     const email = req.params.email;
     const user = await User.findOne({ email });

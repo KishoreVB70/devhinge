@@ -31,3 +31,8 @@ export async function login(req: Request, res: Response) {
     errorResponse(res, 400, "Invalid credentials");
   }
 }
+
+export async function logout(req: Request, res: Response) {
+  res.clearCookie("token");
+  successResponse(res, "User logged out");
+}
