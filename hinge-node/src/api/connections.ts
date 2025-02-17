@@ -6,6 +6,8 @@ import Connection, {
 import { errorResponse, successResponse, userExists } from "../utils/utils.js";
 
 // API handlers
+
+// GET requests
 export async function getConnections(req: Request, res: Response) {
   try {
     const userId = req.body.id;
@@ -18,13 +20,21 @@ export async function getConnections(req: Request, res: Response) {
         },
         { status: "accepted" },
       ],
-    });
+    })
+      .lean()
+      .select("senderId targetId");
 
     if (!connections) {
       return successResponse(res, "No connections found", []);
     }
 
-    successResponse(res, "Connections fetched", connections);
+    const connectedUserIds = connections.map((connection) =>
+      connection.senderId.toString() === userId
+        ? connection.targetId
+        : connection.senderId
+    );
+
+    successResponse(res, "Connections fetched", connectedUserIds);
   } catch (error) {
     console.log("Error getting connections: ", error);
     errorResponse(res, 500, "Error getting connections");
@@ -36,7 +46,10 @@ export async function getInterestedConnections(req: Request, res: Response) {
     const user = req.body.id;
     const connections = await Connection.find({
       $and: [{ targetId: user }, { status: "interested" }],
-    });
+    })
+      .lean()
+      .select("senderId");
+
     if (!connections) {
       return successResponse(res, "No connections found", []);
     }
@@ -47,6 +60,8 @@ export async function getInterestedConnections(req: Request, res: Response) {
     errorResponse(res, 500, "Error getting interested connections");
   }
 }
+
+// POST requests
 export async function likeConnection(req: Request, res: Response) {
   try {
     const senderId = req.body.id;
