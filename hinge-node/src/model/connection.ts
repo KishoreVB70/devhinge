@@ -1,5 +1,4 @@
-import zodSchema from "@zodyac/zod-mongoose";
-import { model } from "mongoose";
+import mongoose, { model, Schema, Types } from "mongoose";
 import { z } from "zod";
 
 const connectionstatusEnum = z.enum([
@@ -20,14 +19,41 @@ export type ModifyConnectionStatus = Extract<
   "accepted" | "rejected"
 >;
 
-const zConnection = z.object({
-  senderId: z.string(),
-  targetId: z.string(),
-  status: connectionstatusEnum,
+const connectionSchema = new Schema({
+  senderId: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    immutable: true,
+    required: true,
+  },
+  targetId: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    immutable: true,
+    required: true,
+  },
+  status: {
+    type: String,
+    required: true,
+    enum: connectionstatusEnum.options,
+  },
 });
 
-const connectionSchema = zodSchema(zConnection, { timestamps: true });
 connectionSchema.index({ senderId: 1, targetId: 1 }, { unique: true });
+connectionSchema.add({
+  senderId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    immutable: true,
+    required: true,
+  },
+  targetId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    immutable: true,
+    required: true,
+  },
+});
 
 // Schema level validation for connection creation
 connectionSchema.pre("save", async function (next) {
@@ -86,8 +112,6 @@ connectionSchema.pre("findOneAndUpdate", async function (next) {
   }
 });
 
-connectionSchema.path("senderId").immutable(true);
-connectionSchema.path("targetId").immutable(true);
 const Connection = model("Connection", connectionSchema);
 
 export default Connection;
