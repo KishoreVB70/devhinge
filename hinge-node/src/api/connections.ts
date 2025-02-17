@@ -22,19 +22,31 @@ export async function getConnections(req: Request, res: Response) {
       ],
     })
       .lean()
-      .select("senderId targetId");
+      .select("senderId targetId")
+      .populate({
+        path: "senderId",
+        select: "name avatar",
+        match: { _id: { $ne: userId } },
+      })
+      .populate({
+        path: "receiverId",
+        select: "name avatar",
+        match: { _id: { $ne: userId } },
+      });
 
     if (!connections) {
       return successResponse(res, "No connections found", []);
     }
 
-    const connectedUserIds = connections.map((connection) =>
-      connection.senderId.toString() === userId
-        ? connection.targetId
-        : connection.senderId
-    );
+    const connectedUsers = connections.map((connection) => {
+      if (connection.senderId.toString() === userId) {
+        return connection.targetId;
+      } else {
+        return connection.senderId;
+      }
+    });
 
-    successResponse(res, "Connections fetched", connectedUserIds);
+    successResponse(res, "Connections fetched", connectedUsers);
   } catch (error) {
     console.log("Error getting connections: ", error);
     errorResponse(res, 500, "Error getting connections");
@@ -49,17 +61,7 @@ export async function getInterestedConnections(req: Request, res: Response) {
     })
       .lean()
       .select("senderId")
-      .populate({
-        path: "senderId",
-        select: "name avatar",
-        match: { _id: { $ne: userID } },
-      })
-      .populate({
-        path: "targetId",
-        select: "name avatar",
-        match: { _id: { $ne: userID } },
-      });
-
+      .populate("senderId", "name avatar");
     if (!connections) {
       return successResponse(res, "No connections found", []);
     }
