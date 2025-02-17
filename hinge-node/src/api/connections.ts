@@ -37,7 +37,7 @@ export async function getConnections(req: Request, res: Response) {
     }
 
     const connectedUsers = connections.map((connection) => {
-      if (connection.senderId.toString() === userId) {
+      if (connection.senderId._id.toString() === userId) {
         return connection.targetId;
       } else {
         return connection.senderId;
