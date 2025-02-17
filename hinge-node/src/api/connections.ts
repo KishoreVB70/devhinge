@@ -13,7 +13,11 @@ export async function likeConnection(req: Request, res: Response) {
     const targetId = req.body.targetId;
 
     // Create Connection
-    const newConnection = await createNewConnection(senderId, targetId, "like");
+    const newConnection = await createNewConnection(
+      senderId,
+      targetId,
+      "interested"
+    );
 
     successResponse(res, "Profile Liked", newConnection);
   } catch (error) {
@@ -117,11 +121,11 @@ async function modifyConnectionValidation(
   // 1) Make sure targetId is an actual user id
   await userExists(targetId);
 
-  // 2) Check whether Connection exists in "like" status
+  // 2) Check whether Connection exists in "interested" status
   const connection = await Connection.findOne({
     senderId,
     targetId,
-    status: "like",
+    status: "interested",
   });
 
   if (!connection) {

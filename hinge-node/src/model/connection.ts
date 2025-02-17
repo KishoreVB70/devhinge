@@ -2,12 +2,17 @@ import zodSchema from "@zodyac/zod-mongoose";
 import { model } from "mongoose";
 import { z } from "zod";
 
-const connectionstatusEnum = z.enum(["ignore", "like", "accepted", "rejected"]);
+const connectionstatusEnum = z.enum([
+  "ignore",
+  "interested",
+  "accepted",
+  "rejected",
+]);
 
 type ConnectionStatusEnum = z.infer<typeof connectionstatusEnum>;
 export type NewConnectionStatus = Extract<
   ConnectionStatusEnum,
-  "ignore" | "like"
+  "ignore" | "interested"
 >;
 
 export type ModifyConnectionStatus = Extract<
@@ -22,6 +27,8 @@ const zConnection = z.object({
 });
 
 const connectionSchema = zodSchema(zConnection, { timestamps: true });
+connectionSchema.path("senderId").immutable(true);
+connectionSchema.path("targetId").immutable(true);
 const Connection = model("Connection", connectionSchema);
 
 export default Connection;

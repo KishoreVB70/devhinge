@@ -10,6 +10,6 @@ import {
 const router = Router();
 
 router.post("/connections/ignore", authentication, ignoreConnection);
-router.post("/connections/like", authentication, likeConnection);
+router.post("/connections/interested", authentication, likeConnection);
 router.post("/connections/accept", authentication, acceptConnection);
 router.post("/connections/reject", authentication, rejectConnection);
