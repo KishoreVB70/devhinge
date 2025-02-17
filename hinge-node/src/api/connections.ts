@@ -19,6 +19,10 @@ export async function likeConnection(req: Request, res: Response) {
     successResponse(res, "Profile Liked", newConnection);
   } catch (error) {
     console.error("Error Liking user: ", error);
+    if (error instanceof Error) {
+      errorResponse(res, 400, error.message);
+      return;
+    }
     errorResponse(res, 400, "Error Liking user");
   }
 }
@@ -38,6 +42,10 @@ export async function ignoreConnection(req: Request, res: Response) {
     successResponse(res, "Connection ignored", newConnection);
   } catch (error) {
     console.error("Error ignoring connection: ", error);
+    if (error instanceof Error) {
+      errorResponse(res, 400, error.message);
+      return;
+    }
     errorResponse(res, 400, "Error ignoring connection");
   }
 }
