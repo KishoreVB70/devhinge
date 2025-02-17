@@ -2,6 +2,8 @@ import { Router } from "express";
 import { authentication } from "../middleware/authenticated.js";
 import {
   acceptConnection,
+  getConnections,
+  getInterestedConnections,
   ignoreConnection,
   likeConnection,
   rejectConnection,
@@ -9,6 +11,8 @@ import {
 
 const router = Router();
 
+router.get("/connections", authentication, getConnections);
+router.get("/connections/interested", authentication, getInterestedConnections);
 router.post("/connections/ignore/:targedId", authentication, ignoreConnection);
 router.post(
   "/connections/interested/:targedId",

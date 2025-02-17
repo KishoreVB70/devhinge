@@ -6,6 +6,47 @@ import Connection, {
 import { errorResponse, successResponse, userExists } from "../utils/utils.js";
 
 // API handlers
+export async function getConnections(req: Request, res: Response) {
+  try {
+    const userId = req.body.id;
+
+    // Get all the connections of the user
+    const connections = await Connection.find({
+      $and: [
+        {
+          $or: [{ senderId: userId }, { targetId: userId }],
+        },
+        { status: "accepted" },
+      ],
+    });
+
+    if (!connections) {
+      return successResponse(res, "No connections found", []);
+    }
+
+    successResponse(res, "Connections fetched", connections);
+  } catch (error) {
+    console.log("Error getting connections: ", error);
+    errorResponse(res, 500, "Error getting connections");
+  }
+}
+
+export async function getInterestedConnections(req: Request, res: Response) {
+  try {
+    const user = req.body.id;
+    const connections = await Connection.find({
+      $and: [{ targetId: user }, { status: "interested" }],
+    });
+    if (!connections) {
+      return successResponse(res, "No connections found", []);
+    }
+
+    successResponse(res, "Connections fetched", connections);
+  } catch (error) {
+    console.log("Error getting interested connections: ", error);
+    errorResponse(res, 500, "Error getting interested connections");
+  }
+}
 export async function likeConnection(req: Request, res: Response) {
   try {
     const senderId = req.body.id;
