@@ -14,11 +14,9 @@ export async function getConnections(req: Request, res: Response) {
 
     // Get all the connections of the user
     const connections = await Connection.find({
-      $and: [
-        {
-          $or: [{ senderId: userId }, { targetId: userId }],
-        },
-        { status: "accepted" },
+      $or: [
+        { senderId: userId, status: "accepted" },
+        { targetId: userId, status: "accepted" },
       ],
     })
       .lean()
@@ -57,7 +55,8 @@ export async function getInterestedConnections(req: Request, res: Response) {
   try {
     const userID = req.body.id;
     const connections = await Connection.find({
-      $and: [{ targetId: userID }, { status: "interested" }],
+      targetId: userID,
+      status: "interested",
     })
       .lean()
       .select("senderId")
