@@ -6,7 +6,6 @@ import Connection, {
 import { errorResponse, successResponse, userExists } from "../utils/utils.js";
 
 // API handlers
-
 export async function likeConnection(req: Request, res: Response) {
   try {
     const senderId = req.body.id;
@@ -96,7 +95,12 @@ async function newConnectionValidation(
   await userExists(targetId);
 
   // 2) Check if Connection already Exists
-  const connection = await Connection.findOne({ senderId, targetId });
+  const connection = await Connection.findOne({
+    $or: [
+      { senderId, targetId },
+      { senderId: targetId, targetId: senderId },
+    ],
+  });
 
   if (connection) {
     throw new Error("Connection already exists");
@@ -115,13 +119,14 @@ async function createNewConnection(
   }).save();
 }
 async function modifyConnectionValidation(
-  senderId: string,
-  targetId: string | null
+  senderId: string | null,
+  targetId: string
 ) {
   // 1) Make sure targetId is an actual user id
-  await userExists(targetId);
+  await userExists(senderId);
 
   // 2) Check whether Connection exists in "interested" status
+  // Here, sender is the initial "interested" sender
   const connection = await Connection.findOne({
     senderId,
     targetId,
@@ -134,10 +139,11 @@ async function modifyConnectionValidation(
 }
 async function modifyConnection(
   senderId: string,
-  targetId: string,
+  targetId: string | null,
   status: ModifyConnectionStatus
 ) {
-  await modifyConnectionValidation(senderId, targetId);
+  // NOTE:  Inverse senderId and targetId for the initial "interested" sender
+  await modifyConnectionValidation(targetId, senderId);
   const filter = { senderId, targetId };
   const connection = await Connection.findOneAndUpdate(filter, { status });
   return connection;
