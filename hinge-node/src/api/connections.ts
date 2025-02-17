@@ -1,10 +1,9 @@
 import { Response, Request } from "express";
-import { User } from "../model/user.js";
 import Connection, {
   ModifyConnectionStatus,
   NewConnectionStatus,
 } from "../model/connection.js";
-import { errorResponse, successResponse } from "../utils/utils.js";
+import { errorResponse, successResponse, userExists } from "../utils/utils.js";
 
 // API handlers
 
@@ -85,10 +84,6 @@ export async function rejectConnection(req: Request, res: Response) {
 }
 
 // Helper functions
-async function userExists(userId: string | null) {
-  const user = await User.findById(userId);
-  if (!user) throw new Error("user not found");
-}
 async function newConnectionValidation(
   senderId: string,
   targetId: string | null

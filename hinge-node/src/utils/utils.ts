@@ -1,6 +1,11 @@
 import { Request, Response } from "express";
 import { User, zUser } from "../model/user.js";
 
+export async function userExists(userId: string | null) {
+  const user = await User.findById(userId);
+  if (!user) throw new Error("user not found");
+}
+
 export type ErrorResponse = {
   field: string;
   message: string;
