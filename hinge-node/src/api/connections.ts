@@ -121,7 +121,7 @@ async function createNewConnection(
   }).save();
 }
 async function modifyConnectionValidation(senderId: string, targetId: string) {
-  // 1) Make sure targetId is an actual user id
+  // 1) Make sure the initial sender is an actual user id
   await userExists(senderId);
 
   // 2) Check whether Connection exists in "interested" status
@@ -137,12 +137,15 @@ async function modifyConnectionValidation(senderId: string, targetId: string) {
   }
 }
 async function modifyConnection(
-  senderId: string,
-  targetId: string,
+  senderID: string,
+  targetID: string,
   status: ModifyConnectionStatus
 ) {
   // NOTE:  Inverse senderId and targetId for the initial "interested" sender
-  await modifyConnectionValidation(targetId, senderId);
+  const senderId = targetID;
+  const targetId = senderID;
+
+  await modifyConnectionValidation(senderId, targetId);
   const filter = { senderId, targetId };
   const connection = await Connection.findOneAndUpdate(filter, { status });
   return connection;
