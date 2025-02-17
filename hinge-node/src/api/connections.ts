@@ -87,10 +87,7 @@ export async function rejectConnection(req: Request, res: Response) {
 }
 
 // Helper functions
-async function newConnectionValidation(
-  senderId: string,
-  targetId: string | null
-) {
+async function newConnectionValidation(senderId: string, targetId: string) {
   // 1) Make sure targetId is an actual user id
   await userExists(targetId);
 
@@ -105,6 +102,11 @@ async function newConnectionValidation(
   if (connection) {
     throw new Error("Connection already exists");
   }
+
+  // 3) Check if user doesn't connect to themselves
+  if (senderId === targetId) {
+    throw new Error("User cannot connect to themselves");
+  }
 }
 async function createNewConnection(
   senderId: string,
@@ -118,10 +120,7 @@ async function createNewConnection(
     status,
   }).save();
 }
-async function modifyConnectionValidation(
-  senderId: string | null,
-  targetId: string
-) {
+async function modifyConnectionValidation(senderId: string, targetId: string) {
   // 1) Make sure targetId is an actual user id
   await userExists(senderId);
 
@@ -139,7 +138,7 @@ async function modifyConnectionValidation(
 }
 async function modifyConnection(
   senderId: string,
-  targetId: string | null,
+  targetId: string,
   status: ModifyConnectionStatus
 ) {
   // NOTE:  Inverse senderId and targetId for the initial "interested" sender
