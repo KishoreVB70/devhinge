@@ -3,7 +3,7 @@ import { connectDB } from "./config/mongoose.js";
 import { User } from "./model/user.js";
 import cookieParser from "cookie-parser";
 import authRouter from "./routes/auth.js";
-import userRouter from "./routes/user.js";
+import userRouter from "./routes/users.js";
 
 import { authentication } from "./middleware/authenticated.js";
 

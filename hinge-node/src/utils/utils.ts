@@ -5,6 +5,7 @@ export type ErrorResponse = {
   field: string;
   message: string;
 };
+
 export const errorResponse = (
   res: Response,
   status: number,
