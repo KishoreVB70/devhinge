@@ -9,7 +9,11 @@ import {
 
 const router = Router();
 
-router.post("/connections/ignore", authentication, ignoreConnection);
-router.post("/connections/interested", authentication, likeConnection);
-router.post("/connections/accept", authentication, acceptConnection);
-router.post("/connections/reject", authentication, rejectConnection);
+router.post("/connections/ignore/:targedId", authentication, ignoreConnection);
+router.post(
+  "/connections/interested/:targedId",
+  authentication,
+  likeConnection
+);
+router.post("/connections/accept/:targedId", authentication, acceptConnection);
+router.post("/connections/reject/:targedId", authentication, rejectConnection);

@@ -10,7 +10,7 @@ import { errorResponse, successResponse, userExists } from "../utils/utils.js";
 export async function likeConnection(req: Request, res: Response) {
   try {
     const senderId = req.body.id;
-    const targetId = req.body.targetId;
+    const targetId = req.params.targedId;
 
     // Create Connection
     const newConnection = await createNewConnection(
@@ -33,7 +33,7 @@ export async function likeConnection(req: Request, res: Response) {
 export async function ignoreConnection(req: Request, res: Response) {
   try {
     const senderId = req.body.id;
-    const targetId = req.body.targetId;
+    const targetId = req.params.targedId;
 
     // Create Connection
     const newConnection = await createNewConnection(
@@ -56,7 +56,7 @@ export async function ignoreConnection(req: Request, res: Response) {
 export async function acceptConnection(req: Request, res: Response) {
   try {
     const senderId = req.body.id;
-    const targetId = req.body.targetId;
+    const targetId = req.params.targetId;
 
     const connection = await modifyConnection(senderId, targetId, "accepted");
     successResponse(res, "Connection accepted", connection);
@@ -73,7 +73,7 @@ export async function acceptConnection(req: Request, res: Response) {
 export async function rejectConnection(req: Request, res: Response) {
   try {
     const senderId = req.body.id;
-    const targetId = req.body.targetId;
+    const targetId = req.params.targetId;
 
     const connection = await modifyConnection(senderId, targetId, "rejected");
     successResponse(res, "Connection rejected", connection);
