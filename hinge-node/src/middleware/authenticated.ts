@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import env from "../utils/envVariables.js";
 import jwt from "jsonwebtoken";
+import { errorResponse } from "../utils/utils.js";
 
 export function authentication(
   req: Request,
@@ -20,6 +21,10 @@ export function authentication(
     next();
   } catch (error) {
     console.error("Error authenticating user: ", error);
-    res.status(401).send("Unauthenticated");
+    if (error instanceof Error) {
+      errorResponse(res, 401, error.message);
+      return;
+    }
+    errorResponse(res, 401, "Error authenticating user");
   }
 }
