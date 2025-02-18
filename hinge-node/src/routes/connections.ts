@@ -21,3 +21,5 @@ router.post(
 );
 router.post("/connections/accept/:targedId", authentication, acceptConnection);
 router.post("/connections/reject/:targedId", authentication, rejectConnection);
+
+export default router;

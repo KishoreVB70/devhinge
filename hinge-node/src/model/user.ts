@@ -78,6 +78,12 @@ export const zUser = z.object({
   experienceYears: z.number().int().optional(),
 });
 
+export const userCardData = "name avatar age experienceYears";
+export const userRequestData = "name avatar";
+// all fields of user except password
+export const userProfileData =
+  "name age avatar bio gender skills hobbies website experienceYears";
+
 export const zUserPatch = zUser
   .pick({
     name: true,

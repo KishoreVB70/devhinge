@@ -4,6 +4,7 @@ import Connection, {
   NewConnectionStatus,
 } from "../model/connection.js";
 import { errorResponse, successResponse, userExists } from "../utils/utils.js";
+import { userRequestData } from "../model/user.js";
 
 // API handlers
 
@@ -23,12 +24,12 @@ export async function getConnections(req: Request, res: Response) {
       .select("senderId targetId")
       .populate({
         path: "senderId",
-        select: "name avatar",
+        select: userRequestData,
         match: { _id: { $ne: userId } },
       })
       .populate({
         path: "receiverId",
-        select: "name avatar",
+        select: userRequestData,
         match: { _id: { $ne: userId } },
       });
 

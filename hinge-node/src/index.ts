@@ -3,12 +3,12 @@ import { connectDB } from "./config/mongoose.js";
 import cookieParser from "cookie-parser";
 import authRouter from "./routes/auth.js";
 import userRouter from "./routes/users.js";
+import connectionRouter from "./routes/connections.js";
 
 import { authentication } from "./middleware/authenticated.js";
 import Connection from "./model/connection.js";
-import mongoose from "mongoose";
 import { User } from "./model/user.js";
-import { successResponse } from "./utils/utils.js";
+import { errorResponse, successResponse } from "./utils/utils.js";
 
 const app = express();
 const PORT = 3000;
@@ -31,6 +31,7 @@ async function main() {
 
   app.use("/", authRouter);
   app.use("/", userRouter);
+  app.use("/", connectionRouter);
 
   app.get("/feed", authentication, async (req, res) => {
     const userId = req.body.id;
@@ -55,6 +56,7 @@ async function main() {
         .select("senderId targetId status");
 
       const hiddenUsers = new Set<string>();
+      hiddenUsers.add(userId);
       const interestedUsers: string[] = [];
       HiddenConnections.forEach((connection) => {
         if (
@@ -71,7 +73,7 @@ async function main() {
       const feed = await User.aggregate([
         {
           $match: {
-            _id: { $nin: [...hiddenUsers] }, // Exclude hidden users
+            _id: { $nin: Array.from(hiddenUsers) }, // Exclude hidden users
           },
         },
         {
@@ -94,6 +96,8 @@ async function main() {
         {
           $project: {
             isInterested: 0, // Remove isInterested field from the result
+            password: 0,
+            email: 0,
           },
         },
       ]);
@@ -105,7 +109,7 @@ async function main() {
       successResponse(res, "Feed fetched", feed);
     } catch (error) {
       console.error("Error fetching feed: ", error);
-      res.status(500).send("Internal server error");
+      errorResponse(res, 500, "Internal server error");
     }
   });
 
@@ -113,7 +117,7 @@ async function main() {
   app.use("/", (err: any, req: Request, res: Response, next: NextFunction) => {
     if (err) {
       console.error(err);
-      res.status(500).send("Something went wrong");
+      errorResponse(res, 500, "Internal server error");
     }
   });
 }
