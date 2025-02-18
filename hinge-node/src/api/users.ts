@@ -6,18 +6,27 @@ import {
   isMongoError,
   successResponse,
 } from "../utils/utils.js";
-import { User, zUserPatch } from "../model/user.js";
+import {
+  User,
+  userProfileData,
+  userSelfProfileData,
+  zUserPatch,
+} from "../model/user.js";
 import { z } from "zod";
 
 export const getUser = async (req: Request, res: Response) => {
   try {
     const id = req.body.id;
-    const user = await User.findById(id);
+    const user = await User.findById(id).select(userSelfProfileData);
     if (!user) throw new Error("User not found");
     successResponse(res, "User found", user);
   } catch (error) {
     console.error("Error fetching user: ", error);
-    errorResponse(res, 404, "User not found");
+    if (error instanceof Error) {
+      errorResponse(res, 404, error.message);
+      return;
+    }
+    errorResponse(res, 404, "Error fetching user");
   }
 };
 
@@ -30,10 +39,7 @@ export const patchUser = async (req: Request, res: Response) => {
       new: true,
     });
 
-    if (!updatedUser) {
-      errorResponse(res, 404, "User not found");
-      return;
-    }
+    if (!updatedUser) throw new Error("User not found");
 
     successResponse(res, "User updated", updatedUser);
   } catch (error) {
@@ -55,6 +61,10 @@ export const patchUser = async (req: Request, res: Response) => {
       );
       return;
     }
+    if (error instanceof Error) {
+      errorResponse(res, 404, error.message);
+      return;
+    }
     errorResponse(res, 500, "Internal server error, unable to update user");
   }
 };
@@ -63,7 +73,6 @@ export const postUser = async (req: Request, res: Response) => {
   try {
     const user = getUserFromRequest(req);
     const result = await user.save();
-    console.log(result);
     successResponse(res, "User created", result);
   } catch (error) {
     console.error("Error:", error);
@@ -94,14 +103,17 @@ export const postUser = async (req: Request, res: Response) => {
 export const getUserByEmail = async (req: Request, res: Response) => {
   try {
     const email = req.params.email;
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).select(userProfileData);
     if (!user) {
-      res.status(404).send("User not found");
-      return;
+      throw new Error("User not found");
     }
-    res.json(user);
+    successResponse(res, "User found", user);
   } catch (error) {
     console.error("Error fetching user: ", error);
-    res.status(500).send("Internal server error");
+    if (error instanceof Error) {
+      errorResponse(res, 404, "User not found");
+      return;
+    }
+    errorResponse(res, 404, "Error fetching user");
   }
 };

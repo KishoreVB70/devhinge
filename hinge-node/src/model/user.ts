@@ -84,6 +84,8 @@ export const userRequestData = "name avatar";
 export const userProfileData =
   "name age avatar bio gender skills hobbies website experienceYears";
 
+export const userSelfProfileData = userProfileData + " email";
+
 export const zUserPatch = zUser
   .pick({
     name: true,
