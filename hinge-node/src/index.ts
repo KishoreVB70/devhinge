@@ -94,6 +94,9 @@ async function main() {
           },
         },
         {
+          $limit: 10,
+        },
+        {
           $project: {
             isInterested: 0, // Remove isInterested field from the result
             password: 0,
