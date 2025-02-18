@@ -31,7 +31,8 @@ export async function login(req: Request, res: Response) {
   try {
     const { email, password } = loginSchema.parse(req.body);
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).select("name email password");
+
     if (!user) throw new Error("User not found");
 
     const isMatch = await (
@@ -48,10 +49,21 @@ export async function login(req: Request, res: Response) {
       }
     ).getJwt();
 
-    res.cookie("token", token, { httpOnly: true });
-    successResponse(res, "User logged in", user);
+    const { password: storedPass, ...userInfo } = user.toObject();
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      sameSite: "strict", // Prevent CSRF
+      maxAge: 24 * 60 * 60 * 1000, // 1-day expiry
+    });
+
+    successResponse(res, "User logged in", userInfo);
   } catch (error) {
     console.error("Error logging in: ", error);
+    if (error instanceof Error) {
+      errorResponse(res, 400, error.message);
+      return;
+    }
     errorResponse(res, 400, "Invalid credentials");
   }
 }

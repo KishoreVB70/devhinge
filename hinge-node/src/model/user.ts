@@ -119,7 +119,7 @@ userSchema.pre("save", async function (next) {
   }
 });
 
-userSchema.methods.signJwt = function () {
+userSchema.methods.getJwt = function () {
   return jwt.sign({ id: this._id }, env.JWT_SECRET);
 };
 
