@@ -77,7 +77,7 @@ export async function getInterestedConnections(req: Request, res: Response) {
 export async function likeConnection(req: Request, res: Response) {
   try {
     const senderId = req.body.id;
-    const targetId = req.params.targedId;
+    const targetId = req.params.targetId;
 
     // Create Connection
     const newConnection = await createNewConnection(
@@ -100,7 +100,7 @@ export async function likeConnection(req: Request, res: Response) {
 export async function ignoreConnection(req: Request, res: Response) {
   try {
     const senderId = req.body.id;
-    const targetId = req.params.targedId;
+    const targetId = req.params.targetId;
 
     // Create Connection
     const newConnection = await createNewConnection(
