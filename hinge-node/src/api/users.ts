@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import {
   ErrorResponse,
   errorResponse,
-  getUserFromRequest,
   isMongoError,
   successResponse,
 } from "../utils/utils.js";
@@ -10,6 +9,7 @@ import {
   User,
   userProfileData,
   userSelfProfileData,
+  zUser,
   zUserPatch,
 } from "../model/user.js";
 import { z } from "zod";
@@ -69,11 +69,16 @@ export const patchUser = async (req: Request, res: Response) => {
   }
 };
 
+// Sign up
 export const postUser = async (req: Request, res: Response) => {
   try {
-    const user = getUserFromRequest(req);
-    const result = await user.save();
-    successResponse(res, "User created", result);
+    const validatedUser = zUser.parse(req.body);
+    const user = new User(validatedUser);
+
+    const createdUser = (await user.save()).toObject();
+    const { _id: id, email, name } = createdUser;
+
+    successResponse(res, "User created", { id, email, name });
   } catch (error) {
     console.error("Error:", error);
 

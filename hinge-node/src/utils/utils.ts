@@ -1,5 +1,5 @@
-import { Request, Response } from "express";
-import { User, zUser } from "../model/user.js";
+import { Response } from "express";
+import { User } from "../model/user.js";
 
 export async function userExists(userId: string | null) {
   const user = await User.findById(userId);
@@ -28,17 +28,13 @@ export const successResponse = (
   res.status(200).json({ success: true, message, data });
 };
 
-export const getUserFromRequest = (req: Request) => {
-  const validatedUser = zUser.parse(req.body);
-  return new User(validatedUser);
-};
-
 type MongoError = {
   code: number;
   errorResponse: {
     errmsg: string;
   };
 };
+
 export const isMongoError = (error: unknown): error is MongoError => {
   return (
     typeof error === "object" &&
