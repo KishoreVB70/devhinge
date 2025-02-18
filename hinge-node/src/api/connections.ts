@@ -102,6 +102,18 @@ export async function ignoreConnection(req: Request, res: Response) {
     const senderId = req.body.id;
     const targetId = req.params.targetId;
 
+    const isTargetInterestedInSender = await Connection.findOne({
+      senderId: targetId,
+      targetId: senderId,
+      status: "interested",
+    });
+
+    // If the target user is interested in the ignore sender, reject the connection
+    if (isTargetInterestedInSender) {
+      await rejectConnection(req, res);
+      return;
+    }
+
     // Create Connection
     const newConnection = await createNewConnection(
       senderId,
