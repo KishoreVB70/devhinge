@@ -37,7 +37,7 @@ export const patchUser = async (req: Request, res: Response) => {
 
     const updatedUser = await User.findByIdAndUpdate(id, updateUserData, {
       new: true,
-    });
+    }).select(userSelfProfileData);
 
     if (!updatedUser) throw new Error("User not found");
 
