@@ -47,7 +47,7 @@ export async function getConnections(req: Request, res: Response) {
 
     successResponse(res, "Connections fetched", connectedUsers);
   } catch (error) {
-    console.log("Error getting connections: ", error);
+    console.error("Error getting connections: ", error);
     errorResponse(res, 500, "Error getting connections");
   }
 }
@@ -68,7 +68,7 @@ export async function getInterestedConnections(req: Request, res: Response) {
 
     successResponse(res, "Connections fetched", connections);
   } catch (error) {
-    console.log("Error getting interested connections: ", error);
+    console.error("Error getting interested connections: ", error);
     errorResponse(res, 500, "Error getting interested connections");
   }
 }
