@@ -105,10 +105,10 @@ export const postUser = async (req: Request, res: Response) => {
   }
 };
 
-export const getUserByEmail = async (req: Request, res: Response) => {
+export const getUserById = async (req: Request, res: Response) => {
   try {
-    const email = req.params.email;
-    const user = await User.findOne({ email }).select(userProfileData);
+    const id = req.params.id;
+    const user = await User.findById(id).select(userProfileData);
     if (!user) {
       throw new Error("User not found");
     }
@@ -116,7 +116,8 @@ export const getUserByEmail = async (req: Request, res: Response) => {
   } catch (error) {
     console.error("Error fetching user: ", error);
     if (error instanceof Error) {
-      errorResponse(res, 404, "User not found");
+      errorResponse(res, 404, error.message);
+      ``;
       return;
     }
     errorResponse(res, 404, "Error fetching user");

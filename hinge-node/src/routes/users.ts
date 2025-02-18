@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { authentication } from "../middleware/authenticated.js";
-import { getUser, getUserByEmail, patchUser, postUser } from "../api/users.js";
+import { getUser, getUserById, patchUser, postUser } from "../api/users.js";
 
 const router = Router();
 
@@ -8,7 +8,7 @@ const router = Router();
 router.post("/users", postUser);
 
 // Get user by email
-router.get("/users/:email", authentication, getUserByEmail);
+router.get("/users/:id", authentication, getUserById);
 
 // Get self profile
 router.get("/users", authentication, getUser);
