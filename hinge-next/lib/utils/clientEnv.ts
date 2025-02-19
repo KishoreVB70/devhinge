@@ -1,8 +1,7 @@
 import { z } from "zod";
 
 const clientEnvSchema = z.object({
-  supabaseUrl: z.string(),
-  supabaseAnonKey: z.string(),
+  NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z.string(),
 });
 
 export const clientEnv = clientEnvSchema.parse(process.env);
