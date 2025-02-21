@@ -20,10 +20,12 @@ export default async function signupAction(formData: FormData) {
       password: hashedPassword,
     };
 
+    console.log("Hashed user", userData);
     const { error } = await supabase.from("users").insert(userData);
     if (error) {
       throw new Error(error.message);
     }
+    console.log("User created");
   } catch (error) {
     console.error(error);
   }
