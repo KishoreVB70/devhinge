@@ -10,13 +10,15 @@ export async function middleware(req: NextRequest) {
     }
     const JWT_SECRET = serverEnv.JWT_SECRET;
     const secret = new TextEncoder().encode(JWT_SECRET);
-    await jwtVerify(token, secret);
-    return NextResponse.next();
+    const { payload } = await jwtVerify(token, secret);
+    const response = NextResponse.next();
+    response.headers.set("id", payload.id as string);
+    return response;
   } catch (error) {
     console.error(error);
     return NextResponse.redirect(new URL("/", req.url));
   }
 }
 export const config = {
-  matcher: "/feed",
+  matcher: ["/feed", "/puser"],
 };
