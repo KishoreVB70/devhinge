@@ -5,7 +5,7 @@ import { supabase } from "@/lib/config/supabase";
 import { authSchema } from "@/lib/schema/authSchema";
 import serverEnv from "@/lib/utils/serverEnv";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import { SignJWT } from "jose";
 import { cookies } from "next/headers";
 
 export default async function loginAction(formData: FormData) {
@@ -45,9 +45,12 @@ export default async function loginAction(formData: FormData) {
     console.log("password correct");
 
     // Generate jwt
-    const token = jwt.sign({ id: data[0].id }, serverEnv.JWT_SECRET, {
-      expiresIn: "1d",
-    });
+    const payload = { id: data[0].id };
+    const secret = new TextEncoder().encode(serverEnv.JWT_SECRET);
+    const token = await new SignJWT(payload)
+      .setProtectedHeader({ alg: "HS256" })
+      .setExpirationTime("1d")
+      .sign(secret);
 
     const cookieStore = await cookies();
     cookieStore.set({
