@@ -1,7 +1,7 @@
-import { z } from "zod";
+// import { z } from "zod";
 
-const clientEnvSchema = z.object({
-  NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z.string(),
-});
+// const clientEnvSchema = z.object({
+//   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z.string(),
+// });
 
-export const clientEnv = clientEnvSchema.parse(process.env);
+// export const clientEnv = clientEnvSchema.parse(process.env);
