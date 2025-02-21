@@ -23,22 +23,29 @@ export const zUser = z.object({
     .string({ message: "Name must be a string" })
     .min(3, { message: "Name must be at least 3 characters long" })
     .max(18, { message: "Name must be at most 18 characters long" })
-    .regex(/^\S+$/, { message: "Name must not contain spaces" }),
+    .regex(/^\S+$/, { message: "Name must not contain spaces" })
+    .optional(),
 
-  email: z.string().email(),
+  email: z.string().email().optional(),
 
   age: z
-    .number()
-    .int()
-    .min(18, { message: "Age must be atleast 18" })
-    .max(100, { message: "Age must be atmost 100" }),
+    .preprocess(
+      (val) => Number(val),
+      z
+        .number()
+        .int()
+        .min(18, { message: "Age must be atleast 18" })
+        .max(100, { message: "Age must be atmost 100" })
+    )
+    .optional(),
 
-  avatar: z
+  avatar_url: z
     .string()
     .url({ message: "Invalid avatar URL" })
-    .max(150, { message: "Avatar URL must be at most 150 characters long" }),
+    .max(150, { message: "Avatar URL must be at most 150 characters long" })
+    .optional(),
 
-  password: passwordSchema,
+  password: passwordSchema.optional(),
 
   bio: z
     .string()
@@ -67,5 +74,7 @@ export const zUser = z.object({
 
   website: z.string().url().optional(),
 
-  experienceYears: z.number().int().optional(),
+  experience_years: z
+    .preprocess((val) => Number(val), z.number().int().nonnegative().max(50))
+    .optional(),
 });
