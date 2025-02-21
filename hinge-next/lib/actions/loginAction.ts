@@ -3,7 +3,7 @@
 
 import { supabase } from "@/lib/config/supabase";
 import { authSchema } from "@/lib/schema/authSchema";
-import { serverEnv } from "@/lib/utils/serverEnv";
+import serverEnv from "@/lib/utils/serverEnv";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
