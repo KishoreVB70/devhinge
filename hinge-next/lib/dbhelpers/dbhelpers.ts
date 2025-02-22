@@ -17,6 +17,23 @@ export const getFeedProfiles = async () => {
   }
 };
 
+export const getInterestedProfiles = async (userId: string) => {
+  try {
+    const { data, error } = await supabase
+      .from("connections")
+      .select("sender_id")
+      .eq("target_id", userId)
+      .eq("status", "interested");
+
+    if (error) {
+      throw new Error(error.message);
+    }
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const getUser = async () => {
   try {
     const { data, error } = await supabase.from("users").select();
