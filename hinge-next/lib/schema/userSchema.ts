@@ -95,4 +95,6 @@ export const zUserFeedProfiles = zUser
   })
   .array();
 
-export type UserFeedProfiles = z.infer<typeof zUserFeedProfiles>;
+export type FeedUser = z.infer<typeof zUserFeedProfiles>;
+
+export type UserCardProfiles = { name: string; avatar_url: string }[];

@@ -1,6 +1,8 @@
 import "server-only";
 import { supabase } from "@/lib/config/supabase";
 import { zUserFeedProfiles } from "@/lib/schema/userSchema";
+import { headers } from "next/headers";
+import { zInterestedProfiles } from "@/lib/schema/connectionSchema";
 
 export const getFeedProfiles = async () => {
   try {
@@ -17,20 +19,39 @@ export const getFeedProfiles = async () => {
   }
 };
 
-export const getInterestedProfiles = async (userId: string) => {
+export const getInterestedProfiles = async () => {
   try {
+    const header = await headers();
+    const userId = header.get("id");
+    if (!userId) {
+      throw new Error("User ID not found");
+    }
+
     const { data, error } = await supabase
       .from("connections")
-      .select("sender_id")
+      .select(
+        `
+          id,
+          sender_profile:sender_id (id, name, avatar_url)
+        `
+      )
       .eq("target_id", userId)
       .eq("status", "interested");
 
     if (error) {
       throw new Error(error.message);
     }
-    return data;
+
+    // Validate the data
+    const validatedData = zInterestedProfiles.parse(data);
+    console.log(validatedData);
+    if (validatedData.length === 0) {
+      return null;
+    }
+    return validatedData;
   } catch (error) {
     console.error(error);
+    return null;
   }
 };
 

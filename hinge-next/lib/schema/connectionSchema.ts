@@ -24,3 +24,18 @@ export const zConnection = z.object({
   target_id: z.string(),
   status: connectionstatusEnum,
 });
+
+const zID = z.preprocess((val) => String(val), z.string());
+
+export const zInterestedProfiles = z
+  .object({
+    id: zID,
+    sender_profile: z.object({
+      id: zID,
+      name: z.string(),
+      avatar_url: z.string(),
+    }),
+  })
+  .array();
+
+export type InterestedProfiles = z.infer<typeof zInterestedProfiles>;
