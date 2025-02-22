@@ -1,7 +1,13 @@
+import FeedCard from "@/components/FeedCard";
 import React from "react";
 
-function page() {
-  return <div>Welcome to the feeder UI</div>;
+async function page() {
+  const feedProfiles = await getFeedProfiles();
+  return (
+    <div className="flex justify-center items-center">
+      <FeedCard />
+    </div>
+  );
 }
 
 export default page;
