@@ -11,6 +11,7 @@ export default async function signupAction(formData: FormData) {
       email: formData.get("email"),
       password: formData.get("password"),
     };
+
     const validatedUserData = authSchema.parse(rawFormData);
 
     const hashedPassword = await bcrypt.hash(validatedUserData.password, 10);

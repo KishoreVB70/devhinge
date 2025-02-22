@@ -2,13 +2,18 @@ import { cn } from "@/lib/utils/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import signupAction from "@/lib/actions/signupAction";
 
 export default function SignupForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"form">) {
   return (
-    <form className={cn("flex flex-col gap-6", className)} {...props}>
+    <form
+      className={cn("flex flex-col gap-6", className)}
+      action={signupAction}
+      {...props}
+    >
       <div className="flex flex-col items-center gap-2 text-center">
         <h1 className="text-2xl font-bold">Sign Up a new account</h1>
         <p className="text-balance text-sm text-muted-foreground">
@@ -21,6 +26,7 @@ export default function SignupForm({
           <Input
             id="email"
             type="email"
+            name="email"
             placeholder="Priya@example.com"
             required
           />
@@ -29,7 +35,7 @@ export default function SignupForm({
           <div className="flex items-center">
             <Label htmlFor="password">Password</Label>
           </div>
-          <Input id="password" type="password" required />
+          <Input id="password" type="password" name="password" required />
         </div>
         <Button type="submit" className="w-full">
           Sign up
