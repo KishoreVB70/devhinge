@@ -5,6 +5,7 @@ import { supabase } from "@/lib/config/supabase";
 import { authSchema } from "@/lib/schema/authSchema";
 import bcrypt from "bcrypt";
 
+// TODO: Error handling
 export default async function signupAction(formData: FormData) {
   try {
     const rawFormData = {
@@ -12,6 +13,7 @@ export default async function signupAction(formData: FormData) {
       password: formData.get("password"),
     };
 
+    // TODO: Ensure users enter valid password in form
     const validatedUserData = authSchema.parse(rawFormData);
 
     const hashedPassword = await bcrypt.hash(validatedUserData.password, 10);
@@ -21,12 +23,10 @@ export default async function signupAction(formData: FormData) {
       password: hashedPassword,
     };
 
-    console.log("Hashed user", userData);
     const { error } = await supabase.from("users").insert(userData);
     if (error) {
       throw new Error(error.message);
     }
-    console.log("User created");
   } catch (error) {
     console.error(error);
   }

@@ -21,15 +21,14 @@ async function newConnectionValidation(senderId: string, targetId: string) {
   }
 
   // 2) Check if Connection already Exists
-  // 3) Validate connection already exists
-  const { data: connectionData } = await supabase
+  const { data: connectionData, error } = await supabase
     .from("connections")
     .select("id")
     .or(
       `and(senderId.eq.${senderId},targetId.eq.${targetId}),and(senderId.eq.${targetId},targetId.eq.${senderId})`
     );
 
-  if (connectionData) {
+  if (connectionData || error) {
     throw new Error("Connection already exists");
   }
 
@@ -44,12 +43,10 @@ export async function createNewConnection(
   status: NewConnectionStatus
 ) {
   await newConnectionValidation(sender_id, target_id);
-  // const senderId = BigInt(sender_id);
-  // const targetId = BigInt(target_id);
   console.log(sender_id, target_id);
   const { error } = await supabase
     .from("connections")
-    .insert({ sender_id: sender_id, target_id: target_id, status });
+    .insert({ sender_id, target_id, status });
   if (error) {
     throw new Error(error.message);
   }
