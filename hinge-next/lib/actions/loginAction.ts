@@ -8,7 +8,7 @@ import bcrypt from "bcrypt";
 import { SignJWT } from "jose";
 import { cookies } from "next/headers";
 
-export default async function loginAction(formData: FormData) {
+export default async function signInAction(formData: FormData) {
   try {
     const rawFormData = {
       email: formData.get("email"),
@@ -63,7 +63,6 @@ export default async function loginAction(formData: FormData) {
     });
 
     console.log("cookie send");
-    return true;
   } catch (error) {
     console.error(error);
   }
