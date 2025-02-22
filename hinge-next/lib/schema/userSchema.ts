@@ -79,6 +79,11 @@ export const zUser = z.object({
     .optional(),
 });
 
+export const zUpdatableUser = zUser.omit({
+  email: true,
+  password: true,
+});
+
 export const zUserFeedProfiles = zUser
   .pick({
     name: true,
