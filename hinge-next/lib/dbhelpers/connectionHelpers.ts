@@ -19,6 +19,7 @@ async function userExists(userId: string) {
     throw new Error("User not found");
   }
 }
+
 async function newConnectionValidation(senderId: string, targetId: string) {
   // 1) Validate target id
   // Note: Sender would be automatically valid since passed through middleware
@@ -29,10 +30,16 @@ async function newConnectionValidation(senderId: string, targetId: string) {
     .from("connections")
     .select("id")
     .or(
-      `and(senderId.eq.${senderId},targetId.eq.${targetId}),and(senderId.eq.${targetId},targetId.eq.${senderId})`
+      `and(sender_id.eq.${senderId},target_id.eq.${targetId}),and(sender_id.eq.${targetId},target_id.eq.${senderId})`
     );
 
-  if (connectionData || error) {
+  console.log("data", connectionData);
+
+  if (error) {
+    throw new Error(`Error Querying DB: ${error.message}`);
+  }
+
+  if (connectionData.length > 0) {
     throw new Error("Connection already exists");
   }
 
@@ -41,6 +48,7 @@ async function newConnectionValidation(senderId: string, targetId: string) {
     throw new Error("User cannot connect to themselves");
   }
 }
+
 export async function createNewConnection(
   sender_id: string,
   target_id: string,
