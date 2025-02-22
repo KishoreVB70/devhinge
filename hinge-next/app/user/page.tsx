@@ -1,4 +1,4 @@
-import { getUser } from "@/lib/utils/dbhelpers";
+import { getUser } from "@/lib/dbhelpers/dbhelpers";
 import React from "react";
 
 async function User() {

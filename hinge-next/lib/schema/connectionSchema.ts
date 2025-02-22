@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 const connectionstatusEnum = z.enum([
-  "ignore",
+  "ignored",
   "interested",
   "accepted",
   "rejected",
@@ -10,7 +10,7 @@ const connectionstatusEnum = z.enum([
 type ConnectionStatusEnum = z.infer<typeof connectionstatusEnum>;
 export type NewConnectionStatus = Extract<
   ConnectionStatusEnum,
-  "ignore" | "interested"
+  "ignored" | "interested"
 >;
 
 export type ModifyConnectionStatus = Extract<

@@ -21,31 +21,28 @@ export default async function signInAction(formData: FormData) {
     const { data, error } = await supabase
       .from("users")
       .select("password, id")
-      .eq("email", validatedData.email);
+      .eq("email", validatedData.email)
+      .single();
 
     if (error) {
       throw new Error(error.message);
     }
 
-    if (!data || data.length === 0) {
+    if (!data) {
       throw new Error("Invalid email or password");
     }
 
-    console.log("userdata", data);
-
     const isPasswordCorrect = await bcrypt.compare(
       validatedData.password,
-      data[0].password
+      data.password
     );
 
     if (!isPasswordCorrect) {
       throw new Error("Invalid email or password");
     }
 
-    console.log("password correct");
-
     // Generate jwt
-    const payload = { id: data[0].id };
+    const payload = { id: data.id };
     const secret = new TextEncoder().encode(serverEnv.JWT_SECRET);
     const token = await new SignJWT(payload)
       .setProtectedHeader({ alg: "HS256" })

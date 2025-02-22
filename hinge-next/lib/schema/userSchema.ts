@@ -78,3 +78,16 @@ export const zUser = z.object({
     .preprocess((val) => Number(val), z.number().int().nonnegative().max(50))
     .optional(),
 });
+
+export const zUserFeedProfiles = zUser
+  .pick({
+    name: true,
+    avatar_url: true,
+  })
+  .required()
+  .extend({
+    id: z.preprocess((val) => String(val), z.string()),
+  })
+  .array();
+
+export type UserFeedProfiles = z.infer<typeof zUserFeedProfiles>;
