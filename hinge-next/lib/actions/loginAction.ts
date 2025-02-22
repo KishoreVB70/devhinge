@@ -42,12 +42,7 @@ export default async function signInAction(formData: FormData) {
     }
 
     // Generate jwt
-    const payload = { id: data.id };
-    const secret = new TextEncoder().encode(serverEnv.JWT_SECRET);
-    const token = await new SignJWT(payload)
-      .setProtectedHeader({ alg: "HS256" })
-      .setExpirationTime("1d")
-      .sign(secret);
+    const token = await generateJwt({ id: data.id });
 
     const cookieStore = await cookies();
     cookieStore.set({
@@ -58,9 +53,16 @@ export default async function signInAction(formData: FormData) {
       path: "/",
       maxAge: 60 * 60 * 24,
     });
-
-    console.log("cookie send");
   } catch (error) {
     console.error(error);
   }
+}
+
+async function generateJwt(payload: { id: string }) {
+  const secret = new TextEncoder().encode(serverEnv.JWT_SECRET);
+  const token = await new SignJWT(payload)
+    .setProtectedHeader({ alg: "HS256" })
+    .setExpirationTime("1d")
+    .sign(secret);
+  return token;
 }
