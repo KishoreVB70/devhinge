@@ -20,5 +20,5 @@ export async function middleware(req: NextRequest) {
   }
 }
 export const config = {
-  matcher: ["/feed", "/puser"],
+  matcher: ["/feed", "/puser", "/requests"],
 };
