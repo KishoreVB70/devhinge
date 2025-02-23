@@ -77,13 +77,15 @@ async function modifyConnectionValidation(senderId: string, targetId: string) {
     .select("id")
     .eq("sender_id", senderId)
     .eq("target_id", targetId)
-    .eq("status", "interested")
-    .single();
+    .eq("status", "interested");
+
+  console.log("data", data);
 
   if (error) {
     throw new Error(`Error Querying DB: ${error.message}`);
   }
-  if (!data) {
+
+  if (data.length <= 0) {
     throw new Error("Connection not found");
   }
 }

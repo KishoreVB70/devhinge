@@ -36,7 +36,6 @@ export async function modifyConnectionAction(
     // 1) obtain senderid
     const header = await headers();
     const senderId = header.get("id");
-    console.log(senderId);
     if (!senderId) {
       throw new Error("Sender not found");
     }
