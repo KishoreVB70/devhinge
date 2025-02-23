@@ -20,5 +20,8 @@ export async function middleware(req: NextRequest) {
   }
 }
 export const config = {
-  matcher: ["/feed", "/puser", "/requests"],
+  matcher: [
+    "/((?!login|signup$).*)", // Exclude /login and /signup
+    "/((?!^$).*)", // Exclude root "/"
+  ],
 };

@@ -18,6 +18,7 @@ function RequestsClient({ interestedProfiles }: RequestsClientProps) {
   const handlePass = (index: number) => {
     modifyConnectionAction(interestedProfiles[index].id, "rejected");
   };
+
   return (
     <ProfileCard
       profiles={profiles}

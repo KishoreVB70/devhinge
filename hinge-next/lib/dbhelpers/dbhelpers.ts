@@ -41,10 +41,10 @@ export const getInterestedProfiles = async () => {
     if (error) {
       throw new Error(error.message);
     }
+    console.log(data);
 
     // Validate the data
     const validatedData = zInterestedProfiles.parse(data);
-    console.log(validatedData);
     if (validatedData.length === 0) {
       return null;
     }

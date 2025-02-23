@@ -1,4 +1,3 @@
-import ConnectionRequests from "@/components/ConnectionRequests";
 import { Avatar } from "@/components/ui/avatar";
 import { AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import React from "react";
@@ -13,7 +12,6 @@ function SideBar() {
         </Avatar>
         <p className="ml-3">Showdown</p>
       </div>
-      <ConnectionRequests />
     </div>
   );
 }

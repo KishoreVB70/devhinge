@@ -40,7 +40,9 @@ async function newConnectionValidation(senderId: string, targetId: string) {
   }
 
   if (connectionData.length > 0) {
-    throw new Error("Connection already exists");
+    throw new Error(
+      `Connection already exists between now sender: ${senderId} and  now target: ${targetId}`
+    );
   }
 
   // 3) Check if user doesn't connect to themselves
