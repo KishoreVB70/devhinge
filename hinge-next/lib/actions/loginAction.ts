@@ -1,5 +1,4 @@
 "use server";
-"server-only";
 
 import { supabase } from "@/lib/config/supabase";
 import { authSchema } from "@/lib/schema/authSchema";

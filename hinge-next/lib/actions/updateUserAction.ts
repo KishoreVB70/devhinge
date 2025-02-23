@@ -1,5 +1,4 @@
 "use server";
-import "server-only";
 import { headers } from "next/headers";
 import { zUpdatableUser } from "@/lib/schema/userSchema";
 import { supabase } from "@/lib/config/supabase";
