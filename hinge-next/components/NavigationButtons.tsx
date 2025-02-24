@@ -5,10 +5,12 @@ import { CONNECTIONS_PER_PAGE } from "@/lib/constants";
 import React from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
-function NavigationButtons({ totalProfiles }: { totalProfiles: number }) {
+function NavigationButtons({ totalConnections }: { totalConnections: number }) {
   const router = useRouter();
   const params = useSearchParams();
   const page = Number(params.get("page") || 1);
+
+  console.log(page * CONNECTIONS_PER_PAGE, totalConnections);
 
   return (
     <div className="w-[50%] flex justify-between mt-4">
@@ -22,7 +24,7 @@ function NavigationButtons({ totalProfiles }: { totalProfiles: number }) {
         </Button>
       )}
 
-      {totalProfiles > page * CONNECTIONS_PER_PAGE && (
+      {totalConnections > page * CONNECTIONS_PER_PAGE && (
         <Button
           onClick={() => {
             router.push(`?page=${page + 1}`);

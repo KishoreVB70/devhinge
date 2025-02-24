@@ -5,9 +5,10 @@ import React from "react";
 
 type ConnectionsPageProps = {
   profiles: UserProfile[] | null;
+  totalConnections: number;
 };
 
-function ConnectionsPage({ profiles }: ConnectionsPageProps) {
+function ConnectionsPage({ profiles, totalConnections }: ConnectionsPageProps) {
   if (!profiles || profiles.length === 0) {
     return <div>No Connections Found</div>;
   }
@@ -25,7 +26,7 @@ function ConnectionsPage({ profiles }: ConnectionsPageProps) {
           <ProfileCard key={profile.name} profile={profile} />
         ))}
       </div>
-      <NavigationButtons totalProfiles={profiles.length} />
+      <NavigationButtons totalConnections={totalConnections} />
     </>
   );
 }

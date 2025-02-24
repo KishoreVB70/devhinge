@@ -135,6 +135,16 @@ export const getConnectedProfiles = async (page: number) => {
     const to = from + CONNECTIONS_PER_PAGE - 1;
 
     // TODO: ensure supabase won't return an array -> cause breaking changes
+    const { count, error: totalError } = await supabase
+      .from("connections")
+      .select("id", { count: "exact", head: true })
+      .or(`sender_id.eq.${userId},target_id.eq.${userId}`)
+      .eq("status", "accepted");
+
+    if (totalError) {
+      throw new Error(totalError.message);
+    }
+
     const { data, error } = await supabase
       .from("connections")
       .select(
@@ -172,7 +182,10 @@ export const getConnectedProfiles = async (page: number) => {
       }
     });
 
-    return cleansedData;
+    return {
+      profiles: cleansedData,
+      total: count,
+    };
   } catch (error) {
     console.error(error);
     return null;

@@ -11,5 +11,10 @@ export default async function Page({ searchParams }: ConnectionsPageProps) {
   const page = Number(params.page || 1);
   const connections = await getConnectedProfiles(page);
 
-  return <ConnectionsPage profiles={connections} />;
+  return (
+    <ConnectionsPage
+      profiles={connections?.profiles || null}
+      totalConnections={connections?.total || 1}
+    />
+  );
 }
