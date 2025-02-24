@@ -28,13 +28,26 @@ export const getFeedProfiles = async () => {
       throw new Error(usersError.message);
     }
 
-    const filterSet = new Set<string>();
-    connectionIds.forEach((item) => {
-      filterSet.add(String(item.sender_id));
-      filterSet.add(String(item.target_id));
-    });
+    // No connections
+    if (connectionIds.length === 0) {
+      const { data, error } = await supabase
+        .from("users")
+        .select("id, name, avatar_url");
+      if (error) {
+        throw new Error(error.message);
+      }
+      return data;
+    }
+
+    const filterSet = new Set(
+      connectionIds.flatMap(({ sender_id, target_id }) => [
+        sender_id,
+        target_id,
+      ])
+    );
 
     const filterArray = Array.from(filterSet);
+    console.log(filterArray);
 
     const { data, error } = await supabase
       .from("users")

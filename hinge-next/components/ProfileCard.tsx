@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { UserCardProfiles } from "@/lib/schema/userSchema";
 import Image from "next/image";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 
 type ProfileCardProps = {
   profiles: UserCardProfiles;
@@ -11,9 +12,18 @@ type ProfileCardProps = {
 };
 
 function ProfileCard({ profiles, handleLike, handlePass }: ProfileCardProps) {
+  const router = useRouter();
   const [index, setIndex] = useState(0);
   const image_url = profiles[index].avatar_url;
   const name = profiles[index].name;
+
+  function moveIndex() {
+    if (index + 1 < profiles.length) {
+      setIndex(index + 1);
+    } else {
+      router.refresh();
+    }
+  }
 
   // TODO: Clear doubt on what would happen if I unmount component on handleLike, will it still increment index?
   return (
@@ -25,7 +35,7 @@ function ProfileCard({ profiles, handleLike, handlePass }: ProfileCardProps) {
           variant={"pass"}
           onClick={() => {
             handlePass(index);
-            setIndex(index + 1);
+            moveIndex();
           }}
         >
           Pass
@@ -34,7 +44,7 @@ function ProfileCard({ profiles, handleLike, handlePass }: ProfileCardProps) {
           variant={"like"}
           onClick={() => {
             handleLike(index);
-            setIndex(index + 1);
+            moveIndex();
           }}
         >
           Like
