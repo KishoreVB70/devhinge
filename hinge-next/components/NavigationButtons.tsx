@@ -13,7 +13,7 @@ function NavigationButtons({ totalConnections }: { totalConnections: number }) {
   console.log(page * CONNECTIONS_PER_PAGE, totalConnections);
 
   return (
-    <div className="w-[50%] flex justify-between mt-4">
+    <div className="w-[50%] flex justify-between flex-row mt-4">
       {page > 1 && (
         <Button
           onClick={() => {
@@ -26,6 +26,7 @@ function NavigationButtons({ totalConnections }: { totalConnections: number }) {
 
       {totalConnections > page * CONNECTIONS_PER_PAGE && (
         <Button
+          className="ml-auto"
           onClick={() => {
             router.push(`?page=${page + 1}`);
           }}

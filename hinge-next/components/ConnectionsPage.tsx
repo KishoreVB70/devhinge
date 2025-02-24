@@ -20,14 +20,14 @@ function ConnectionsPage({ profiles, totalConnections }: ConnectionsPageProps) {
     };
   });
   return (
-    <>
+    <div className="h-screen flex flex-col items-center justify-center">
       <div className="grid grid-cols-3 gap-4">
         {cardProfiles.map((profile) => (
           <ProfileCard key={profile.name} profile={profile} />
         ))}
       </div>
       <NavigationButtons totalConnections={totalConnections} />
-    </>
+    </div>
   );
 }
 
