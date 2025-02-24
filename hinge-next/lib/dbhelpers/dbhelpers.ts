@@ -1,7 +1,10 @@
 import "server-only";
 import { supabase } from "@/lib/config/supabase";
 import { headers } from "next/headers";
-import { zInterestedProfiles } from "@/lib/schema/connectionSchema";
+import {
+  zInterestedProfiles,
+  zUserFeedProfile,
+} from "@/lib/schema/connectionSchema";
 import { z } from "zod";
 import { zGender } from "@/lib/schema/userSchema";
 
@@ -118,20 +121,6 @@ export const getInterestedProfiles = async () => {
   }
 };
 
-const zConnectionData = z.object({
-  id: z.preprocess((val) => String(val), z.string()),
-  sender_profile: z.object({
-    id: z.preprocess((val) => String(val), z.string()),
-    name: z.string(),
-    avatar_url: z.string(),
-  }),
-  target_profile: z.object({
-    id: z.preprocess((val) => String(val), z.string()),
-    name: z.string(),
-    avatar_url: z.string(),
-  }),
-});
-
 export const getConnectedProfiles = async (page: number) => {
   try {
     const header = await headers();
@@ -149,7 +138,6 @@ export const getConnectedProfiles = async (page: number) => {
       .from("connections")
       .select(
         `
-          id,
           sender_profile:sender_id (id, name, avatar_url),
           target_profile:target_id (id, name, avatar_url)
         `
@@ -166,17 +154,22 @@ export const getConnectedProfiles = async (page: number) => {
       return null;
     }
 
-    const typedData = zConnectionData.array().parse(data);
+    const parser = z.object({
+      sender_profile: zUserFeedProfile,
+      target_profile: zUserFeedProfile,
+    });
 
-    const cleansedData = typedData.map((item) => {
+    const parsedData = parser.array().parse(data);
+
+    const cleansedData = parsedData.map((item) => {
       return {
-        id: item.id,
         profile:
           item.sender_profile.id === userId
             ? item.target_profile
             : item.sender_profile,
       };
     });
+
     return cleansedData;
   } catch (error) {
     console.error(error);

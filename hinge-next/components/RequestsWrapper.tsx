@@ -1,5 +1,5 @@
 "use client";
-import ProfileCard from "@/components/ProfileCard";
+import ProfileCard from "@/components/FeedProfileCard";
 import { modifyConnectionAction } from "@/lib/actions/connectionAction";
 import { InterestedProfiles } from "@/lib/schema/connectionSchema";
 import React from "react";

@@ -1,5 +1,5 @@
 "use client";
-import ProfileCard from "@/components/ProfileCard";
+import ProfileCard from "@/components/FeedProfileCard";
 import { likeorPassAction } from "@/lib/actions/connectionAction";
 import { FeedUser } from "@/lib/schema/userSchema";
 import React from "react";

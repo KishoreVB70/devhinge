@@ -12,5 +12,6 @@ export default async function Page({ searchParams }: ConnectionsPageProps) {
   if (!connections || connections.length === 0) {
     return <div>No Connections Found</div>;
   }
+
   return <div>Page</div>;
 }
