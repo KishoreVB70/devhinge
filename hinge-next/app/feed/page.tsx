@@ -5,7 +5,7 @@ import React from "react";
 async function page() {
   const feedProfiles = await getFeedProfiles();
 
-  if (!feedProfiles) {
+  if (!feedProfiles || feedProfiles.length === 0) {
     return <div>Unable to obtain feed</div>;
   }
 

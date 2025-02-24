@@ -1,22 +1,54 @@
 import "server-only";
 import { supabase } from "@/lib/config/supabase";
-import { zUserFeedProfiles } from "@/lib/schema/userSchema";
 import { headers } from "next/headers";
 import { zInterestedProfiles } from "@/lib/schema/connectionSchema";
 import { z } from "zod";
 
 export const getFeedProfiles = async () => {
   try {
+    // 1) Remove self
+    // 2) Remove if connection already exists
+    const userId = (await headers()).get("id");
+
+    if (!userId) {
+      throw new Error("User ID not found");
+    }
+
+    const { data: connectionIds, error: usersError } = await supabase
+      .from("connections")
+      .select(
+        `
+          sender_id,
+          target_id
+        `
+      )
+      .or(`sender_id.eq.${userId},target_id.eq.${userId}`);
+
+    if (usersError) {
+      throw new Error(usersError.message);
+    }
+
+    const filterSet = new Set<string>();
+    connectionIds.forEach((item) => {
+      filterSet.add(String(item.sender_id));
+      filterSet.add(String(item.target_id));
+    });
+
+    const filterArray = Array.from(filterSet);
+
     const { data, error } = await supabase
       .from("users")
-      .select("avatar_url, name, id");
+      .select("id, name, avatar_url")
+      .not("id", "in", `(${filterArray.join(",")})`);
+
     if (error) {
       throw new Error(error.message);
     }
-    const validatedData = zUserFeedProfiles.parse(data);
-    return validatedData;
+    console.log(data);
+    return data;
   } catch (error) {
     console.error(error);
+    return null;
   }
 };
 

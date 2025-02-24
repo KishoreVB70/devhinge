@@ -25,7 +25,13 @@ export const zConnection = z.object({
   status: connectionstatusEnum,
 });
 
-const zID = z.preprocess((val) => String(val), z.string());
+export const zID = z.preprocess((val) => String(val), z.string());
+
+export const zUserFeedProfile = z.object({
+  id: zID,
+  name: z.string(),
+  avatar_url: z.string(),
+});
 
 export const zInterestedProfiles = z
   .object({
