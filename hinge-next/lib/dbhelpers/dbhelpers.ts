@@ -42,7 +42,6 @@ export const getInterestedProfiles = async () => {
     if (error) {
       throw new Error(error.message);
     }
-    console.log(data);
 
     // Validate the data
     const validatedData = zInterestedProfiles.parse(data);
@@ -95,8 +94,6 @@ export const getConnectedProfiles = async () => {
       throw new Error(error.message);
     }
 
-    console.log("data: ", data);
-
     if (data.length === 0) {
       return [];
     }
@@ -112,7 +109,6 @@ export const getConnectedProfiles = async () => {
             : item.sender_profile,
       };
     });
-    console.log("cleansedData: ", cleansedData);
     return cleansedData;
   } catch (error) {
     console.error(error);
@@ -126,7 +122,6 @@ export const getUser = async () => {
     if (error) {
       throw new Error(error.message);
     }
-    console.log(data);
     return data;
   } catch (error) {
     console.error(error);

@@ -33,8 +33,6 @@ async function newConnectionValidation(senderId: string, targetId: string) {
       `and(sender_id.eq.${senderId},target_id.eq.${targetId}),and(sender_id.eq.${targetId},target_id.eq.${senderId})`
     );
 
-  console.log("data", connectionData);
-
   if (error) {
     throw new Error(`Error Querying DB: ${error.message}`);
   }
@@ -57,7 +55,6 @@ export async function createNewConnection(
   status: NewConnectionStatus
 ) {
   await newConnectionValidation(sender_id, target_id);
-  console.log(sender_id, target_id);
   const { error } = await supabase
     .from("connections")
     .insert({ sender_id, target_id, status });
@@ -79,8 +76,6 @@ async function modifyConnectionValidation(senderId: string, targetId: string) {
     .eq("target_id", targetId)
     .eq("status", "interested");
 
-  console.log("data", data);
-
   if (error) {
     throw new Error(`Error Querying DB: ${error.message}`);
   }
@@ -99,16 +94,13 @@ export async function modifyConnection(
   const targetId = senderID;
 
   await modifyConnectionValidation(senderId, targetId);
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from("connections")
     .update({ status })
     .eq("sender_id", senderId)
     .eq("target_id", targetId)
     .eq("status", "interested");
   if (error) {
-    throw new Error(`Error Querying DB: ${error.message}`);
-  }
-  if (!data) {
-    throw new Error("Connection not found");
+    throw new Error(`Error Querying DB for updation: ${error.message}`);
   }
 }

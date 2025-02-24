@@ -12,11 +12,17 @@ function RequestsClient({ interestedProfiles }: RequestsClientProps) {
   });
 
   const handleLike = (index: number) => {
-    modifyConnectionAction(interestedProfiles[index].id, "accepted");
+    modifyConnectionAction(
+      interestedProfiles[index].sender_profile.id,
+      "accepted"
+    );
   };
 
   const handlePass = (index: number) => {
-    modifyConnectionAction(interestedProfiles[index].id, "rejected");
+    modifyConnectionAction(
+      interestedProfiles[index].sender_profile.id,
+      "rejected"
+    );
   };
 
   return (
