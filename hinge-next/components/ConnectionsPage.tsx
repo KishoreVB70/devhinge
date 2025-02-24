@@ -1,9 +1,12 @@
+import NavigationButtons from "@/components/NavigationButtons";
 import ProfileCard from "@/components/ProfileCard";
 import { UserProfile } from "@/lib/schema/userSchema";
 import React from "react";
+
 type ConnectionsPageProps = {
   profiles: UserProfile[];
 };
+
 function ConnectionsPage({ profiles }: ConnectionsPageProps) {
   if (!profiles || profiles.length === 0) {
     return <div>No Connections Found</div>;
@@ -16,11 +19,14 @@ function ConnectionsPage({ profiles }: ConnectionsPageProps) {
     };
   });
   return (
-    <div>
-      {cardProfiles.map((profile) => (
-        <ProfileCard key={profile.name} profile={profile} />
-      ))}
-    </div>
+    <>
+      <div className="grid grid-cols-3 gap-4">
+        {cardProfiles.map((profile) => (
+          <ProfileCard key={profile.name} profile={profile} />
+        ))}
+      </div>
+      <NavigationButtons totalProfiles={profiles.length} />
+    </>
   );
 }
 

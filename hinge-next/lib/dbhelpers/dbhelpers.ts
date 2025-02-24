@@ -1,3 +1,4 @@
+// TODO: Breakdown each function into small helpers and try to re use
 import "server-only";
 import { supabase } from "@/lib/config/supabase";
 import { headers } from "next/headers";
@@ -7,6 +8,7 @@ import {
 } from "@/lib/schema/connectionSchema";
 import { z } from "zod";
 import { zGender } from "@/lib/schema/userSchema";
+import { CONNECTIONS_PER_PAGE } from "@/lib/constants";
 
 const getConnectionsFilter = async (userId: string) => {
   const { data, error } = await supabase
@@ -129,9 +131,8 @@ export const getConnectedProfiles = async (page: number) => {
       throw new Error("User ID not found");
     }
 
-    const pageSize = 9;
-    const from = (page - 1) * pageSize;
-    const to = from + pageSize - 1;
+    const from = (page - 1) * CONNECTIONS_PER_PAGE;
+    const to = from + CONNECTIONS_PER_PAGE - 1;
 
     // TODO: ensure supabase won't return an array -> cause breaking changes
     const { data, error } = await supabase
