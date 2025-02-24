@@ -4,10 +4,14 @@ import { likeorPassAction } from "@/lib/actions/connectionAction";
 import { FeedUser } from "@/lib/schema/userSchema";
 import React from "react";
 type RequestsClientProps = {
-  feedProfiles: FeedUser;
+  feedProfiles: FeedUser | null;
 };
 
 export default function FeedWrapper({ feedProfiles }: RequestsClientProps) {
+  if (!feedProfiles || feedProfiles.length === 0) {
+    return <div>No Profiles Found</div>;
+  }
+
   const handleLike = (index: number) => {
     likeorPassAction(feedProfiles[index].id, "interested");
   };

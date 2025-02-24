@@ -1,6 +1,8 @@
 import { MAX_HOBBIES, MAX_SKILLS } from "@/lib/constants";
 import { z } from "zod";
 
+export const zGender = z.enum(["male", "female", "other"]);
+
 const passwordSchema = z
   .string()
   .min(8, { message: "Password must be at least 8 characters long" })
@@ -52,7 +54,7 @@ export const zUser = z.object({
     .max(200, { message: "Bio must be at most 200 characters long" })
     .optional(),
 
-  gender: z.enum(["male", "female", "other"]).optional(),
+  gender: zGender.optional(),
 
   skills: z
     .array(

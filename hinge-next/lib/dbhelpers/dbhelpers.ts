@@ -3,54 +3,74 @@ import { supabase } from "@/lib/config/supabase";
 import { headers } from "next/headers";
 import { zInterestedProfiles } from "@/lib/schema/connectionSchema";
 import { z } from "zod";
+import { zGender } from "@/lib/schema/userSchema";
+
+const getConnectionsFilter = async (userId: string) => {
+  const { data, error } = await supabase
+    .from("connections")
+    .select(
+      `
+          sender_id,
+          target_id
+        `
+    )
+    .or(`sender_id.eq.${userId},target_id.eq.${userId}`);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  // No connections
+  if (!data || data.length === 0) {
+    return [`${userId}`];
+  }
+
+  const filterSet = new Set(
+    data.flatMap(({ sender_id, target_id }) => [sender_id, target_id])
+  );
+
+  return Array.from(filterSet);
+};
 
 export const getFeedProfiles = async () => {
   try {
-    // 1) Remove self
-    // 2) Remove if connection already exists
     const userId = (await headers()).get("id");
 
     if (!userId) {
       throw new Error("User ID not found");
     }
 
-    const { data: connectionIds, error: usersError } = await supabase
-      .from("connections")
-      .select(
-        `
-          sender_id,
-          target_id
-        `
-      )
-      .or(`sender_id.eq.${userId},target_id.eq.${userId}`);
+    // 1) obtain connections of the user
+    const filterArray = await getConnectionsFilter(userId);
 
-    if (usersError) {
-      throw new Error(usersError.message);
+    // 1) Get preference
+    const { data: preferenceData, error: preferenceError } = await supabase
+      .from("users")
+      .select("preference")
+      .eq("id", userId)
+      .single();
+
+    if (preferenceError) {
+      throw new Error(preferenceError.message);
     }
 
-    // No connections
-    if (connectionIds.length === 0) {
+    if (!preferenceData || !preferenceData.preference) {
       const { data, error } = await supabase
         .from("users")
-        .select("id, name, avatar_url");
+        .select("id, name, avatar_url")
+        .not("id", "in", `(${filterArray.join(",")})`);
+
       if (error) {
         throw new Error(error.message);
       }
       return data;
     }
-
-    const filterSet = new Set(
-      connectionIds.flatMap(({ sender_id, target_id }) => [
-        sender_id,
-        target_id,
-      ])
-    );
-
-    const filterArray = Array.from(filterSet);
-
+    const preference = zGender.array().parse(preferenceData.preference);
+    console.log(preference);
     const { data, error } = await supabase
       .from("users")
       .select("id, name, avatar_url")
+      .in("gender", preference)
       .not("id", "in", `(${filterArray.join(",")})`);
 
     if (error) {

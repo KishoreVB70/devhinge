@@ -15,7 +15,7 @@ export default async function SideBar() {
             alt="avatar"
             className="w-full h-full object-cover"
           />
-          <AvatarFallback>👤</AvatarFallback>
+          <AvatarFallback>DC</AvatarFallback>
         </Avatar>
         <p className="ml-3">{name}</p>
       </div>
