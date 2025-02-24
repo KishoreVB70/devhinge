@@ -163,12 +163,13 @@ export const getConnectedProfiles = async (page: number) => {
     const parsedData = parser.array().parse(data);
 
     const cleansedData = parsedData.map((item) => {
-      return {
-        profile:
-          item.sender_profile.id === userId
-            ? item.target_profile
-            : item.sender_profile,
-      };
+      if (item.sender_profile.id === userId) {
+        {
+          return item.target_profile;
+        }
+      } else {
+        return item.sender_profile;
+      }
     });
 
     return cleansedData;

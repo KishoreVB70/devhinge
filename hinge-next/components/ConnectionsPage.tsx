@@ -4,7 +4,7 @@ import { UserProfile } from "@/lib/schema/userSchema";
 import React from "react";
 
 type ConnectionsPageProps = {
-  profiles: UserProfile[];
+  profiles: UserProfile[] | null;
 };
 
 function ConnectionsPage({ profiles }: ConnectionsPageProps) {
