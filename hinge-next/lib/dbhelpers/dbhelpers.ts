@@ -158,7 +158,7 @@ export const getConnectedProfiles = async () => {
     }
 
     if (data.length === 0) {
-      return [];
+      return null;
     }
 
     const typedData = zConnectionData.array().parse(data);
@@ -175,7 +175,7 @@ export const getConnectedProfiles = async () => {
     return cleansedData;
   } catch (error) {
     console.error(error);
-    return [];
+    return null;
   }
 };
 
