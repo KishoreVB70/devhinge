@@ -161,12 +161,25 @@ export const getConnectedProfiles = async () => {
 
 export const getUser = async () => {
   try {
-    const { data, error } = await supabase.from("users").select();
+    const userId = (await headers()).get("id");
+    if (!userId) {
+      throw new Error("User ID not found");
+    }
+    const zuser = z.object({
+      name: z.string(),
+      avatar_url: z.string(),
+    });
+    const { data, error } = await supabase
+      .from("users")
+      .select("name, avatar_url")
+      .eq("id", userId);
     if (error) {
       throw new Error(error.message);
     }
-    return data;
+
+    return zuser.parse(data[0]);
   } catch (error) {
     console.error(error);
+    return null;
   }
 };
