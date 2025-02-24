@@ -132,7 +132,7 @@ const zConnectionData = z.object({
   }),
 });
 
-export const getConnectedProfiles = async () => {
+export const getConnectedProfiles = async (page: number) => {
   try {
     const header = await headers();
     const userId = header.get("id");
@@ -140,7 +140,6 @@ export const getConnectedProfiles = async () => {
       throw new Error("User ID not found");
     }
 
-    const page = 1;
     const pageSize = 9;
     const from = (page - 1) * pageSize;
     const to = from + pageSize - 1;
