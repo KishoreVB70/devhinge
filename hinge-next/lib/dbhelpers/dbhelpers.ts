@@ -140,6 +140,11 @@ export const getConnectedProfiles = async () => {
       throw new Error("User ID not found");
     }
 
+    const page = 1;
+    const pageSize = 9;
+    const from = (page - 1) * pageSize;
+    const to = from + pageSize - 1;
+
     // TODO: ensure supabase won't return an array -> cause breaking changes
     const { data, error } = await supabase
       .from("connections")
@@ -151,7 +156,8 @@ export const getConnectedProfiles = async () => {
         `
       )
       .or(`sender_id.eq.${userId},target_id.eq.${userId}`)
-      .eq("status", "accepted");
+      .eq("status", "accepted")
+      .range(from, to);
 
     if (error) {
       throw new Error(error.message);
