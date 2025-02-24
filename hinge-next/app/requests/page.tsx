@@ -1,8 +1,8 @@
-import RequestsClient from "@/components/RequestsClient";
+import RequestsClient from "@/components/RequestsWrapper";
 import { getInterestedProfiles } from "@/lib/dbhelpers/dbhelpers";
 import React from "react";
 
-export async function page() {
+export default async function page() {
   const interestedProfiles = await getInterestedProfiles();
   if (!interestedProfiles) {
     return <div>No interested profiles found</div>;
@@ -10,5 +10,3 @@ export async function page() {
 
   return <RequestsClient interestedProfiles={interestedProfiles} />;
 }
-
-export default page;

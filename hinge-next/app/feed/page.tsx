@@ -1,4 +1,4 @@
-import FeedClient from "@/components/FeedClient";
+import FeedClient from "@/components/FeedWrapper";
 import { getFeedProfiles } from "@/lib/dbhelpers/dbhelpers";
 import React from "react";
 

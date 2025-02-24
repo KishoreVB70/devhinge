@@ -47,7 +47,6 @@ export const getFeedProfiles = async () => {
     );
 
     const filterArray = Array.from(filterSet);
-    console.log(filterArray);
 
     const { data, error } = await supabase
       .from("users")
@@ -57,7 +56,6 @@ export const getFeedProfiles = async () => {
     if (error) {
       throw new Error(error.message);
     }
-    console.log(data);
     return data;
   } catch (error) {
     console.error(error);

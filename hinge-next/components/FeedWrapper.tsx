@@ -8,7 +8,7 @@ type RequestsClientProps = {
   feedProfiles: FeedUser;
 };
 
-export default function FeedClient({ feedProfiles }: RequestsClientProps) {
+export default function FeedWrapper({ feedProfiles }: RequestsClientProps) {
   const handleLike = (index: number) => {
     likeorPassAction(feedProfiles[index].id, "interested");
   };
