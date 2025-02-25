@@ -59,29 +59,26 @@ export const getFeedProfiles = async () => {
       throw new Error(preferenceError.message);
     }
 
-    if (!preferenceData || !preferenceData.preference) {
-      const { data, error } = await supabase
-        .from("users")
-        .select("id, name, avatar_url")
-        .not("id", "in", `(${filterArray.join(",")})`);
+    const genderPreference = preferenceData?.preference
+      ? zGender.array().parse(preferenceData.preference)
+      : [];
 
-      if (error) {
-        throw new Error(error.message);
-      }
-      return data;
-    }
-    const preference = zGender.array().parse(preferenceData.preference);
-    console.log(preference);
-    const { data, error } = await supabase
+    const query = supabase
       .from("users")
       .select("id, name, avatar_url")
-      .in("gender", preference)
       .not("id", "in", `(${filterArray.join(",")})`)
       .limit(PROFILES_PER_PAGE_FEED);
+
+    if (genderPreference.length > 0) {
+      query.in("gender", genderPreference);
+    }
+
+    const { data, error } = await query;
 
     if (error) {
       throw new Error(error.message);
     }
+
     return data;
   } catch (error) {
     console.error(error);
