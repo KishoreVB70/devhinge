@@ -60,10 +60,9 @@ export default async function signInAction(formData: FormData) {
     isAuthenticated = true;
   } catch (error) {
     console.error(error);
-    if (error instanceof Error) {
-      return error.message;
-    }
-    return "Error signing in, please try again";
+    // if (error instanceof Error) {
+    //   return error.message;
+    // }
   }
 
   if (isAuthenticated) {
