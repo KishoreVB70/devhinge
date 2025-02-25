@@ -72,10 +72,10 @@ export const getFeedProfiles = async (isApi: boolean) => {
     .not("id", "in", `(${filterArray.join(",")})`);
 
   if (isApi) {
-    query.range(
-      PROFILES_PER_PAGE_FEED - FEED_PREFETCH_THRESHOLD,
-      PROFILES_PER_PAGE_FEED - 1
-    );
+    const currentIndex = FEED_PREFETCH_THRESHOLD;
+    const start = PROFILES_PER_PAGE_FEED - currentIndex;
+    const end = start + PROFILES_PER_PAGE_FEED - 1;
+    query.range(start, end);
   } else {
     query.limit(PROFILES_PER_PAGE_FEED);
   }

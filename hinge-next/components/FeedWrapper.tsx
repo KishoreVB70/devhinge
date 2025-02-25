@@ -25,7 +25,7 @@ export default function FeedWrapper({ feedProfiles }: RequestsClientProps) {
     return <div>No Profiles Found</div>;
   }
 
-  const handleIncrement = async (index: number) => {
+  const handleIncrement = (index: number) => {
     console.log("Handle increment: ", index);
     if (index === FEED_PREFETCH_THRESHOLD) {
       prefetch();
@@ -35,14 +35,15 @@ export default function FeedWrapper({ feedProfiles }: RequestsClientProps) {
   };
 
   const handleLike = (index: number) => {
-    likeorPassAction(feedProfiles[index].id, "interested");
     handleIncrement(index);
+    likeorPassAction(feedProfiles[index].id, "interested");
   };
 
-  const handlePass = (index: number) => {
-    likeorPassAction(feedProfiles[index].id, "ignored");
+  const handlePass = async (index: number) => {
     handleIncrement(index);
+    likeorPassAction(feedProfiles[index].id, "ignored");
   };
+
   console.log("Obtained profiles: ", data);
 
   const profiles = data.map((profile) => {

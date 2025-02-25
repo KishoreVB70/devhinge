@@ -34,6 +34,5 @@ export default async function signupAction(formData: FormData) {
 
 export async function customSignupAction(data: signupInputs) {
   console.log(data);
-  console.log("Hiyaboosahhh");
   return "Some type a error";
 }

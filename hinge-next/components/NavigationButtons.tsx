@@ -10,8 +10,6 @@ function NavigationButtons({ totalConnections }: { totalConnections: number }) {
   const params = useSearchParams();
   const page = Number(params.get("page") || 1);
 
-  console.log(page * CONNECTIONS_PER_PAGE, totalConnections);
-
   return (
     <div className="w-[50%] flex justify-between flex-row mt-4">
       {page > 1 && (
