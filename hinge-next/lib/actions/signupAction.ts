@@ -2,6 +2,7 @@
 
 import { supabase } from "@/lib/config/supabase";
 import { authSchema } from "@/lib/schema/authSchema";
+import { signupInputs } from "@/lib/schema/formSchema";
 import bcrypt from "bcrypt";
 
 // TODO: Error handling
@@ -31,11 +32,8 @@ export default async function signupAction(formData: FormData) {
   }
 }
 
-export async function customSignupAction(
-  previousState: string,
-  formData: FormData
-) {
-  console.log(previousState, formData);
+export async function customSignupAction(data: signupInputs) {
+  console.log(data);
   console.log("Hiyaboosahhh");
   return "Some type a error";
 }
