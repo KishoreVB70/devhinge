@@ -1,7 +1,6 @@
 "use client";
 import ProfileCard from "@/components/FeedProfileCard";
 import { likeorPassAction } from "@/lib/actions/connectionAction";
-import { FEED_PREFETCH_THRESHOLD } from "@/lib/constants";
 import useFeedProfiles from "@/lib/hooks/useFeedProfiles";
 import { FeedUser } from "@/lib/schema/userSchema";
 import React from "react";
@@ -27,9 +26,9 @@ export default function FeedWrapper({ feedProfiles }: RequestsClientProps) {
 
   const handleIncrement = (index: number) => {
     console.log("Handle increment: ", index);
-    if (index === FEED_PREFETCH_THRESHOLD) {
+    if (index === Math.floor(data.length / 2)) {
       prefetch();
-    } else if (index === feedProfiles.length - 1) {
+    } else if (index === data.length - 1) {
       mergeQuery();
     }
   };

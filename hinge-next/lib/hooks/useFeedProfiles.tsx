@@ -14,9 +14,26 @@ export default function useFeedProfiles(initialProfiles: FeedUser) {
 
   const mergeQuery = () => {
     console.log("Merging queries");
-    const prefetchedProfiles = queryClient.getQueryData(["profiles"]);
-    console.log("Prefetched queries", prefetchedProfiles);
-    queryClient.setQueryData(["feedProfiles"], prefetchedProfiles);
+
+    const prefetchedProfiles =
+      queryClient.getQueryData<FeedUser>(["profiles"]) || [];
+    const currentQueryData =
+      queryClient.getQueryData<FeedUser>(["feedProfiles"]) || [];
+
+    const existingIds = new Set(currentQueryData.map((profile) => profile.id));
+    console.log(existingIds);
+    const arrayer = Array.from(existingIds);
+    console.log("Array", arrayer);
+
+    const uniquePrefetchedProfiles = prefetchedProfiles.filter((profile) => {
+      const newer = !existingIds.has(String(profile.id));
+      console.log("The answer for id" + profile.id + "is" + newer);
+      return newer;
+    });
+
+    console.log("Unique profiles", uniquePrefetchedProfiles);
+
+    queryClient.setQueryData(["feedProfiles"], uniquePrefetchedProfiles);
     console.log("Updated queries", queryClient.getQueryData(["feedProfiles"]));
   };
   const { data, isError, isLoading } = useQuery({

@@ -8,11 +8,7 @@ import {
 } from "@/lib/schema/connectionSchema";
 import { z } from "zod";
 import { zGender } from "@/lib/schema/userSchema";
-import {
-  CONNECTIONS_PER_PAGE,
-  FEED_PREFETCH_THRESHOLD,
-  PROFILES_PER_PAGE_FEED,
-} from "@/lib/constants";
+import { CONNECTIONS_PER_PAGE, PROFILES_PER_PAGE_FEED } from "@/lib/constants";
 
 const getConnectionsFilter = async (userId: string) => {
   const { data, error } = await supabase
@@ -72,10 +68,8 @@ export const getFeedProfiles = async (isApi: boolean) => {
     .not("id", "in", `(${filterArray.join(",")})`);
 
   if (isApi) {
-    const currentIndex = FEED_PREFETCH_THRESHOLD;
-    const start = PROFILES_PER_PAGE_FEED - currentIndex;
-    const end = start + PROFILES_PER_PAGE_FEED - 1;
-    query.range(start, end);
+    const end = 3 + PROFILES_PER_PAGE_FEED - 1;
+    query.range(3, end);
   } else {
     query.limit(PROFILES_PER_PAGE_FEED);
   }
@@ -90,7 +84,9 @@ export const getFeedProfiles = async (isApi: boolean) => {
     throw new Error(error.message);
   }
 
-  return data;
+  const typedData = zUserFeedProfile.array().parse(data);
+
+  return typedData;
 };
 
 export const getInterestedProfiles = async () => {
