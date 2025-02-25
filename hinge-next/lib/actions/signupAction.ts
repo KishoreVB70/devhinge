@@ -30,3 +30,12 @@ export default async function signupAction(formData: FormData) {
     console.error(error);
   }
 }
+
+export async function customSignupAction(
+  previousState: string,
+  formData: FormData
+) {
+  console.log(previousState, formData);
+  console.log("Hiyaboosahhh");
+  return "Some type a error";
+}
