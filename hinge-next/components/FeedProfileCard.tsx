@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { UserCardProfile } from "@/lib/schema/userSchema";
 import Image from "next/image";
 import React, { useState } from "react";
-import { useRouter } from "next/navigation";
 
 type ProfileCardProps = {
   profiles: UserCardProfile[];
@@ -16,7 +15,6 @@ function FeedProfileCard({
   handleLike,
   handlePass,
 }: ProfileCardProps) {
-  const router = useRouter();
   const [index, setIndex] = useState(0);
   const image_url = profiles[index].avatar_url;
   const name = profiles[index].name;
@@ -25,7 +23,7 @@ function FeedProfileCard({
     if (index + 1 < profiles.length) {
       setIndex(index + 1);
     } else {
-      router.refresh();
+      setIndex(0);
     }
   }
 
@@ -38,8 +36,8 @@ function FeedProfileCard({
         <Button
           variant={"pass"}
           onClick={() => {
-            handlePass(index);
             moveIndex();
+            handlePass(index);
           }}
         >
           Pass
@@ -47,8 +45,8 @@ function FeedProfileCard({
         <Button
           variant={"like"}
           onClick={() => {
-            handleLike(index);
             moveIndex();
+            handleLike(index);
           }}
         >
           Like

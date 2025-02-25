@@ -8,7 +8,11 @@ import {
 } from "@/lib/schema/connectionSchema";
 import { z } from "zod";
 import { zGender } from "@/lib/schema/userSchema";
-import { CONNECTIONS_PER_PAGE, PROFILES_PER_PAGE_FEED } from "@/lib/constants";
+import {
+  CONNECTIONS_PER_PAGE,
+  FEED_PREFETCH_THRESHOLD,
+  PROFILES_PER_PAGE_FEED,
+} from "@/lib/constants";
 
 const getConnectionsFilter = async (userId: string) => {
   const { data, error } = await supabase
@@ -37,53 +41,56 @@ const getConnectionsFilter = async (userId: string) => {
   return Array.from(filterSet);
 };
 
-export const getFeedProfiles = async () => {
-  try {
-    const userId = (await headers()).get("id");
+export const getFeedProfiles = async (isApi: boolean) => {
+  const userId = (await headers()).get("id");
 
-    if (!userId) {
-      throw new Error("User ID not found");
-    }
-
-    // 1) obtain connections of the user
-    const filterArray = await getConnectionsFilter(userId);
-
-    // 1) Get preference
-    const { data: preferenceData, error: preferenceError } = await supabase
-      .from("users")
-      .select("preference")
-      .eq("id", userId)
-      .single();
-
-    if (preferenceError) {
-      throw new Error(preferenceError.message);
-    }
-
-    const genderPreference = preferenceData?.preference
-      ? zGender.array().parse(preferenceData.preference)
-      : [];
-
-    const query = supabase
-      .from("users")
-      .select("id, name, avatar_url")
-      .not("id", "in", `(${filterArray.join(",")})`)
-      .limit(PROFILES_PER_PAGE_FEED);
-
-    if (genderPreference.length > 0) {
-      query.in("gender", genderPreference);
-    }
-
-    const { data, error } = await query;
-
-    if (error) {
-      throw new Error(error.message);
-    }
-
-    return data;
-  } catch (error) {
-    console.error(error);
-    return null;
+  if (!userId) {
+    throw new Error("User ID not found");
   }
+
+  // 1) obtain connections of the user
+  const filterArray = await getConnectionsFilter(userId);
+
+  // 1) Get preference
+  const { data: preferenceData, error: preferenceError } = await supabase
+    .from("users")
+    .select("preference")
+    .eq("id", userId)
+    .single();
+
+  if (preferenceError) {
+    throw new Error(preferenceError.message);
+  }
+
+  const genderPreference = preferenceData?.preference
+    ? zGender.array().parse(preferenceData.preference)
+    : [];
+
+  const query = supabase
+    .from("users")
+    .select("id, name, avatar_url")
+    .not("id", "in", `(${filterArray.join(",")})`);
+
+  if (isApi) {
+    query.range(
+      PROFILES_PER_PAGE_FEED - FEED_PREFETCH_THRESHOLD,
+      PROFILES_PER_PAGE_FEED - 1
+    );
+  } else {
+    query.limit(PROFILES_PER_PAGE_FEED);
+  }
+
+  if (genderPreference.length > 0) {
+    query.in("gender", genderPreference);
+  }
+
+  const { data, error } = await query;
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
 };
 
 export const getInterestedProfiles = async () => {
