@@ -6,8 +6,10 @@ import serverEnv from "@/lib/utils/serverEnv";
 import bcrypt from "bcrypt";
 import { SignJWT } from "jose";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export default async function signInAction(formData: FormData) {
+  let isAuthenticated = false;
   try {
     const rawFormData = {
       email: formData.get("email"),
@@ -17,19 +19,21 @@ export default async function signInAction(formData: FormData) {
     const validatedData = authSchema.parse(rawFormData);
 
     // 2) User exists
-    const { data, error } = await supabase
+    const { data: arrayData, error } = await supabase
       .from("users")
       .select("password, id")
-      .eq("email", validatedData.email)
-      .single();
+      .eq("email", validatedData.email);
 
     if (error) {
       throw new Error(error.message);
     }
 
-    if (!data) {
+    if (!arrayData || arrayData.length === 0) {
       throw new Error("Invalid email or password");
     }
+
+    console.log(arrayData);
+    const data = arrayData[0];
 
     const isPasswordCorrect = await bcrypt.compare(
       validatedData.password,
@@ -52,8 +56,18 @@ export default async function signInAction(formData: FormData) {
       path: "/",
       maxAge: 60 * 60 * 24,
     });
+
+    isAuthenticated = true;
   } catch (error) {
     console.error(error);
+    if (error instanceof Error) {
+      return error.message;
+    }
+    return "Error signing in, please try again";
+  }
+
+  if (isAuthenticated) {
+    redirect("/feed");
   }
 }
 

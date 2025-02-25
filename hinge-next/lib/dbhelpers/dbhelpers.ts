@@ -8,7 +8,7 @@ import {
 } from "@/lib/schema/connectionSchema";
 import { z } from "zod";
 import { zGender } from "@/lib/schema/userSchema";
-import { CONNECTIONS_PER_PAGE } from "@/lib/constants";
+import { CONNECTIONS_PER_PAGE, PROFILES_PER_PAGE_FEED } from "@/lib/constants";
 
 const getConnectionsFilter = async (userId: string) => {
   const { data, error } = await supabase
@@ -76,7 +76,8 @@ export const getFeedProfiles = async () => {
       .from("users")
       .select("id, name, avatar_url")
       .in("gender", preference)
-      .not("id", "in", `(${filterArray.join(",")})`);
+      .not("id", "in", `(${filterArray.join(",")})`)
+      .limit(PROFILES_PER_PAGE_FEED);
 
     if (error) {
       throw new Error(error.message);

@@ -16,12 +16,11 @@ export async function middleware(req: NextRequest) {
     return response;
   } catch (error) {
     console.error(error);
-    return NextResponse.redirect(new URL("/", req.url));
+    return NextResponse.redirect(new URL("/signup", req.url));
   }
 }
 export const config = {
   matcher: [
-    "/((?!login|signup$).*)", // Exclude /login and /signup
-    "/((?!^$).*)", // Exclude root "/"
+    "/((?!^$|signin|signup|api|_next/static|_next/image|favicon.ico).*)",
   ],
 };
