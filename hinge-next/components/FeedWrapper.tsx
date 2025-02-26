@@ -26,7 +26,7 @@ export default function FeedWrapper({ feedProfiles }: RequestsClientProps) {
 
   const handleIncrement = (index: number) => {
     console.log("Handle increment: ", index);
-    if (index === Math.floor(data.length / 2)) {
+    if (index - 1 === Math.floor(data.length / 2)) {
       prefetch();
     } else if (index === data.length - 1) {
       mergeQuery();

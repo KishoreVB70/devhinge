@@ -8,7 +8,11 @@ import {
 } from "@/lib/schema/connectionSchema";
 import { z } from "zod";
 import { zGender } from "@/lib/schema/userSchema";
-import { CONNECTIONS_PER_PAGE, PROFILES_PER_PAGE_FEED } from "@/lib/constants";
+import {
+  CONNECTIONS_PER_PAGE,
+  INITIAL_PROFILES_PER_PAGE_FEED,
+  PROFILES_PER_PAGE_FEED,
+} from "@/lib/constants";
 
 const getConnectionsFilter = async (userId: string) => {
   const { data, error } = await supabase
@@ -71,7 +75,7 @@ export const getFeedProfiles = async (isApi: boolean) => {
     const end = 3 + PROFILES_PER_PAGE_FEED - 1;
     query.range(3, end);
   } else {
-    query.limit(PROFILES_PER_PAGE_FEED);
+    query.limit(INITIAL_PROFILES_PER_PAGE_FEED);
   }
 
   if (genderPreference.length > 0) {
