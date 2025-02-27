@@ -82,11 +82,9 @@ export const getFeedProfiles = async (pageParam: string | null) => {
     : INITIAL_PROFILES_PER_PAGE_FEED;
 
   if (cursor) {
-    console.log("Cursor ID from input: ", pageParam);
     query.gt("id", pageParam);
     query.limit(pageSize + 1);
   } else {
-    console.log("No cursor ID in input: ", pageParam);
     query.limit(pageSize + 1);
   }
 
@@ -103,8 +101,6 @@ export const getFeedProfiles = async (pageParam: string | null) => {
   const typedData = zUserFeedProfile.array().parse(data);
 
   const hasNextPage = typedData.length > pageSize;
-  console.log("Has next page: ", hasNextPage);
-  console.log("Next page", typedData[typedData.length - 1].id);
   const profiles = hasNextPage ? typedData.slice(0, pageSize) : typedData;
   const nextCursor = hasNextPage ? typedData[pageSize - 1].id : null;
 

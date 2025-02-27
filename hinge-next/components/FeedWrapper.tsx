@@ -16,16 +16,14 @@ export default function FeedWrapper() {
     return <div>Error: loading data</div>;
   }
 
-  console.log("raw data: ", data);
   const profiles = data.pages?.flatMap((page) => page.profiles);
-  console.log("Profiles: ", profiles);
+
+  if (profiles.length === 0) {
+    return <div>No profiles found</div>;
+  }
 
   const handleNext = (index: number) => {
-    console.log("Index: ", index);
-    console.log("Prefetch threshold", Math.floor((profiles.length - 1) / 2));
-    console.log("Has next page: ", hasNextPage);
     if (index >= Math.floor((profiles.length - 1) / 2) && hasNextPage) {
-      console.log("Fetching next");
       fetchNextPage();
     }
   };
