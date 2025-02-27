@@ -69,7 +69,8 @@ export const getFeedProfiles = async (pageParam: string | null) => {
   const query = supabase
     .from("users")
     .select("id, name, avatar_url")
-    .not("id", "in", `(${filterArray.join(",")})`);
+    .not("id", "in", `(${filterArray.join(",")})`)
+    .order("id", { ascending: true });
 
   let cursor: boolean = false;
   if (pageParam && pageParam !== "0") {
