@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { customSignupAction } from "@/lib/actions/signupAction";
 import { signupInputs, zSignupInput } from "@/lib/schema/formSchema";
 import React from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 function Signup() {
@@ -12,7 +13,9 @@ function Signup() {
     formState: { errors, isSubmitting },
     setError,
     reset,
-  } = useForm<signupInputs>();
+  } = useForm<signupInputs>({
+    resolver: zodResolver(zSignupInput),
+  });
   // Required information for signup:
   // 1) Email
   // 2) Password
@@ -21,37 +24,40 @@ function Signup() {
   // 4) Age
 
   const onsubmit: SubmitHandler<signupInputs> = async (data) => {
-    try {
-      const validatedData = zSignupInput.parse(data);
-      const formData = new FormData();
-      formData.append("email", validatedData.email);
-      formData.append("password", validatedData.password);
-      const error = await customSignupAction(data);
-      if (error) {
-        setError("root", { message: error });
-      } else {
-        reset();
-      }
-    } catch (error) {
-      console.error(error);
+    const formData = new FormData();
+    formData.append("email", data.email);
+    formData.append("password", data.password);
+    const error = await customSignupAction(data);
+    if (error) {
+      setError("root", { message: error });
+    } else {
+      reset();
     }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
+    <div className="flex flex-row items-center justify-center h-screen">
       <form onSubmit={handleSubmit(onsubmit)}>
-        <label htmlFor="email">Email:</label>
-        <input
-          className="border border-black"
-          {...register("email", { required: true })}
-        />
-        {errors.email && <p>{errors.email.message}</p>}
-        <label htmlFor="password">Email:</label>
-        <input
-          className="border border-black"
-          {...register("password", { required: true })}
-        />
-        {errors.password && <p>{errors.password.message}</p>}
+        <div>
+          <label htmlFor="email">Email:</label>
+          <input
+            className="border border-black"
+            {...register("email", { required: true })}
+          />
+          {errors.email && (
+            <p className="text-red-700">{errors.email.message}</p>
+          )}
+        </div>
+        <div className="mt-3">
+          <label htmlFor="password">Password:</label>
+          <input
+            className="border border-black"
+            {...register("password", { required: true })}
+          />
+          {errors.password && (
+            <p className="text-red-700">{errors.password.message}</p>
+          )}
+        </div>
 
         <Button type="submit" disabled={isSubmitting}>
           {isSubmitting ? "loading" : "Submit"}
