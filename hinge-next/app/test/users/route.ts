@@ -1,16 +1,12 @@
 import signupAction from "@/lib/actions/signupAction";
+import { zCustomSigunpInput } from "@/lib/schema/formSchema";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
     const data = await req.json();
-    if (!data.email || !data.password) {
-    }
-    const formData: FormData = new FormData();
-    formData.append("email", data.email);
-    formData.append("password", data.password);
-
-    await signupAction(formData);
+    const validatedData = zCustomSigunpInput.parse(data);
+    await signupAction(validatedData);
     return NextResponse.json({ message: "User created" });
   } catch (error) {
     console.error(error);
