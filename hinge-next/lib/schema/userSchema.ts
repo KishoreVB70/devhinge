@@ -99,6 +99,11 @@ export const zUserFeedProfiles = zUser
 
 export type FeedUser = z.infer<typeof zUserFeedProfiles>;
 
-export type FeedUserCursor = { profiles: FeedUser; nextCursor: string | null };
+export const zFeedUserCursor = z.object({
+  profiles: zUserFeedProfiles,
+  nextCursor: z.string().nullable(),
+});
+
+export type FeedUserCursor = z.infer<typeof zFeedUserCursor>;
 export type UserCardProfile = { name: string; avatar_url: string };
 export type UserProfile = UserCardProfile & { id: string };

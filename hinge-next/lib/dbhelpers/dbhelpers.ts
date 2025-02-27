@@ -41,7 +41,7 @@ const getConnectionsFilter = async (userId: string) => {
   return Array.from(filterSet);
 };
 
-export const getFeedProfiles = async (cursor: number | null) => {
+export const getFeedProfiles = async (pageParam: string | null) => {
   const userId = (await headers()).get("id");
 
   if (!userId) {
@@ -71,12 +71,17 @@ export const getFeedProfiles = async (cursor: number | null) => {
     .select("id, name, avatar_url")
     .not("id", "in", `(${filterArray.join(",")})`);
 
+  let cursor: boolean = false;
+  if (pageParam && pageParam !== "0") {
+    cursor = true;
+  }
+
   const pageSize = cursor
     ? PROFILES_PER_PAGE_FEED
     : INITIAL_PROFILES_PER_PAGE_FEED;
 
   if (cursor) {
-    query.gt("id", cursor);
+    query.gt("id", pageParam);
     query.limit(pageSize + 1);
   } else {
     query.limit(pageSize + 1);

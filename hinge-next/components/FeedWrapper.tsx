@@ -2,15 +2,10 @@
 import ProfileCard from "@/components/FeedProfileCard";
 import { likeorPassAction } from "@/lib/actions/connectionAction";
 import useFeedProfiles from "@/lib/hooks/useFeedProfiles";
-import { FeedUserCursor } from "@/lib/schema/userSchema";
 import React from "react";
-type RequestsClientProps = {
-  feedProfiles: FeedUserCursor;
-};
 
-export default function FeedWrapper({ feedProfiles }: RequestsClientProps) {
-  const { data, isLoading, isError, prefetch, mergeQuery } =
-    useFeedProfiles(feedProfiles);
+export default function FeedWrapper() {
+  const { data, isLoading, isError } = useFeedProfiles();
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -19,33 +14,24 @@ export default function FeedWrapper({ feedProfiles }: RequestsClientProps) {
   if (isError) {
     return <div>Error: loading data</div>;
   }
+  const profiles = data?.profiles;
 
-  if (data.length === 0) {
+  if (!data || !profiles || profiles?.length === 0) {
     return <div>No Profiles Found</div>;
   }
 
-  const handleIncrement = (index: number) => {
-    console.log("Handle increment: ", index);
-    if (index - 1 === Math.floor(data.length / 2)) {
-      prefetch();
-    } else if (index === data.length - 1) {
-      mergeQuery();
-    }
-  };
-
+  // TODO: consolidate the following two functions into one
   const handleLike = (index: number) => {
-    handleIncrement(index);
-    likeorPassAction(feedProfiles[index].id, "interested");
+    likeorPassAction(profiles[index].id, "interested");
   };
 
   const handlePass = async (index: number) => {
-    handleIncrement(index);
-    likeorPassAction(feedProfiles[index].id, "ignored");
+    likeorPassAction(profiles[index].id, "ignored");
   };
 
   console.log("Obtained profiles: ", data);
 
-  const profiles = data.map((profile) => {
+  const UserProfiles = profiles.map((profile) => {
     return {
       name: profile.name,
       avatar_url: profile.avatar_url,
@@ -55,7 +41,7 @@ export default function FeedWrapper({ feedProfiles }: RequestsClientProps) {
   return (
     <div className="h-full w-full flex justify-center items-center">
       <ProfileCard
-        profiles={profiles}
+        profiles={UserProfiles}
         handleLike={handleLike}
         handlePass={handlePass}
       />
