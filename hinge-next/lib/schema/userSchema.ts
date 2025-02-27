@@ -36,7 +36,7 @@ export const zUser = z.object({
       z
         .number()
         .int()
-        .min(18, { message: "Age must be atleast 18" })
+        .min(10, { message: "Age must be atleast 18" })
         .max(100, { message: "Age must be atmost 100" })
     )
     .optional(),
@@ -79,6 +79,8 @@ export const zUser = z.object({
   experience_years: z
     .preprocess((val) => Number(val), z.number().int().nonnegative().max(50))
     .optional(),
+
+  genderPreference: z.array(zGender).min(1, "Select at least one option"),
 });
 
 export const zUpdatableUser = zUser.omit({

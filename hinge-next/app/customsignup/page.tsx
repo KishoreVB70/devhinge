@@ -17,6 +17,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { zGender } from "@/lib/schema/userSchema";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const genderOptions = Object.values(zGender.Values);
 function RadioFormItem({ value, label }: { value: string; label: string }) {
@@ -38,6 +39,7 @@ function Signup() {
       name: "",
       age: 10,
       gender: "male",
+      genderPreference: [],
     },
     resolver: zodResolver(zCustomSigunpInput),
   });
@@ -144,6 +146,41 @@ function Signup() {
                       <RadioFormItem key={item} value={item} label={item} />
                     ))}
                   </RadioGroup>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="genderPreference"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Select Gender Preferences</FormLabel>
+                <FormDescription>
+                  You must select at least one option.
+                </FormDescription>
+                <FormControl>
+                  <div className="flex flex-col space-y-2">
+                    {genderOptions.map((gender) => (
+                      <FormItem
+                        key={gender}
+                        className="flex items-center space-x-3"
+                      >
+                        <Checkbox
+                          id={gender}
+                          checked={field.value?.includes(gender)}
+                          onCheckedChange={(checked) => {
+                            const newValue = checked
+                              ? [...field.value, gender]
+                              : field.value.filter((item) => item !== gender);
+                            field.onChange(newValue);
+                          }}
+                        />
+                        <FormLabel htmlFor={gender}>{gender}</FormLabel>
+                      </FormItem>
+                    ))}
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
