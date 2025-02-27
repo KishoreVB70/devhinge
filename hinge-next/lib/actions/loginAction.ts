@@ -1,22 +1,17 @@
 "use server";
 
 import { supabase } from "@/lib/config/supabase";
-import { authSchema } from "@/lib/schema/authSchema";
-import serverEnv from "@/lib/utils/serverEnv";
+import { generateJwt } from "@/lib/dbhelpers/authHelpers";
+import { AuthSchema, zAuthSchema } from "@/lib/schema/authSchema";
 import bcrypt from "bcrypt";
-import { SignJWT } from "jose";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-export default async function signInAction(formData: FormData) {
+export default async function signInAction(InputData: AuthSchema) {
   let isAuthenticated = false;
   try {
-    const rawFormData = {
-      email: formData.get("email"),
-      password: formData.get("password"),
-    };
     // 1) Data sanitization
-    const validatedData = authSchema.parse(rawFormData);
+    const validatedData = zAuthSchema.parse(InputData);
 
     // 2) User exists
     const { data: arrayData, error } = await supabase
@@ -59,21 +54,13 @@ export default async function signInAction(formData: FormData) {
     isAuthenticated = true;
   } catch (error) {
     console.error(error);
-    // if (error instanceof Error) {
-    //   return error.message;
-    // }
+    if (error instanceof Error) {
+      return error.message;
+    }
+    return "Something went wrong, try again";
   }
 
   if (isAuthenticated) {
     redirect("/feed");
   }
-}
-
-async function generateJwt(payload: { id: string }) {
-  const secret = new TextEncoder().encode(serverEnv.JWT_SECRET);
-  const token = await new SignJWT(payload)
-    .setProtectedHeader({ alg: "HS256" })
-    .setExpirationTime("1d")
-    .sign(secret);
-  return token;
 }

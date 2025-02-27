@@ -1,9 +1,11 @@
-import { passwordSchema } from "@/lib/schema/passwordSchema";
+import { zUser } from "@/lib/schema/userSchema";
 import { z } from "zod";
 
-export const authSchema = z.object({
-  email: z.string().email(),
-  password: passwordSchema,
-});
+export const zAuthSchema = zUser
+  .pick({
+    email: true,
+    password: true,
+  })
+  .required();
 
-export type AuthSchema = z.infer<typeof authSchema>;
+export type AuthSchema = z.infer<typeof zAuthSchema>;
