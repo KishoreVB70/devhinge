@@ -5,28 +5,33 @@ import useFeedProfiles from "@/lib/hooks/useFeedProfiles";
 import React from "react";
 
 export default function FeedWrapper() {
-  const { data, isLoading, isError } = useFeedProfiles();
+  const { data, isLoading, isError, fetchNextPage } = useFeedProfiles();
 
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
-  if (isError) {
+  if (isError || !data) {
     return <div>Error: loading data</div>;
   }
-  const profiles = data?.profiles;
 
-  if (!data || !profiles || profiles?.length === 0) {
-    return <div>No Profiles Found</div>;
-  }
+  const profiles = data.pages?.flatMap((page) => page.profiles);
+
+  const handleNext = (index: number) => {
+    if (index === Math.floor(profiles.length - 1 / 2)) {
+      fetchNextPage();
+    }
+  };
 
   // TODO: consolidate the following two functions into one
   const handleLike = (index: number) => {
     likeorPassAction(profiles[index].id, "interested");
+    handleNext(index);
   };
 
   const handlePass = async (index: number) => {
     likeorPassAction(profiles[index].id, "ignored");
+    handleNext(index);
   };
 
   console.log("Obtained profiles: ", data);
