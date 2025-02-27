@@ -1,9 +1,16 @@
 import { getFeedProfiles } from "@/lib/dbhelpers/dbhelpers";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
-    const data = await getFeedProfiles(true);
+    const cursor = req.nextUrl.searchParams.get("cursor");
+    const nextCursor = cursor ? parseInt(cursor) : null;
+    if (!nextCursor) {
+      throw new Error("Missing cursor");
+    }
+
+    const data = await getFeedProfiles(nextCursor);
+
     return NextResponse.json(data);
   } catch (error) {
     console.error(error);

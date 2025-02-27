@@ -41,7 +41,7 @@ const getConnectionsFilter = async (userId: string) => {
   return Array.from(filterSet);
 };
 
-export const getFeedProfiles = async (isApi: boolean) => {
+export const getFeedProfiles = async (cursor: number | null) => {
   const userId = (await headers()).get("id");
 
   if (!userId) {
@@ -71,11 +71,15 @@ export const getFeedProfiles = async (isApi: boolean) => {
     .select("id, name, avatar_url")
     .not("id", "in", `(${filterArray.join(",")})`);
 
-  if (isApi) {
-    const end = 3 + PROFILES_PER_PAGE_FEED - 1;
-    query.range(3, end);
+  const pageSize = cursor
+    ? PROFILES_PER_PAGE_FEED
+    : INITIAL_PROFILES_PER_PAGE_FEED;
+
+  if (cursor) {
+    query.gt("id", cursor);
+    query.limit(pageSize + 1);
   } else {
-    query.limit(INITIAL_PROFILES_PER_PAGE_FEED);
+    query.limit(pageSize + 1);
   }
 
   if (genderPreference.length > 0) {
@@ -90,7 +94,14 @@ export const getFeedProfiles = async (isApi: boolean) => {
 
   const typedData = zUserFeedProfile.array().parse(data);
 
-  return typedData;
+  const hasNextPage = typedData.length > pageSize;
+  const profiles = hasNextPage ? typedData.slice(0, pageSize) : typedData;
+  const nextCursor = hasNextPage ? typedData[pageSize - 1].id : null;
+
+  return {
+    profiles,
+    nextCursor,
+  };
 };
 
 export const getInterestedProfiles = async () => {

@@ -2,10 +2,10 @@
 import ProfileCard from "@/components/FeedProfileCard";
 import { likeorPassAction } from "@/lib/actions/connectionAction";
 import useFeedProfiles from "@/lib/hooks/useFeedProfiles";
-import { FeedUser } from "@/lib/schema/userSchema";
+import { FeedUserCursor } from "@/lib/schema/userSchema";
 import React from "react";
 type RequestsClientProps = {
-  feedProfiles: FeedUser;
+  feedProfiles: FeedUserCursor;
 };
 
 export default function FeedWrapper({ feedProfiles }: RequestsClientProps) {

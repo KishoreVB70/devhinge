@@ -1,14 +1,14 @@
 import FeedClient from "@/components/FeedWrapper";
 import SideBar from "@/components/SideBar";
 import { getFeedProfiles } from "@/lib/dbhelpers/dbhelpers";
-import { FeedUser } from "@/lib/schema/userSchema";
+import { FeedUserCursor } from "@/lib/schema/userSchema";
 import React from "react";
 
 async function page() {
-  let feedProfiles: FeedUser = [];
+  let feedProfiles: FeedUserCursor = { profiles: [], nextCursor: null };
 
   try {
-    feedProfiles = await getFeedProfiles(false);
+    feedProfiles = await getFeedProfiles(null);
   } catch (error) {
     console.error(error);
   }
