@@ -39,19 +39,13 @@ function Signup() {
       name: "",
       age: 10,
       gender: "male",
-      genderPreference: [],
+      gender_preference: [],
     },
     resolver: zodResolver(zCustomSigunpInput),
   });
 
   const onsubmit: SubmitHandler<CustomSigunpInput> = async (data) => {
-    const formData = new FormData();
-    formData.append("email", data.email);
-    formData.append("password", data.password);
-    const error = await customSignupAction(data);
-    if (error) {
-      console.log(error);
-    }
+    await customSignupAction(data);
   };
 
   return (
@@ -153,7 +147,7 @@ function Signup() {
           />
           <FormField
             control={form.control}
-            name="genderPreference"
+            name="gender_preference"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Select Gender Preferences</FormLabel>

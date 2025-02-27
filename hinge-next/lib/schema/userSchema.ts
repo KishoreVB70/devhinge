@@ -80,7 +80,7 @@ export const zUser = z.object({
     .preprocess((val) => Number(val), z.number().int().nonnegative().max(50))
     .optional(),
 
-  genderPreference: z.array(zGender).min(1, "Select at least one option"),
+  gender_preference: z.array(zGender).min(1, "Select at least one option"),
 });
 
 export const zUpdatableUser = zUser.omit({

@@ -51,10 +51,10 @@ export const getFeedProfiles = async (pageParam: string | null) => {
   // 1) obtain connections of the user
   const filterArray = await getConnectionsFilter(userId);
 
-  // 1) Get preference
+  // 1) Get gender preference
   const { data: preferenceData, error: preferenceError } = await supabase
     .from("users")
-    .select("preference")
+    .select("gender_preference")
     .eq("id", userId)
     .single();
 
@@ -62,8 +62,8 @@ export const getFeedProfiles = async (pageParam: string | null) => {
     throw new Error(preferenceError.message);
   }
 
-  const genderPreference = preferenceData?.preference
-    ? zGender.array().parse(preferenceData.preference)
+  const genderPreference = preferenceData?.gender_preference
+    ? zGender.array().parse(preferenceData.gender_preference)
     : [];
 
   const query = supabase

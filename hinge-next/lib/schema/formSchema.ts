@@ -8,7 +8,7 @@ export const zCustomSigunpInput = zUser
     age: true,
     name: true,
     gender: true,
-    genderPreference: true,
+    gender_preference: true,
   })
   .required();
 

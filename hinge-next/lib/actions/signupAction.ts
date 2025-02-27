@@ -2,7 +2,8 @@
 
 import { supabase } from "@/lib/config/supabase";
 import { authSchema } from "@/lib/schema/authSchema";
-import { signupInputs } from "@/lib/schema/formSchema";
+import { CustomSigunpInput } from "@/lib/schema/formSchema";
+import { zCustomSigunpInput } from "@/lib/schema/formSchema";
 import bcrypt from "bcrypt";
 
 // TODO: Error handling
@@ -32,7 +33,13 @@ export default async function signupAction(formData: FormData) {
   }
 }
 
-export async function customSignupAction(data: signupInputs) {
-  console.log(data);
-  return "Some type a error";
+export async function customSignupAction(data: CustomSigunpInput) {
+  const validatedData = zCustomSigunpInput.parse(data);
+  const hashedPassword = await bcrypt.hash(validatedData.password, 10);
+
+  const userData = { ...validatedData, password: hashedPassword };
+  const { error } = await supabase.from("users").insert(userData);
+  if (error) {
+    throw new Error(error.message);
+  }
 }
