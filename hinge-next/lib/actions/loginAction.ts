@@ -32,7 +32,6 @@ export default async function signInAction(formData: FormData) {
       throw new Error("Invalid email or password");
     }
 
-    console.log(arrayData);
     const data = arrayData[0];
 
     const isPasswordCorrect = await bcrypt.compare(

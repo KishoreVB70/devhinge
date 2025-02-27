@@ -22,8 +22,6 @@ function FeedProfileCard({
   function moveIndex() {
     if (index + 1 < profiles.length) {
       setIndex(index + 1);
-    } else {
-      setIndex(0);
     }
   }
 

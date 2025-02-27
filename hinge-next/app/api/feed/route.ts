@@ -3,8 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
   try {
-    const cursor = req.nextUrl.searchParams.get("cursor");
-    const nextCursor = cursor ? parseInt(cursor) : null;
+    const nextCursor = req.nextUrl.searchParams.get("nextCursor");
     if (!nextCursor) {
       throw new Error("Missing cursor");
     }

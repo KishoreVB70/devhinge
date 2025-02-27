@@ -16,9 +16,13 @@ export default function FeedWrapper() {
   }
 
   const profiles = data.pages?.flatMap((page) => page.profiles);
+  console.log("Profiles: ", profiles);
 
   const handleNext = (index: number) => {
-    if (index === Math.floor(profiles.length - 1 / 2)) {
+    console.log("Index: ", index);
+    console.log("Prefetch threshold", Math.floor((profiles.length - 1) / 2));
+    if (index >= Math.floor((profiles.length - 1) / 2)) {
+      console.log("Fetching next");
       fetchNextPage();
     }
   };
@@ -33,8 +37,6 @@ export default function FeedWrapper() {
     likeorPassAction(profiles[index].id, "ignored");
     handleNext(index);
   };
-
-  console.log("Obtained profiles: ", data);
 
   const UserProfiles = profiles.map((profile) => {
     return {

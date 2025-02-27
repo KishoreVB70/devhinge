@@ -16,7 +16,7 @@ async function page() {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchInfiniteQuery({
-    queryKey: ["feedProfiless"],
+    queryKey: ["feedProfiles"],
     queryFn: ({ pageParam }) => getFeedProfiles(pageParam),
     initialPageParam: "0",
     getNextPageParam: (lastPage: FeedUserCursor) => lastPage.nextCursor,
