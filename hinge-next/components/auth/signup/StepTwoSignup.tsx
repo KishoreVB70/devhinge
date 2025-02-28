@@ -39,7 +39,20 @@ export default function StepTwoSignup() {
   });
 
   const onsubmit: SubmitHandler<SignupStepTwo> = async (stepTwoData) => {
-    const signupData = { ...stepOneData, ...stepTwoData };
+    // 1) Upload the image
+
+    const { profileImage, ...leanData } = stepTwoData;
+    console.log(profileImage);
+    const imageId = Math.floor(Math.random() * 1000);
+    const profileImageURL = `https://picsum.photos/id/${imageId}/400/600`;
+
+    // 2) Obtain the image URL and add it to the user data
+    const validStepTwoData = {
+      ...leanData,
+      avatar_url: profileImageURL,
+    };
+
+    const signupData = { ...stepOneData, ...validStepTwoData };
     await signupAction(signupData);
   };
 

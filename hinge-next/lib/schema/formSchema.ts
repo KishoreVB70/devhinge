@@ -9,6 +9,7 @@ export const zSignup = zUser
     name: true,
     gender: true,
     gender_preference: true,
+    avatar_url: true,
   })
   .required();
 
@@ -25,10 +26,6 @@ const zProfileImage = z
       ["image/jpeg", "image/png", "image/gif"].includes(files[0]?.type),
     "Only .jpg, .png, .gif formats are supported."
   );
-
-export const zSignupWithURL = zSignup
-  .extend({ profileImage: zProfileImage })
-  .required();
 
 export const zSignupStepTwo = zSignup
   .pick({

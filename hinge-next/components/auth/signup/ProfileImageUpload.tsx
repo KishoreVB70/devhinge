@@ -12,6 +12,8 @@ import {
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 
+// TODO: fix the any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function ProfileImageUploadForm({ form }: { form: any }) {
   const [preview, setPreview] = useState<string | null>(null);
 

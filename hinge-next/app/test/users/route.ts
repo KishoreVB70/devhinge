@@ -1,12 +1,13 @@
-import signupAction from "@/lib/actions/signupAction";
-import { zSignup } from "@/lib/schema/formSchema";
-import { NextRequest, NextResponse } from "next/server";
+// import signupAction from "@/lib/actions/signupAction";
+// import { zSignup } from "@/lib/schema/formSchema";
+import { NextResponse } from "next/server";
 
-export async function POST(req: NextRequest) {
+export async function POST() {
   try {
-    const data = await req.json();
-    const validatedData = zSignup.parse(data);
-    await signupAction(validatedData);
+    // const data = await req.json();
+    // const validatedData = zSignup.parse(data);
+
+    // await signupAction(validatedData);
     return NextResponse.json({ message: "User created" });
   } catch (error) {
     console.error(error);
