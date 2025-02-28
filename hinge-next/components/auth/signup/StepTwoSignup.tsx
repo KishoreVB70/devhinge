@@ -20,13 +20,14 @@ import { Checkbox } from "@/components/ui/checkbox";
 import RadioFormItem from "@/components/auth/signup/RadioFormItem";
 import { z } from "zod";
 import { useSignupStore } from "@/lib/store/useSignupStore";
+import ProfileImageUploadForm from "@/components/auth/signup/ProfileImageUpload";
 
 const genderOptions = Object.values(zGender.Values);
 
 type SignupStepTwo = z.infer<typeof zSignupStepTwo>;
 
 export default function StepTwoSignup() {
-  const { data } = useSignupStore();
+  const { data: stepOneData } = useSignupStore();
   const form = useForm<SignupStepTwo>({
     defaultValues: {
       name: "",
@@ -38,7 +39,7 @@ export default function StepTwoSignup() {
   });
 
   const onsubmit: SubmitHandler<SignupStepTwo> = async (stepTwoData) => {
-    const signupData = { ...data, ...stepTwoData };
+    const signupData = { ...stepOneData, ...stepTwoData };
     await signupAction(signupData);
   };
 
@@ -144,6 +145,7 @@ export default function StepTwoSignup() {
             </FormItem>
           )}
         />
+        <ProfileImageUploadForm form={form} />
         <Button type="submit" disabled={form.formState.isSubmitting}>
           {form.formState.isSubmitting ? "loading" : "Submit"}
         </Button>
