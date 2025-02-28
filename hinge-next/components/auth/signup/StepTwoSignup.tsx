@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 import { Button } from "@/components/ui/button";
 import signupAction from "@/lib/actions/signupAction";
@@ -27,7 +26,7 @@ const genderOptions = Object.values(zGender.Values);
 
 type SignupStepTwo = z.infer<typeof zSignupStepTwo>;
 
-export default function StepOneSignup() {
+export default function StepTwoSignup() {
   const { data } = useSignupStore();
   const form = useForm<SignupStepTwo>({
     defaultValues: {

@@ -1,9 +1,9 @@
-import { signupInputs } from "@/lib/schema/formSchema";
+import { SignUpInput } from "@/lib/schema/formSchema";
 import { create } from "zustand";
 
 type SignupState = {
   step: number;
-  data: signupInputs;
+  data: SignUpInput;
   setFormData: (data: Partial<SignupState["data"]>) => void;
   nextStep: () => void;
 };
@@ -12,9 +12,10 @@ export const useSignupStore = create<SignupState>((set) => ({
   data: {
     email: "",
     password: "",
+    age: 0,
     name: "",
-    gender: "",
-    preferences: [],
+    gender: "male",
+    gender_preference: [],
   },
   setFormData: (newData) =>
     set((state) => ({

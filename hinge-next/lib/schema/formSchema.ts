@@ -24,4 +24,4 @@ export const zSignupStepTwo = zSignup.pick({
   gender_preference: true,
 });
 
-export type CustomSigunpInput = z.infer<typeof zSignup>;
+export type SignUpInput = z.infer<typeof zSignup>;

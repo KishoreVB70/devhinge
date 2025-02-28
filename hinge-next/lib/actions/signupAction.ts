@@ -2,13 +2,13 @@
 
 import { supabase } from "@/lib/config/supabase";
 import { generateJwt } from "@/lib/dbhelpers/authHelpers";
-import { CustomSigunpInput } from "@/lib/schema/formSchema";
+import { SignUpInput } from "@/lib/schema/formSchema";
 import { zSignup } from "@/lib/schema/formSchema";
 import bcrypt from "bcrypt";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-export default async function signupAction(inputData: CustomSigunpInput) {
+export default async function signupAction(inputData: SignUpInput) {
   let success = false;
   try {
     const validatedData = zSignup.parse(inputData);
