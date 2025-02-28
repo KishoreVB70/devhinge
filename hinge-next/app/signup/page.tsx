@@ -2,7 +2,7 @@ import SignUpFormWrapper from "@/components/auth/signup/SignupForm";
 
 function Signup() {
   return (
-    <div className="flex flex-row items-center justify-center h-full">
+    <div className="py-20 flex flex-row items-center justify-center min-h-screen overflow-auto w-full">
       <SignUpFormWrapper />
     </div>
   );
