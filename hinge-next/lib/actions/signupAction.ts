@@ -8,10 +8,34 @@ import bcrypt from "bcrypt";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
+export async function doesUserExist(email: string) {
+  try {
+    const { data, error } = await supabase
+      .from("users")
+      .select("email")
+      .eq("email", email);
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    if (data.length > 0) return true;
+
+    return false;
+  } catch (error) {
+    console.error(error);
+    return true;
+  }
+}
+
 export default async function signupAction(inputData: SignUpInput) {
   let success = false;
   try {
     const validatedData = zSignup.parse(inputData);
+    const userExists = await doesUserExist(validatedData.email);
+    if (userExists) {
+      throw new Error("User already exists");
+    }
     const hashedPassword = await bcrypt.hash(validatedData.password, 10);
 
     const userData = { ...validatedData, password: hashedPassword };

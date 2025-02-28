@@ -1,10 +1,12 @@
-import { SignUpInput } from "@/lib/schema/formSchema";
+import { zSignupStepOne } from "@/lib/schema/formSchema";
+import { z } from "zod";
 import { create } from "zustand";
 
+type SignupStepOne = z.infer<typeof zSignupStepOne>;
 type SignupState = {
   step: number;
-  data: SignUpInput;
-  setFormData: (data: Partial<SignupState["data"]>) => void;
+  data: SignupStepOne;
+  setFormData: (data: SignupStepOne) => void;
   nextStep: () => void;
 };
 export const useSignupStore = create<SignupState>((set) => ({
@@ -12,15 +14,10 @@ export const useSignupStore = create<SignupState>((set) => ({
   data: {
     email: "",
     password: "",
-    age: 0,
-    name: "",
-    gender: "male",
-    gender_preference: [],
   },
   setFormData: (newData) =>
-    set((state) => ({
-      data: { ...state.data, ...newData },
+    set(() => ({
+      data: { ...newData },
     })),
-  nextStep: () => set((state) => ({ step: state.step + 1 })),
-  prevStep: () => set((state) => ({ step: state.step - 1 })),
+  nextStep: () => set(() => ({ step: 2 })),
 }));

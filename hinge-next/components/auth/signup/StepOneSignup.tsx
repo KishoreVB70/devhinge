@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { z } from "zod";
 import { useSignupStore } from "@/lib/store/useSignupStore";
+import { doesUserExist } from "@/lib/actions/signupAction";
 
 type SignupStepOne = z.infer<typeof zSignupStepOne>;
 export default function StepOneSignup() {
@@ -31,6 +32,11 @@ export default function StepOneSignup() {
 
   const onsubmit: SubmitHandler<SignupStepOne> = async (data) => {
     // TODO: Validate if user already exists
+    const userExists = await doesUserExist(data.email);
+    if (userExists) {
+      form.setError("email", { message: "User already exists" });
+      return;
+    }
     setFormData(data);
     nextStep();
   };
