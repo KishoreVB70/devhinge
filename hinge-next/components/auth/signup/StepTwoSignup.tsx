@@ -45,7 +45,6 @@ export default function StepTwoSignup() {
     console.log(profileImage);
     const imageId = Math.floor(Math.random() * 1000);
     const profileImageURL = `https://picsum.photos/id/${imageId}/400/600`;
-
     // 2) Obtain the image URL and add it to the user data
     const validStepTwoData = {
       ...leanData,

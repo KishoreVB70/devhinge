@@ -38,7 +38,8 @@ export default function ProfileImageUploadForm({ form }: { form: any }) {
                 type="file"
                 accept="image/*"
                 onChange={(e) => {
-                  field.onChange(e);
+                  const file = e.target.files?.[0];
+                  field.onChange(file);
                   handleImageChange(e);
                 }}
                 ref={field.ref}
