@@ -149,6 +149,7 @@ function Signup() {
               </FormItem>
             )}
           />
+          {/* Gender Preference */}
           <FormField
             control={form.control}
             name="gender_preference"
@@ -167,6 +168,7 @@ function Signup() {
                       >
                         <Checkbox
                           id={gender}
+                          className="mt-2"
                           checked={field.value?.includes(gender)}
                           onCheckedChange={(checked) => {
                             const newValue = checked
@@ -175,7 +177,9 @@ function Signup() {
                             field.onChange(newValue);
                           }}
                         />
-                        <FormLabel htmlFor={gender}>{gender}</FormLabel>
+                        <FormLabel className="mt-2" htmlFor={gender}>
+                          {gender}
+                        </FormLabel>
                       </FormItem>
                     ))}
                   </div>
