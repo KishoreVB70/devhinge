@@ -17,7 +17,6 @@ import { Input } from "@/components/ui/input";
 import { RadioGroup } from "@/components/ui/radio-group";
 import { zGender } from "@/lib/schema/userSchema";
 import { Checkbox } from "@/components/ui/checkbox";
-import Link from "next/link";
 import RadioFormItem from "@/components/auth/signup/RadioFormItem";
 import { z } from "zod";
 import { useSignupStore } from "@/lib/store/useSignupStore";
@@ -50,7 +49,7 @@ export default function StepTwoSignup() {
         className="flex flex-col gap-6 min-w-[500px]"
       >
         <div className="flex flex-col items-center gap-2 text-center">
-          <h1 className="text-2xl font-bold">Sign Up a new account</h1>
+          <h1 className="text-2xl font-bold">Enter your details</h1>
         </div>
         {/* Username */}
         <FormField
@@ -148,12 +147,6 @@ export default function StepTwoSignup() {
         <Button type="submit" disabled={form.formState.isSubmitting}>
           {form.formState.isSubmitting ? "loading" : "Submit"}
         </Button>
-        <div className="text-center text-sm">
-          Already have an account?{" "}
-          <Link href="/signin" className="underline underline-offset-4">
-            Log in
-          </Link>
-        </div>
       </form>
     </Form>
   );
