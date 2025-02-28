@@ -42,7 +42,7 @@ export default function StepOneSignup() {
         className="flex flex-col gap-6 min-w-[500px]"
       >
         <div className="flex flex-col items-center gap-2 text-center">
-          <h1 className="text-2xl font-bold">Sign Up a new account</h1>
+          <h1 className="text-2xl font-bold">Create a new account</h1>
         </div>
         {/* Email */}
         <FormField
