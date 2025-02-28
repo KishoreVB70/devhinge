@@ -1,7 +1,7 @@
 import { zUser } from "@/lib/schema/userSchema";
 import { z } from "zod";
 
-export const zCustomSigunpInput = zUser
+export const zSignup = zUser
   .pick({
     email: true,
     password: true,
@@ -12,10 +12,16 @@ export const zCustomSigunpInput = zUser
   })
   .required();
 
-export type CustomSigunpInput = z.infer<typeof zCustomSigunpInput>;
-export const zSignupInput = z.object({
-  email: z.string().email(),
-  password: z.string().min(8),
+export const zSignupStepOne = zSignup.pick({
+  email: true,
+  password: true,
 });
 
-export type signupInputs = z.infer<typeof zSignupInput>;
+export const zSignupStepTwo = zSignup.pick({
+  name: true,
+  age: true,
+  gender: true,
+  gender_preference: true,
+});
+
+export type CustomSigunpInput = z.infer<typeof zSignup>;

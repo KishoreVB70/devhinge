@@ -2,7 +2,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import signupAction from "@/lib/actions/signupAction";
-import { CustomSigunpInput, zCustomSigunpInput } from "@/lib/schema/formSchema";
+import { zSignupStepTwo } from "@/lib/schema/formSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import {
@@ -19,26 +19,31 @@ import { RadioGroup } from "@/components/ui/radio-group";
 import { zGender } from "@/lib/schema/userSchema";
 import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
-import RadioFormItem from "@/components/auth/RadioFormItem";
+import RadioFormItem from "@/components/auth/signup/RadioFormItem";
+import { z } from "zod";
+import { useSignupStore } from "@/lib/store/useSignupStore";
 
 const genderOptions = Object.values(zGender.Values);
 
-export default function SignupForm() {
-  const form = useForm<CustomSigunpInput>({
+type SignupStepTwo = z.infer<typeof zSignupStepTwo>;
+
+export default function StepOneSignup() {
+  const { data } = useSignupStore();
+  const form = useForm<SignupStepTwo>({
     defaultValues: {
-      email: "",
-      password: "",
       name: "",
       age: 10,
       gender: "male",
       gender_preference: [],
     },
-    resolver: zodResolver(zCustomSigunpInput),
+    resolver: zodResolver(zSignupStepTwo),
   });
 
-  const onsubmit: SubmitHandler<CustomSigunpInput> = async (data) => {
-    await signupAction(data);
+  const onsubmit: SubmitHandler<SignupStepTwo> = async (stepTwoData) => {
+    const signupData = { ...data, ...stepTwoData };
+    await signupAction(signupData);
   };
+
   return (
     <Form {...form}>
       <form
@@ -60,40 +65,6 @@ export default function SignupForm() {
               </FormControl>
               <FormDescription>
                 This is your public display name.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        {/* Email */}
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input placeholder="Johndoe@email.com" {...field} />
-              </FormControl>
-              <FormDescription>
-                Your email will be used to login.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        {/* Password */}
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormDescription>
-                Password must contain 8 characters
               </FormDescription>
               <FormMessage />
             </FormItem>
