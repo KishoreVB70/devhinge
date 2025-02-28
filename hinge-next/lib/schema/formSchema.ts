@@ -26,6 +26,10 @@ const zProfileImage = z
     "Only .jpg, .png, .gif formats are supported."
   );
 
+export const zSignupWithURL = zSignup
+  .extend({ profileImage: zProfileImage })
+  .required();
+
 export const zSignupStepTwo = zSignup
   .pick({
     name: true,

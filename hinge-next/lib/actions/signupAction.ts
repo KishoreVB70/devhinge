@@ -2,7 +2,7 @@
 
 import { supabase } from "@/lib/config/supabase";
 import { generateJwt } from "@/lib/dbhelpers/authHelpers";
-import { SignUpInput } from "@/lib/schema/formSchema";
+import { SignUpInput, zSignupWithURL } from "@/lib/schema/formSchema";
 import { zSignup } from "@/lib/schema/formSchema";
 import bcrypt from "bcrypt";
 import { cookies } from "next/headers";
@@ -30,8 +30,22 @@ export async function doesUserExist(email: string) {
 
 export default async function signupAction(inputData: SignUpInput) {
   let success = false;
+
   try {
-    const validatedData = zSignup.parse(inputData);
+    const validatedInputData = zSignupWithURL.parse(inputData);
+    // 1) Upload the image
+
+    const { profileImage, ...leanData } = validatedInputData;
+    console.log(profileImage);
+    const imageId = Math.floor(Math.random() * 1000);
+    const profileImageURL = `https://picsum.photos/id/${imageId}/400/600`;
+
+    // 2) Obtain the image URL and add it to the user data
+    const validatedData = {
+      ...leanData,
+      avatar_url: profileImageURL,
+    };
+
     const userExists = await doesUserExist(validatedData.email);
     if (userExists) {
       throw new Error("User already exists");
