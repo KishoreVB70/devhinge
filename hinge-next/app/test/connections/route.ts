@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    const data = await getConnectedProfiles();
+    const data = await getConnectedProfiles(1);
     return NextResponse.json(data);
   } catch (error) {
     console.error(error);
