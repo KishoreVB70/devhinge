@@ -53,7 +53,7 @@ export function SignInForm() {
               Forgot your password?
             </Link>
           </div>
-          <Input {...register("password")} />
+          <Input {...register("password")} type="password" />
           {errors.password && (
             <p className="text-red-600">{errors.password.message}</p>
           )}

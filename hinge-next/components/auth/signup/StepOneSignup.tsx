@@ -75,7 +75,7 @@ export default function StepOneSignup() {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input {...field} type="password" />
               </FormControl>
               <FormDescription>
                 Password must contain 8 characters
