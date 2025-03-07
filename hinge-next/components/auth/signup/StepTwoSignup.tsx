@@ -72,7 +72,7 @@ export default function StepTwoSignup() {
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input placeholder="John Doe" {...field} />
+                <Input placeholder="John" {...field} />
               </FormControl>
               <FormDescription>
                 This is your public display name.
