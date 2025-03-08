@@ -19,6 +19,7 @@ import { useSignupStore } from "@/lib/store/useSignupStore";
 import ProfileImageUploadForm from "@/components/forms/auth/signup/ProfileImageUpload";
 import GenderSelect from "@/components/forms/GenderSelect";
 import GenderPreference from "@/components/forms/GenderPreference";
+import { doesUsernameAlreadyExist } from "@/lib/dbhelpers/authHelpers";
 
 type SignupStepTwo = z.infer<typeof zSignupStepTwo>;
 
@@ -35,8 +36,13 @@ export default function StepTwoSignup() {
   });
 
   const onsubmit: SubmitHandler<SignupStepTwo> = async (stepTwoData) => {
-    // 1) Upload the image
+    const userNameExists = await doesUsernameAlreadyExist(stepTwoData.name);
+    if (userNameExists) {
+      form.setError("name", { message: "Username already exists" });
+      return;
+    }
 
+    // 1) Upload the image
     const { profileImage, ...leanData } = stepTwoData;
     console.log(profileImage);
     const imageId = Math.floor(Math.random() * 1000);

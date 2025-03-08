@@ -37,6 +37,7 @@ export default function StepOneSignup() {
       form.setError("email", { message: "User already exists" });
       return;
     }
+
     setFormData(data);
     nextStep();
   };

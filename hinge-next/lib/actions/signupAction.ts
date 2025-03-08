@@ -1,7 +1,10 @@
 "use server";
 
 import { supabase } from "@/lib/config/supabase";
-import { generateJwt } from "@/lib/dbhelpers/authHelpers";
+import {
+  doesUsernameAlreadyExist,
+  generateJwt,
+} from "@/lib/dbhelpers/authHelpers";
 import { SignUpInput, zSignup } from "@/lib/schema/formSchema";
 import bcrypt from "bcrypt";
 import { cookies } from "next/headers";
@@ -18,9 +21,7 @@ export async function doesUserExist(email: string) {
       throw new Error(error.message);
     }
 
-    if (data.length > 0) return true;
-
-    return false;
+    return data.length > 0;
   } catch (error) {
     console.error(error);
     return true;
@@ -32,9 +33,17 @@ export default async function signupAction(inputData: SignUpInput) {
 
   try {
     const validatedData = zSignup.parse(inputData);
+
+    // The email already exists
     const userExists = await doesUserExist(validatedData.email);
     if (userExists) {
-      throw new Error("User already exists");
+      throw new Error("Email already exists");
+    }
+
+    const userNameExists = await doesUsernameAlreadyExist(validatedData.name);
+
+    if (userNameExists) {
+      throw new Error("Username is not unique");
     }
     const hashedPassword = await bcrypt.hash(validatedData.password, 10);
 

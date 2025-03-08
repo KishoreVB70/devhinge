@@ -7,7 +7,11 @@ import {
   zUserFeedProfile,
 } from "@/lib/schema/connectionSchema";
 import { z } from "zod";
-import { zGender, zUpdatableUser } from "@/lib/schema/userSchema";
+import {
+  zGender,
+  zUpdatableUser,
+  zUserPageProfile,
+} from "@/lib/schema/userSchema";
 import {
   CONNECTIONS_PER_PAGE,
   INITIAL_PROFILES_PER_PAGE_FEED,
@@ -256,6 +260,23 @@ export async function getEditableUserDetails() {
     }
 
     return zUpdatableUser.parse(data[0]);
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
+export async function getUserPageProfile(id: string) {
+  try {
+    const { data, error } = await supabase
+      .from("users")
+      .select("*")
+      .eq("id", id);
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return zUserPageProfile.parse(data[0]);
   } catch (error) {
     console.error(error);
     return null;

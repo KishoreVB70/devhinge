@@ -84,11 +84,10 @@ export const zUser = z.object({
     .optional(),
 });
 
-export const zUpdatableUser = zUser
+export const zUserPageProfile = zUser
   .omit({
     email: true,
     password: true,
-    name: true,
   })
   .extend({
     bio: zUser.shape.bio.nullable(),
@@ -98,12 +97,18 @@ export const zUpdatableUser = zUser
     website: zUser.shape.website.nullable(),
   });
 
+export const zUpdatableUser = zUserPageProfile.omit({
+  name: true,
+});
+
 export type UpdatableUser = z.infer<typeof zUpdatableUser>;
 
 export const zUserFeedProfiles = zUser
   .pick({
     name: true,
     avatar_url: true,
+    // age: true,
+    // gender: true,
   })
   .required()
   .extend({
