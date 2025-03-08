@@ -22,7 +22,7 @@ import GenderSelect from "@/components/forms/GenderSelect";
 import GenderPreference from "@/components/forms/GenderPreference";
 import ProfileImageUploadForm from "@/components/forms/auth/signup/ProfileImageUpload";
 import { Button } from "@/components/ui/button";
-import MultiItemsInput from "@/components/forms/edit-profile/MultiItemsInput";
+import MultiItemsInput from "@/components/forms/edit-profile/MultiItemsInputWrapper";
 
 type EditProfileProps = {
   user: UpdatableUser;
@@ -64,6 +64,8 @@ export default function EditProfileForm({ user }: EditProfileProps) {
 
   const bio = form.watch("bio");
   const website = form.watch("website");
+  const hobbies = form.watch("hobbies");
+  const skills = form.watch("hobbies");
 
   async function onSubmit(data: UpdatableUser) {
     console.log(data);
@@ -142,18 +144,18 @@ export default function EditProfileForm({ user }: EditProfileProps) {
 
           {/* Hobbies */}
           <MultiItemsInput
-            items={MAX_HOBBIES}
             name="hobbies"
             label="Hobbies"
             control={form.control}
+            values={hobbies}
           />
 
           {/* Skills */}
           <MultiItemsInput
             name="skills"
-            items={MAX_HOBBIES}
             label="Skills"
             control={form.control}
+            values={skills}
           />
 
           <Button type="submit">Save</Button>
