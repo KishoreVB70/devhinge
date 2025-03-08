@@ -30,38 +30,34 @@ export const zUser = z.object({
     .string({ message: "Name must be a string" })
     .min(3, { message: "Name must be at least 3 characters long" })
     .max(18, { message: "Name must be at most 18 characters long" })
-    .regex(/^\S+$/, { message: "Name must not contain spaces" })
-    .optional(),
+    .regex(/^\S+$/, { message: "Name must not contain spaces" }),
 
-  email: z.string().email().optional(),
+  email: z.string().email(),
 
-  age: z
-    .preprocess(
-      (val) => Number(val),
-      z
-        .number()
-        .int()
-        .min(10, { message: "Age must be atleast 18" })
-        .max(100, { message: "Age must be atmost 100" })
-    )
-    .optional()
-    .nullable(),
+  password: passwordSchema,
+
+  age: z.preprocess(
+    (val) => Number(val),
+    z
+      .number()
+      .int()
+      .min(10, { message: "Age must be atleast 18" })
+      .max(100, { message: "Age must be atmost 100" })
+  ),
 
   avatar_url: z
     .string()
     .url({ message: "Invalid avatar URL" })
-    .max(150, { message: "Avatar URL must be at most 150 characters long" })
-    .optional(),
+    .max(150, { message: "Avatar URL must be at most 150 characters long" }),
 
-  password: passwordSchema.optional(),
+  gender: zGender,
+
+  gender_preference: z.array(zGender).min(1, "Select at least one option"),
 
   bio: z
     .string()
     .max(MAX_BIO_LENGTH, { message: "Bio must be at most 200 characters long" })
-    .nullable()
     .optional(),
-
-  gender: zGender.optional(),
 
   skills: z
     .array(
@@ -70,7 +66,6 @@ export const zUser = z.object({
         .max(25, { message: "Skill must be at most 25 characters long" })
     )
     .max(MAX_SKILLS, { message: `Maximum ${MAX_SKILLS} skills allowed` })
-    .nullable()
     .optional(),
 
   hobbies: z
@@ -80,24 +75,28 @@ export const zUser = z.object({
         .max(25, { message: "Hobbies must be at most 25 characters long" })
     )
     .max(MAX_HOBBIES, { message: `Maximum ${MAX_HOBBIES} hobbies allowed` })
-    .nullable()
     .optional(),
 
-  website: z.string().url().max(MAX_WEBSITE_LENGTH).nullable().optional(),
+  website: z.string().url().max(MAX_WEBSITE_LENGTH).optional(),
 
   experience_years: z
     .preprocess((val) => Number(val), z.number().int().nonnegative().max(50))
-    .nullable()
     .optional(),
-
-  gender_preference: z.array(zGender).min(1, "Select at least one option"),
 });
 
-export const zUpdatableUser = zUser.omit({
-  email: true,
-  password: true,
-  name: true,
-});
+export const zUpdatableUser = zUser
+  .omit({
+    email: true,
+    password: true,
+    name: true,
+  })
+  .extend({
+    bio: zUser.shape.bio.nullable(),
+    skills: zUser.shape.skills.nullable(),
+    hobbies: zUser.shape.hobbies.nullable(),
+    experience_years: zUser.shape.experience_years.nullable(),
+    website: zUser.shape.website.nullable(),
+  });
 
 export const zUserFeedProfiles = zUser
   .pick({

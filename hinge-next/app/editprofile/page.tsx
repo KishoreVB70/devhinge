@@ -22,5 +22,9 @@ export default async function EditProfile() {
 
   if (!user) return <div>loading...</div>;
 
-  return <EditProfileWrapper user={user} />;
+  return (
+    <div className="flex flex-col items-center justify-center h-screen ">
+      <EditProfileWrapper user={user} />{" "}
+    </div>
+  );
 }

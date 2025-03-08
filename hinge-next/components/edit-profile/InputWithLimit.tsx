@@ -13,7 +13,7 @@ function InputWithLimit({ value, setValue, maxLength, label }: InputProps) {
   const [isFocused, setIsFocused] = React.useState(false);
   const isHigher = value.length > maxLength;
   return (
-    <div className="w-3/12">
+    <div className="w-full space-y-1">
       <Label>{label}</Label>
 
       <div className="relative">
