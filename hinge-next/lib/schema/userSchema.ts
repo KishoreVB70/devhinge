@@ -86,6 +86,7 @@ export const zUser = z.object({
 export const zUpdatableUser = zUser.omit({
   email: true,
   password: true,
+  name: true,
 });
 
 export const zUserFeedProfiles = zUser

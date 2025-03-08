@@ -1,10 +1,10 @@
-import { getUser } from "@/lib/dbhelpers/dbhelpers";
+import EditProfileWrapper from "@/components/edit-profile/EditProfileWrapper";
+import { getEditableUserDetails } from "@/lib/dbhelpers/dbhelpers";
+
 import React from "react";
 
-function EditProfile() {
-  // 1) Obtain the user's data from the server
-
-  const user = getUserData();
+export default async function EditProfile() {
+  const user = await getEditableUserDetails();
   /*
     1) Age
     Experience
@@ -19,9 +19,8 @@ function EditProfile() {
     2) Interests
     Hobbies
    */
-  return (
-    <div className="flex flex-col h-screen items-center justify-center"></div>
-  );
-}
 
-export default EditProfile;
+  if (!user) return <div>loading...</div>;
+
+  return <EditProfileWrapper user={user} />;
+}
