@@ -1,4 +1,4 @@
-import EditProfileForm from "@/components/forms/edit-profile/EditProfileWrapperKaapy";
+import EditProfileForm from "@/components/forms/edit-profile/EditProfileWrapper";
 import { getEditableUserDetails } from "@/lib/dbhelpers/dbhelpers";
 
 import React from "react";

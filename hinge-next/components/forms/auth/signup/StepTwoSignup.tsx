@@ -14,13 +14,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { RadioGroup } from "@/components/ui/radio-group";
-import { Checkbox } from "@/components/ui/checkbox";
-import RadioFormItem from "@/components/forms/auth/signup/RadioFormItem";
 import { z } from "zod";
 import { useSignupStore } from "@/lib/store/useSignupStore";
 import ProfileImageUploadForm from "@/components/forms/auth/signup/ProfileImageUpload";
-import { genderOptions } from "@/lib/schema/userSchema";
+import GenderSelect from "@/components/forms/GenderSelect";
+import GenderPreference from "@/components/forms/GenderPreference";
 
 type SignupStepTwo = z.infer<typeof zSignupStepTwo>;
 
@@ -95,67 +93,10 @@ export default function StepTwoSignup() {
           )}
         />
         {/* Gender */}
-        <FormField
-          control={form.control}
-          name="gender"
-          render={({ field }) => (
-            <FormItem className="space-y-3">
-              <FormLabel>Gender</FormLabel>
-              <FormControl>
-                <RadioGroup
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                  className="flex flex-col space-y-1"
-                >
-                  {genderOptions.map((item) => (
-                    <RadioFormItem key={item} value={item} label={item} />
-                  ))}
-                </RadioGroup>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <GenderSelect control={form.control} />
         {/* Gender Preference */}
-        <FormField
-          control={form.control}
-          name="gender_preference"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Select Gender Preferences</FormLabel>
-              <FormDescription>
-                You must select at least one option.
-              </FormDescription>
-              <FormControl>
-                <div className="flex flex-col space-y-2">
-                  {genderOptions.map((gender) => (
-                    <FormItem
-                      key={gender}
-                      className="flex items-center space-x-3"
-                    >
-                      <Checkbox
-                        id={gender}
-                        className="mt-2"
-                        checked={field.value?.includes(gender)}
-                        onCheckedChange={(checked) => {
-                          const newValue = checked
-                            ? [...field.value, gender]
-                            : field.value.filter((item) => item !== gender);
-                          field.onChange(newValue);
-                        }}
-                      />
-                      <FormLabel className="mt-2" htmlFor={gender}>
-                        {gender}
-                      </FormLabel>
-                    </FormItem>
-                  ))}
-                </div>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <ProfileImageUploadForm form={form} />
+        <GenderPreference control={form.control} />
+        <ProfileImageUploadForm control={form.control} />
         <Button type="submit" disabled={form.formState.isSubmitting}>
           {form.formState.isSubmitting ? "loading" : "Submit"}
         </Button>

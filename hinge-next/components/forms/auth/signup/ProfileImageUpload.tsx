@@ -11,10 +11,15 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
+import { Control } from "react-hook-form";
 
-// TODO: fix the any
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default function ProfileImageUploadForm({ form }: { form: any }) {
+export default function ProfileImageUploadForm({
+  control,
+}: {
+  // TODO: fix the any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  control: Control<any>;
+}) {
   const [preview, setPreview] = useState<string | null>(null);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,7 +33,7 @@ export default function ProfileImageUploadForm({ form }: { form: any }) {
   return (
     <>
       <FormField
-        control={form.control}
+        control={control}
         name="profileImage"
         render={({ field }) => (
           <FormItem>

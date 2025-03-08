@@ -1,3 +1,4 @@
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   FormControl,
   FormDescription,
@@ -7,7 +8,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { genderOptions } from "@/lib/schema/userSchema";
-import { Checkbox } from "@radix-ui/react-checkbox";
 import React from "react";
 import { Control } from "react-hook-form";
 
