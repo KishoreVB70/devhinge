@@ -98,6 +98,8 @@ export const zUpdatableUser = zUser
     website: zUser.shape.website.nullable(),
   });
 
+export type UpdatableUser = z.infer<typeof zUpdatableUser>;
+
 export const zUserFeedProfiles = zUser
   .pick({
     name: true,

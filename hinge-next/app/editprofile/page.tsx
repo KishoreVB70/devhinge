@@ -1,4 +1,4 @@
-import EditProfileWrapper from "@/components/edit-profile/EditProfileWrapper";
+import EditProfileForm from "@/components/edit-profile/EditProfileWrapperKaapy";
 import { getEditableUserDetails } from "@/lib/dbhelpers/dbhelpers";
 
 import React from "react";
@@ -24,7 +24,7 @@ export default async function EditProfile() {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen ">
-      <EditProfileWrapper user={user} />{" "}
+      <EditProfileForm user={user} />{" "}
     </div>
   );
 }
