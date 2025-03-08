@@ -1,7 +1,11 @@
 "use client";
 
 import React from "react";
-import { MAX_BIO_LENGTH, MAX_WEBSITE_LENGTH } from "@/lib/constants";
+import {
+  MAX_BIO_LENGTH,
+  MAX_HOBBIES,
+  MAX_WEBSITE_LENGTH,
+} from "@/lib/constants";
 import { useForm } from "react-hook-form";
 import {
   Form,
@@ -16,12 +20,35 @@ import { UpdatableUser } from "@/lib/schema/userSchema";
 import { Input } from "@/components/ui/input";
 import GenderSelect from "@/components/forms/GenderSelect";
 import GenderPreference from "@/components/forms/GenderPreference";
+import ProfileImageUploadForm from "@/components/forms/auth/signup/ProfileImageUpload";
+import { Button } from "@/components/ui/button";
+import MultiItemsInput from "@/components/forms/edit-profile/MultiItemsInput";
 
 type EditProfileProps = {
   user: UpdatableUser;
 };
 
 export default function EditProfileForm({ user }: EditProfileProps) {
+  let defaultHobbies = [];
+  if (user.hobbies) {
+    defaultHobbies = [
+      ...user.hobbies,
+      ...Array(MAX_HOBBIES - user.hobbies.length).fill(""),
+    ];
+  } else {
+    defaultHobbies = Array(MAX_HOBBIES).fill("");
+  }
+
+  let defautlSkills = [];
+  if (user.skills) {
+    defautlSkills = [
+      ...user.skills,
+      ...Array(MAX_HOBBIES - user.skills.length).fill(""),
+    ];
+  } else {
+    defautlSkills = Array(MAX_HOBBIES).fill("");
+  }
+
   const form = useForm<UpdatableUser>({
     defaultValues: {
       bio: user.bio || "",
@@ -30,6 +57,8 @@ export default function EditProfileForm({ user }: EditProfileProps) {
       experience_years: user.experience_years || 0,
       gender: user.gender,
       gender_preference: user.gender_preference,
+      hobbies: defaultHobbies,
+      skills: defautlSkills,
     },
   });
 
@@ -40,9 +69,15 @@ export default function EditProfileForm({ user }: EditProfileProps) {
     console.log(data);
   }
   return (
-    <div className="w-3/12 flex flex-col">
+    <div className="w-3/12">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex flex-col justify-center p-10 space-y-4"
+        >
+          <div className="flex flex-col items-center gap-2 text-center">
+            <h1 className="text-2xl font-bold">Edit your profile</h1>
+          </div>
           {/* Bio */}
           <InputWithLimit
             maxLength={MAX_BIO_LENGTH}
@@ -51,6 +86,7 @@ export default function EditProfileForm({ user }: EditProfileProps) {
             label="Bio"
             name="bio"
           />
+
           {/* Website */}
           <InputWithLimit
             maxLength={MAX_WEBSITE_LENGTH}
@@ -59,6 +95,7 @@ export default function EditProfileForm({ user }: EditProfileProps) {
             label="Website"
             name="website"
           />
+
           {/* Age */}
           <FormField
             control={form.control}
@@ -73,6 +110,7 @@ export default function EditProfileForm({ user }: EditProfileProps) {
               </FormItem>
             )}
           />
+
           {/* Experience */}
           <FormField
             control={form.control}
@@ -98,6 +136,27 @@ export default function EditProfileForm({ user }: EditProfileProps) {
 
           {/* Gender Preference */}
           <GenderPreference control={form.control} />
+
+          {/* Image */}
+          <ProfileImageUploadForm control={form.control} />
+
+          {/* Hobbies */}
+          <MultiItemsInput
+            items={MAX_HOBBIES}
+            name="hobbies"
+            label="Hobbies"
+            control={form.control}
+          />
+
+          {/* Skills */}
+          <MultiItemsInput
+            name="skills"
+            items={MAX_HOBBIES}
+            label="Skills"
+            control={form.control}
+          />
+
+          <Button type="submit">Save</Button>
         </form>
       </Form>
     </div>

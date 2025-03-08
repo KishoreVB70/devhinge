@@ -23,7 +23,7 @@ export default async function EditProfile() {
   if (!user) return <div>loading...</div>;
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen ">
+    <div className="flex flex-col items-center justify-center">
       <EditProfileForm user={user} />{" "}
     </div>
   );
