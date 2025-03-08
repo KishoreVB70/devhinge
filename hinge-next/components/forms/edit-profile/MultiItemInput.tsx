@@ -30,7 +30,7 @@ function MultiItemInput({ i, name, length, control }: MultiItemInputProps) {
         <FormItem>
           <div className="relative">
             <p
-              className={`absolute right-2 top-3 text-sm transition-opacity ${
+              className={`absolute right-3 top-2 text-sm transition-opacity ${
                 isFocused ? "opacity-100" : "opacity-0"
               } ${isHigher ? "text-red-500" : "text-gray-500"}
             `}
@@ -43,6 +43,7 @@ function MultiItemInput({ i, name, length, control }: MultiItemInputProps) {
                 placeholder={`${placeHolder} ${i + 1}`}
                 maxLength={MAX_HOBBY_LENGTH}
                 type="text"
+                className="pr-12"
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => setIsFocused(false)}
               />

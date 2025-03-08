@@ -65,7 +65,7 @@ export default function EditProfileForm({ user }: EditProfileProps) {
   const bio = form.watch("bio");
   const website = form.watch("website");
   const hobbies = form.watch("hobbies");
-  const skills = form.watch("hobbies");
+  const skills = form.watch("skills");
 
   async function onSubmit(data: UpdatableUser) {
     console.log(data);
