@@ -1,4 +1,4 @@
-import { MAX_HOBBIES, MAX_SKILLS } from "@/lib/constants";
+import { MAX_BIO_LENGTH, MAX_HOBBIES, MAX_SKILLS } from "@/lib/constants";
 import { z } from "zod";
 
 export const zGender = z.enum(["male", "female", "other"]);
@@ -51,7 +51,7 @@ export const zUser = z.object({
 
   bio: z
     .string()
-    .max(200, { message: "Bio must be at most 200 characters long" })
+    .max(MAX_BIO_LENGTH, { message: "Bio must be at most 200 characters long" })
     .optional(),
 
   gender: zGender.optional(),
