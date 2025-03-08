@@ -12,6 +12,6 @@ export async function GET({ params }: { params: { email: string } }) {
   }
 
   return NextResponse.json({
-    status: 400,
+    status: 200,
   });
 }
