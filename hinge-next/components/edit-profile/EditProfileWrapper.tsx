@@ -11,9 +11,9 @@ type EditProfileProps = {
 };
 
 function EditProfileWrapper({ user }: EditProfileProps) {
-  const [bio, setBio] = React.useState(user.bio || "");
+  const [bio, setBio] = React.useState(user && user.bio ? user.bio : "");
   return (
-    <div>
+    <div className="flex flex-col items-center justify-center h-screen">
       <BioInput bio={bio} setBio={setBio} />
     </div>
   );

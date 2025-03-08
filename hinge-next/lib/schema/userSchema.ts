@@ -39,7 +39,8 @@ export const zUser = z.object({
         .min(10, { message: "Age must be atleast 18" })
         .max(100, { message: "Age must be atmost 100" })
     )
-    .optional(),
+    .optional()
+    .nullable(),
 
   avatar_url: z
     .string()
@@ -52,6 +53,7 @@ export const zUser = z.object({
   bio: z
     .string()
     .max(MAX_BIO_LENGTH, { message: "Bio must be at most 200 characters long" })
+    .nullable()
     .optional(),
 
   gender: zGender.optional(),
@@ -63,6 +65,7 @@ export const zUser = z.object({
         .max(25, { message: "Skill must be at most 25 characters long" })
     )
     .max(MAX_SKILLS, { message: `Maximum ${MAX_SKILLS} skills allowed` })
+    .nullable()
     .optional(),
 
   hobbies: z
@@ -72,12 +75,14 @@ export const zUser = z.object({
         .max(25, { message: "Hobbies must be at most 25 characters long" })
     )
     .max(MAX_HOBBIES, { message: `Maximum ${MAX_HOBBIES} hobbies allowed` })
+    .nullable()
     .optional(),
 
-  website: z.string().url().optional(),
+  website: z.string().url().nullable().optional(),
 
   experience_years: z
     .preprocess((val) => Number(val), z.number().int().nonnegative().max(50))
+    .nullable()
     .optional(),
 
   gender_preference: z.array(zGender).min(1, "Select at least one option"),

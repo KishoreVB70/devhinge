@@ -1,4 +1,6 @@
 "use client";
+import InputWithLimit from "@/components/edit-profile/InputWithLimit";
+import { Label } from "@/components/ui/label";
 import { MAX_BIO_LENGTH } from "@/lib/constants";
 import React from "react";
 
@@ -9,11 +11,13 @@ type BioInputProps = {
 
 function BioInput({ bio, setBio }: BioInputProps) {
   return (
-    <div>
-      <p>
-        {bio.length}/{MAX_BIO_LENGTH}
-      </p>
-      <input type="text" onChange={(e) => setBio(e.target.value)} />
+    <div className="w-3/12">
+      <Label>Bio</Label>
+      <InputWithLimit
+        value={bio}
+        setValue={setBio}
+        maxLength={MAX_BIO_LENGTH}
+      />
     </div>
   );
 }
