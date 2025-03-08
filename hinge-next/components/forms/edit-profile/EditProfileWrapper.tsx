@@ -23,6 +23,7 @@ import GenderPreference from "@/components/forms/GenderPreference";
 import ProfileImageUploadForm from "@/components/forms/auth/signup/ProfileImageUpload";
 import { Button } from "@/components/ui/button";
 import MultiItemsInput from "@/components/forms/edit-profile/MultiItemsInputWrapper";
+import updateUser from "@/lib/actions/updateUserAction";
 
 type EditProfileProps = {
   user: UpdatableUser;
@@ -59,8 +60,11 @@ export default function EditProfileForm({ user }: EditProfileProps) {
       gender_preference: user.gender_preference,
       hobbies: defaultHobbies,
       skills: defautlSkills,
+      avatar_url: user.avatar_url,
     },
   });
+
+  console.log(user);
 
   const bio = form.watch("bio");
   const website = form.watch("website");
@@ -68,7 +72,21 @@ export default function EditProfileForm({ user }: EditProfileProps) {
   const skills = form.watch("skills");
 
   async function onSubmit(data: UpdatableUser) {
+    if (data.website === "") {
+      delete data.website;
+    }
     console.log(data);
+
+    data.hobbies = data.hobbies?.filter((hobby) => hobby !== "");
+    data.skills = data.skills?.filter((skill) => skill !== "");
+    try {
+      await updateUser(data);
+    } catch (error) {
+      console.error(error);
+      form.setError("root", {
+        message: "Something went wrong, please try again",
+      });
+    }
   }
   return (
     <div className="w-3/12">
@@ -158,7 +176,12 @@ export default function EditProfileForm({ user }: EditProfileProps) {
             values={skills}
           />
 
-          <Button type="submit">Save</Button>
+          {form.formState.errors.root && (
+            <p className="text-red-500">{form.formState.errors.root.message}</p>
+          )}
+          <Button type="submit" disabled={form.formState.isLoading}>
+            {form.formState.isLoading ? "Loading..." : "Save"}
+          </Button>
         </form>
       </Form>
     </div>
