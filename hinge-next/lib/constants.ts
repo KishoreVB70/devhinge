@@ -6,3 +6,4 @@ export const INITIAL_PROFILES_PER_PAGE_FEED = 5;
 export const PROFILES_PER_PAGE_FEED = 15;
 export const FEED_PREFETCH_THRESHOLD = 1;
 export const MAX_BIO_LENGTH = 200;
+export const MAX_WEBSITE_LENGTH = 100;

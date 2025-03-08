@@ -1,4 +1,9 @@
-import { MAX_BIO_LENGTH, MAX_HOBBIES, MAX_SKILLS } from "@/lib/constants";
+import {
+  MAX_BIO_LENGTH,
+  MAX_HOBBIES,
+  MAX_SKILLS,
+  MAX_WEBSITE_LENGTH,
+} from "@/lib/constants";
 import { z } from "zod";
 
 export const zGender = z.enum(["male", "female", "other"]);
@@ -78,7 +83,7 @@ export const zUser = z.object({
     .nullable()
     .optional(),
 
-  website: z.string().url().nullable().optional(),
+  website: z.string().url().max(MAX_WEBSITE_LENGTH).nullable().optional(),
 
   experience_years: z
     .preprocess((val) => Number(val), z.number().int().nonnegative().max(50))
