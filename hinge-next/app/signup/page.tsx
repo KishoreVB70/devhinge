@@ -1,4 +1,4 @@
-import SignUpFormWrapper from "@/components/auth/signup/SignupForm";
+import SignUpFormWrapper from "@/components/forms/auth/signup/SignupForm";
 
 function Signup() {
   return (

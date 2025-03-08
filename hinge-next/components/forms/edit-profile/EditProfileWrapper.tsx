@@ -3,7 +3,7 @@
 import React from "react";
 import { zUpdatableUser } from "@/lib/schema/userSchema";
 import { z } from "zod";
-import InputWithLimit from "@/components/edit-profile/InputWithLimit";
+import InputWithLimit from "@/components/forms/edit-profile/InputWithLimit";
 import { MAX_BIO_LENGTH, MAX_WEBSITE_LENGTH } from "@/lib/constants";
 import { Input } from "@/components/ui/input";
 

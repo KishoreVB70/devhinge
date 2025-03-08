@@ -15,14 +15,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { RadioGroup } from "@/components/ui/radio-group";
-import { zGender } from "@/lib/schema/userSchema";
 import { Checkbox } from "@/components/ui/checkbox";
-import RadioFormItem from "@/components/auth/signup/RadioFormItem";
+import RadioFormItem from "@/components/forms/auth/signup/RadioFormItem";
 import { z } from "zod";
 import { useSignupStore } from "@/lib/store/useSignupStore";
-import ProfileImageUploadForm from "@/components/auth/signup/ProfileImageUpload";
-
-const genderOptions = Object.values(zGender.Values);
+import ProfileImageUploadForm from "@/components/forms/auth/signup/ProfileImageUpload";
+import { genderOptions } from "@/lib/schema/userSchema";
 
 type SignupStepTwo = z.infer<typeof zSignupStepTwo>;
 

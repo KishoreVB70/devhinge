@@ -121,3 +121,4 @@ export const zFeedUserCursor = z.object({
 export type FeedUserCursor = z.infer<typeof zFeedUserCursor>;
 export type UserCardProfile = { name: string; avatar_url: string };
 export type UserProfile = UserCardProfile & { id: string };
+export const genderOptions = Object.values(zGender.Values);

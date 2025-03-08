@@ -11,7 +11,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import InputWithLimit from "@/components/edit-profile/InputWithLimit";
+import InputWithLimit from "@/components/forms/edit-profile/InputWithLimit";
 import { UpdatableUser } from "@/lib/schema/userSchema";
 import { Input } from "@/components/ui/input";
 
@@ -59,7 +59,7 @@ export default function EditProfileForm({ user }: EditProfileProps) {
           <FormField
             control={form.control}
             name="age"
-            render={(field) => (
+            render={({ field }) => (
               <FormItem>
                 <FormLabel>Age</FormLabel>
                 <FormControl>
@@ -73,16 +73,25 @@ export default function EditProfileForm({ user }: EditProfileProps) {
           <FormField
             control={form.control}
             name="experience_years"
-            render={(field) => (
+            render={({ field }) => (
               <FormItem>
                 <FormLabel>Experience</FormLabel>
                 <FormControl>
-                  <Input {...field} type="number" max={50} min={0} />
+                  <Input
+                    {...field}
+                    value={field.value ?? 0}
+                    type="number"
+                    max={50}
+                    min={0}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
+          {/* Gender */}
+
+          {/* Gender Preference */}
         </form>
       </Form>
     </div>
