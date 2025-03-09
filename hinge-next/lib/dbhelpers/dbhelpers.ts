@@ -99,6 +99,8 @@ export const getFeedProfiles = async (pageParam: string | null) => {
     throw new Error(error.message);
   }
 
+  console.log("raw data: ", data);
+
   const typedData = zFeedProfiles.parse(data);
 
   const hasNextPage = typedData.length > pageSize;
