@@ -2,12 +2,13 @@
 import "server-only";
 import { supabase } from "@/lib/config/supabase";
 import { headers } from "next/headers";
-import {
-  zInterestedProfiles,
-  zUserFeedProfile,
-} from "@/lib/schema/connectionSchema";
+import { zInterestedProfiles } from "@/lib/schema/connectionSchema";
 import { z } from "zod";
-import { zGender, zUpdatableUser } from "@/lib/schema/userSchema";
+import {
+  zFeedProfiles,
+  zGender,
+  zUpdatableUser,
+} from "@/lib/schema/userSchema";
 import {
   CONNECTIONS_PER_PAGE,
   INITIAL_PROFILES_PER_PAGE_FEED,
@@ -98,7 +99,7 @@ export const getFeedProfiles = async (pageParam: string | null) => {
     throw new Error(error.message);
   }
 
-  const typedData = zUserFeedProfile.array().parse(data);
+  const typedData = zFeedProfiles.parse(data);
 
   const hasNextPage = typedData.length > pageSize;
   const profiles = hasNextPage ? typedData.slice(0, pageSize) : typedData;

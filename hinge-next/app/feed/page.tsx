@@ -1,16 +1,14 @@
 import FeedClient from "@/components/FeedWrapper";
 import SideBar from "@/components/SideBar";
 import { getFeedProfiles } from "@/lib/dbhelpers/dbhelpers";
-// import { FeedUserCursor } from "@/lib/schema/userSchema";
 import React from "react";
 
-// app/posts/page.tsx
 import {
   dehydrate,
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
-import { FeedUserCursor } from "@/lib/schema/userSchema";
+import { FeedProfileCursor } from "@/lib/schema/userSchema";
 
 async function page() {
   const queryClient = new QueryClient();
@@ -19,7 +17,7 @@ async function page() {
     queryKey: ["feedProfiles"],
     queryFn: ({ pageParam }) => getFeedProfiles(pageParam),
     initialPageParam: "0",
-    getNextPageParam: (lastPage: FeedUserCursor) => lastPage.nextCursor,
+    getNextPageParam: (lastPage: FeedProfileCursor) => lastPage.nextCursor,
   });
 
   return (

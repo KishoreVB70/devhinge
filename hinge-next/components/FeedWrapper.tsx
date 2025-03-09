@@ -29,30 +29,14 @@ export default function FeedWrapper() {
   };
 
   // TODO: consolidate the following two functions into one
-  const handleLike = (index: number) => {
-    likeorPassAction(profiles[index].id, "interested");
+  const handleAction = (index: number, action: "interested" | "ignored") => {
+    likeorPassAction(profiles[index].id, action);
     handleNext(index);
   };
-
-  const handlePass = async (index: number) => {
-    likeorPassAction(profiles[index].id, "ignored");
-    handleNext(index);
-  };
-
-  const UserProfiles = profiles.map((profile) => {
-    return {
-      name: profile.name,
-      avatar_url: profile.avatar_url,
-    };
-  });
 
   return (
     <div className="h-full w-full flex justify-center items-center">
-      <ProfileCard
-        profiles={UserProfiles}
-        handleLike={handleLike}
-        handlePass={handlePass}
-      />
+      <ProfileCard profiles={profiles} handleAction={handleAction} />
     </div>
   );
 }

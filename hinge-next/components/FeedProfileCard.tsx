@@ -6,15 +6,10 @@ import { Heart, X, ArrowUpFromLine } from "lucide-react"; // Import Lucide icons
 
 type ProfileCardProps = {
   profiles: UserCardProfile[];
-  handleLike: (index: number) => void;
-  handlePass: (index: number) => void;
+  handleAction: (index: number, action: "interested" | "ignored") => void;
 };
 
-function FeedProfileCard({
-  profiles,
-  handleLike,
-  handlePass,
-}: ProfileCardProps) {
+function FeedProfileCard({ profiles, handleAction }: ProfileCardProps) {
   const [index, setIndex] = useState(0);
   const image_url = profiles[index].avatar_url;
   const name = profiles[index].name;
@@ -52,7 +47,7 @@ function FeedProfileCard({
           className="w-14 h-14 bg-white border-2 border-gray-400 hover:bg-gray-200 hover:border-gray-700 flex flex-col items-center justify-center rounded-full group"
           onClick={() => {
             moveIndex();
-            handlePass(index);
+            handleAction(index, "ignored");
           }}
         >
           <X className="w-6 h-6 text-gray-600 group-hover:text-gray-700" />
@@ -61,7 +56,7 @@ function FeedProfileCard({
           className="w-14 h-14 bg-white border-2 border-red-500 hover:bg-red-100 hover:border-red-700 rounded-full  flex flex-col items-center justify-center group"
           onClick={() => {
             moveIndex();
-            handleLike(index);
+            handleAction(index, "interested");
           }}
         >
           <Heart className="w-6 h-6 text-red-500 fill-red-500 group-hover:fill-red-600 group-hover:text-red-700" />
