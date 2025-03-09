@@ -3,6 +3,7 @@ import { FeedProfile } from "@/lib/schema/userSchema";
 import { Heart, X } from "lucide-react";
 import React, { useState } from "react";
 import BasicProfile from "@/components/BasicProfile";
+import DetailedProfile from "@/components/DetailedProfile";
 
 type ProfileCardProps = {
   profiles: FeedProfile[];
@@ -23,7 +24,11 @@ function FeedProfileCard({ profiles, handleAction }: ProfileCardProps) {
   // TODO: Clear doubt on what would happen if I unmount component on handleLike, will it still increment index?
   return (
     <div className="relative flex flex-col items-center justify-center w-[400px] h-[600px]">
-      {basicView ? <BasicProfile profile={profile} /> : null}
+      {basicView ? (
+        <BasicProfile profile={profile} setBasicView={setBasicView} />
+      ) : (
+        <DetailedProfile profile={profile} setBasicView={setBasicView} />
+      )}
       {/* Action Buttons */}
       <div className="w-[70%] flex justify-between absolute -bottom-3">
         {/* Pass Button */}

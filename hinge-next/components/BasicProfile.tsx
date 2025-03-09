@@ -5,9 +5,10 @@ import { FeedProfile } from "@/lib/schema/userSchema";
 
 type BasicProfileProps = {
   profile: FeedProfile;
+  setBasicView: (v: boolean) => void;
 };
 
-function BasicProfile({ profile }: BasicProfileProps) {
+function BasicProfile({ profile, setBasicView }: BasicProfileProps) {
   return (
     <>
       <h1 className="z-50 absolute bottom-16 left-10 text-2xl font-bold text-white">
@@ -26,7 +27,10 @@ function BasicProfile({ profile }: BasicProfileProps) {
       </div>
 
       {/* View profile button */}
-      <button className="absolute w-9 h-9 right-5 bottom-28 border-2 border-gray-200 hover:border-gray-300 flex flex-col items-center justify-center rounded-full group">
+      <button
+        onClick={() => setBasicView(false)}
+        className="absolute w-9 h-9 right-5 bottom-28 border-2 border-gray-200 hover:border-gray-300 flex flex-col items-center justify-center rounded-full group"
+      >
         <ArrowUpFromLine className="w-5 h-5 text-gray-200" />
       </button>
     </>
