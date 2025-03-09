@@ -1,3 +1,4 @@
+import { zID } from "@/lib/schema/userSchema";
 import { z } from "zod";
 
 const connectionstatusEnum = z.enum([
@@ -6,8 +7,8 @@ const connectionstatusEnum = z.enum([
   "accepted",
   "rejected",
 ]);
-
 type ConnectionStatusEnum = z.infer<typeof connectionstatusEnum>;
+
 export type NewConnectionStatus = Extract<
   ConnectionStatusEnum,
   "ignored" | "interested"
@@ -19,18 +20,10 @@ export type ModifyConnectionStatus = Extract<
 >;
 
 export const zConnection = z.object({
-  id: z.string(),
-  sender_id: z.string(),
-  target_id: z.string(),
-  status: connectionstatusEnum,
-});
-
-export const zID = z.preprocess((val) => String(val), z.string());
-
-export const zUserFeedProfile = z.object({
   id: zID,
-  name: z.string(),
-  avatar_url: z.string(),
+  sender_id: zID,
+  target_id: zID,
+  status: connectionstatusEnum,
 });
 
 export const zInterestedProfiles = z
@@ -43,5 +36,4 @@ export const zInterestedProfiles = z
     }),
   })
   .array();
-
 export type InterestedProfiles = z.infer<typeof zInterestedProfiles>;

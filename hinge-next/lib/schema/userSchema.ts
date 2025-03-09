@@ -6,8 +6,6 @@ import {
 } from "@/lib/constants";
 import { z } from "zod";
 
-export const zGender = z.enum(["male", "female", "other"]);
-
 const passwordSchema = z
   .string()
   .min(8, { message: "Password must be at least 8 characters long" })
@@ -24,6 +22,8 @@ const passwordSchema = z
     "Password must contain at least one special character"
   )
   .regex(/^\S+$/, "Password must not contain spaces");
+
+export const zGender = z.enum(["male", "female", "other"]);
 
 export const zUser = z.object({
   name: z
@@ -84,7 +84,9 @@ export const zUser = z.object({
     .optional(),
 });
 
-export const zUserPageProfile = zUser
+// Only used as a common base for nullable values of zFeed and zEditableUser
+
+const zNullableValuesBase = zUser
   .omit({
     email: true,
     password: true,
@@ -97,33 +99,33 @@ export const zUserPageProfile = zUser
     website: zUser.shape.website.nullable(),
   });
 
-export const zUpdatableUser = zUserPageProfile.omit({
-  name: true,
+export const zID = z.preprocess((val) => String(val), z.string());
+
+export const zFeedProfile = zNullableValuesBase.extend({
+  id: zID,
 });
+export type FeedProfile = z.infer<typeof zFeedProfile>;
 
-export type UpdatableUser = z.infer<typeof zUpdatableUser>;
-
-export const zUserFeedProfiles = zUser
-  .pick({
-    name: true,
-    avatar_url: true,
-    // age: true,
-    // gender: true,
-  })
-  .required()
+// Array version of zFeedProfile
+export const zFeedProfiles = zNullableValuesBase
   .extend({
-    id: z.preprocess((val) => String(val), z.string()),
+    id: zID,
   })
   .array();
 
-export type FeedUser = z.infer<typeof zUserFeedProfiles>;
-
-export const zFeedUserCursor = z.object({
-  profiles: zUserFeedProfiles,
+// Cursor based pagination for feed profiles
+export const zFeedProfileCursor = z.object({
+  profiles: zFeedProfiles,
   nextCursor: z.string().nullable(),
 });
+export type FeedProfileCursor = z.infer<typeof zFeedProfileCursor>;
 
-export type FeedUserCursor = z.infer<typeof zFeedUserCursor>;
+// Edit Profile values
+export const zUpdatableUser = zNullableValuesBase.omit({
+  name: true,
+});
+export type UpdatableUser = z.infer<typeof zUpdatableUser>;
+
 export type UserCardProfile = { name: string; avatar_url: string };
 export type UserProfile = UserCardProfile & { id: string };
 export const genderOptions = Object.values(zGender.Values);
