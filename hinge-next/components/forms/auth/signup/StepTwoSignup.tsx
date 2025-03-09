@@ -35,6 +35,15 @@ export default function StepTwoSignup() {
     resolver: zodResolver(zSignupStepTwo),
   });
 
+  const checkIfUserNameExists = async (userName: string) => {
+    const response = await axios.get(`/api/unique-username`, {
+      data: { username: userName },
+    });
+    if (response.status === 400) {
+      form.setError("name", { message: "Username already exists" });
+    }
+  };
+
   const onsubmit: SubmitHandler<SignupStepTwo> = async (stepTwoData) => {
     const response = await axios.get(
       `/api/unique-username/${stepTwoData.name}`
@@ -43,7 +52,6 @@ export default function StepTwoSignup() {
       form.setError("name", { message: "Username already exists" });
       return;
     }
-
     // 1) Upload the image
     const { profileImage, ...leanData } = stepTwoData;
     console.log(profileImage);
@@ -76,7 +84,11 @@ export default function StepTwoSignup() {
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input placeholder="John" {...field} />
+                <Input
+                  placeholder="John"
+                  {...field}
+                  onBlur={(e) => checkIfUserNameExists(e.target.value)}
+                />
               </FormControl>
               <FormDescription>
                 This is your public display name.

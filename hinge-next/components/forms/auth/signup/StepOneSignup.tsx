@@ -30,6 +30,15 @@ export default function StepOneSignup() {
     resolver: zodResolver(zSignupStepOne),
   });
 
+  const checkIfEmailExists = async (email: string) => {
+    const response = await axios.get(`/api/unique-username`, {
+      data: email,
+    });
+    if (response.status === 400) {
+      form.setError("email", { message: "Email already exists" });
+    }
+  };
+
   const onsubmit: SubmitHandler<SignupStepOne> = async (data) => {
     // TODO: Validate if user already exists
     const response = await axios.get(`/api/unique-email/${data.email}`);
@@ -58,7 +67,11 @@ export default function StepOneSignup() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="Johndoe@email.com" {...field} />
+                <Input
+                  placeholder="Johndoe@email.com"
+                  {...field}
+                  onBlur={(e) => checkIfEmailExists(e.target.value)}
+                />
               </FormControl>
               <FormDescription>
                 Your email will be used to login.
