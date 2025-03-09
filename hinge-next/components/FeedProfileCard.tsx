@@ -1,18 +1,17 @@
 "use client";
-import { UserCardProfile } from "@/lib/schema/userSchema";
+import { FeedProfile } from "@/lib/schema/userSchema";
 import Image from "next/image";
 import React, { useState } from "react";
 import { Heart, X, ArrowUpFromLine } from "lucide-react"; // Import Lucide icons
 
 type ProfileCardProps = {
-  profiles: UserCardProfile[];
+  profiles: FeedProfile[];
   handleAction: (index: number, action: "interested" | "ignored") => void;
 };
 
 function FeedProfileCard({ profiles, handleAction }: ProfileCardProps) {
   const [index, setIndex] = useState(0);
-  const image_url = profiles[index].avatar_url;
-  const name = profiles[index].name;
+  const profile = profiles[index];
 
   function moveIndex() {
     if (index + 1 < profiles.length) {
@@ -24,11 +23,11 @@ function FeedProfileCard({ profiles, handleAction }: ProfileCardProps) {
   return (
     <div className="relative flex flex-col items-center justify-center w-[400px] h-[600px]">
       <h1 className="z-50 absolute bottom-16 left-10 text-2xl font-bold text-white">
-        {name} {21}
+        {profile.name} {profile.age}
       </h1>
       <div className="relative w-[400px] h-[600px]">
         <Image
-          src={image_url}
+          src={profile.avatar_url}
           className="rounded-3xl"
           alt="Image"
           width={400}
