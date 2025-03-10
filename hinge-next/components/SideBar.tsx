@@ -33,7 +33,7 @@ export default async function SideBar({ page }: SideBarProps) {
         {/* View Connections */}
         {page !== "connections" && (
           <Link
-            href={"/requests"}
+            href={"/connections"}
             className="flex flex-row justify-center items-center gap-3 w-full px-4 py-3 bg-gray-100 hover:bg-gray-200 transition-all rounded-lg shadow-sm"
           >
             <svg

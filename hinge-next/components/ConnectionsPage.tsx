@@ -1,3 +1,4 @@
+import FeedSVG from "@/components/feed/FeedSVG";
 import NavigationButtons from "@/components/NavigationButtons";
 import ProfileCard from "@/components/ProfileCard";
 import { UserProfile } from "@/lib/schema/userSchema";
@@ -10,7 +11,23 @@ type ConnectionsPageProps = {
 
 function ConnectionsPage({ profiles, totalConnections }: ConnectionsPageProps) {
   if (!profiles || profiles.length === 0) {
-    return <div>No Connections Found</div>;
+    return (
+      <div className="flex flex-col w-full items-center justify-center h-full text-center">
+        {/* Empty State Illustration */}
+        <div className="flex flex-col items-center space-y-6 p-6 bg-gray-50 shadow-lg rounded-xl border border-gray-200">
+          {/* Message */}
+          <p className="text-lg font-semibold text-gray-700">
+            No Connections Found
+          </p>
+          <p className="text-gray-500">
+            Check back later or explore new connections.
+          </p>
+
+          {/* Explore More Button */}
+          <FeedSVG variant="page" />
+        </div>
+      </div>
+    );
   }
 
   const cardProfiles = profiles.map((profile) => {
