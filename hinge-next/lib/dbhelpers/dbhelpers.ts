@@ -139,9 +139,6 @@ export const getInterestedProfiles = async () => {
 
     // Validate the data
     const validatedData = zInterestedProfiles.parse(data);
-    if (validatedData.length === 0) {
-      return null;
-    }
     return validatedData;
   } catch (error) {
     console.error(error);
