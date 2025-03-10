@@ -1,16 +1,11 @@
 import FeedSVG from "@/components/feed/FeedSVG";
 import NavigationButtons from "@/components/NavigationButtons";
 import ProfileCard from "@/components/ProfileCard";
-import { InterestedProfilesCursor } from "@/lib/schema/connectionSchema";
+import { useConnectedProfiles } from "@/lib/hooks/useConnectedProfiles";
 import React from "react";
 
-type SConnectionsPageProps = {
-  profilesCursor: InterestedProfilesCursor;
-};
-
-export default function SConnectionsPage({
-  profilesCursor,
-}: SConnectionsPageProps) {
+export default function SConnectionsPage() {
+  const { data: profiles } = useConnectedProfiles();
   if (!profilesCursor || profilesCursor.profiles.length === 0) {
     return (
       <div className="flex flex-col w-full items-center justify-center h-full text-center">

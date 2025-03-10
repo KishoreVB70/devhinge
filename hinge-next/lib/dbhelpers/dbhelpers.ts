@@ -5,9 +5,9 @@ import { headers } from "next/headers";
 import { zInterestedProfiles } from "@/lib/schema/connectionSchema";
 import { z } from "zod";
 import {
-  zFeedProfile,
   zFeedProfiles,
   zGender,
+  zSimpleProfile,
   zUpdatableUser,
 } from "@/lib/schema/userSchema";
 import {
@@ -15,7 +15,6 @@ import {
   INITIAL_PROFILES_PER_PAGE_FEED,
   PROFILES_PER_PAGE_FEED,
 } from "@/lib/constants";
-
 const getConnectionsFilter = async (userId: string) => {
   const { data, error } = await supabase
     .from("connections")
@@ -157,23 +156,12 @@ export const getConnectedProfiles = async (page: number) => {
     const from = (page - 1) * CONNECTIONS_PER_PAGE;
     const to = from + CONNECTIONS_PER_PAGE - 1;
 
-    // TODO: ensure supabase won't return an array -> cause breaking changes
-    const { count, error: totalError } = await supabase
-      .from("connections")
-      .select("id", { count: "exact", head: true })
-      .or(`sender_id.eq.${userId},target_id.eq.${userId}`)
-      .eq("status", "accepted");
-
-    if (totalError) {
-      throw new Error(totalError.message);
-    }
-
     const { data, error } = await supabase
       .from("connections")
       .select(
         `
-          sender_profile:sender_id (*),
-          target_profile:target_id (*)
+          sender_profile:sender_id (id, name, avatar_url),
+          target_profile:target_id (id, name, avatar_url)
         `
       )
       .or(`sender_id.eq.${userId},target_id.eq.${userId}`)
@@ -189,12 +177,13 @@ export const getConnectedProfiles = async (page: number) => {
     }
 
     const parser = z.object({
-      sender_profile: zFeedProfile,
-      target_profile: zFeedProfile,
+      sender_profile: zSimpleProfile,
+      target_profile: zSimpleProfile,
     });
 
     const parsedData = parser.array().parse(data);
 
+    // Remove self profile from the list
     const cleansedData = parsedData.map((item) => {
       if (item.sender_profile.id === userId) {
         {
