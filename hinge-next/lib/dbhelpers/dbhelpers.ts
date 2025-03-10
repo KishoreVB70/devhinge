@@ -2,7 +2,6 @@
 import "server-only";
 import { supabase } from "@/lib/config/supabase";
 import { headers } from "next/headers";
-import { zInterestedProfiles } from "@/lib/schema/connectionSchema";
 import { z } from "zod";
 import {
   zFeedProfiles,
@@ -137,7 +136,7 @@ export const getInterestedProfiles = async () => {
     }
 
     // Validate the data
-    const validatedData = zInterestedProfiles.parse(data);
+    const validatedData = zFeedProfiles.parse(data);
     return validatedData;
   } catch (error) {
     console.error(error);

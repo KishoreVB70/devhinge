@@ -1,14 +1,18 @@
 import { Avatar } from "@/components/ui/avatar";
-import { UserCardProfile } from "@/lib/schema/userSchema";
+import { SimpleProfile } from "@/lib/schema/userSchema";
 import { AvatarImage } from "@radix-ui/react-avatar";
+import Link from "next/link";
 import React from "react";
 type ProfileCardProps = {
-  profile: UserCardProfile;
+  profile: SimpleProfile;
 };
 
 function ProfileCard({ profile }: ProfileCardProps) {
   return (
-    <div className="flex flex-row space-x-2 justify-center items-center max-h-[800px] shadow-md p-4">
+    <Link
+      href={`/user/${profile.id}`}
+      className=" cursor-pointer flex flex-row space-x-2 justify-center items-center max-h-[800px] shadow-md p-4"
+    >
       <Avatar>
         <AvatarImage
           src={profile.avatar_url}
@@ -17,7 +21,7 @@ function ProfileCard({ profile }: ProfileCardProps) {
         />
       </Avatar>
       <h1 className="text-xl">{profile.name}</h1>
-    </div>
+    </Link>
   );
 }
 

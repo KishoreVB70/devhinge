@@ -1,12 +1,21 @@
 import FeedSVG from "@/components/feed/FeedSVG";
-import NavigationButtons from "@/components/NavigationButtons";
 import ProfileCard from "@/components/ProfileCard";
 import { useConnectedProfiles } from "@/lib/hooks/useConnectedProfiles";
 import React from "react";
 
 export default function SConnectionsPage() {
-  const { data: profiles } = useConnectedProfiles();
-  if (!profilesCursor || profilesCursor.profiles.length === 0) {
+  const { data, isError, isLoading } = useConnectedProfiles();
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!data || isError) {
+    return <div>Retry</div>;
+  }
+
+  const profiles = data.pages?.flatMap((page) => page.profiles);
+
+  if (profiles.length === 0) {
     return (
       <div className="flex flex-col w-full items-center justify-center h-full text-center">
         {/* Empty State Illustration */}
@@ -26,22 +35,13 @@ export default function SConnectionsPage() {
     );
   }
 
-  const profiles = profilesCursor.profiles;
-  const cardProfiles = profiles.map((profile) => {
-    return {
-      name: profile.name,
-      avatar_url: profile.avatar_url,
-    };
-  });
-
   return (
     <div className="h-screen flex flex-col items-center justify-center">
-      <div className="grid grid-cols-3 gap-4">
-        {cardProfiles.map((profile) => (
+      <div className="grid grid-cols-4 gap-4">
+        {profiles.map((profile) => (
           <ProfileCard key={profile.name} profile={profile} />
         ))}
       </div>
-      <NavigationButtons totalConnections={totalConnections} />
     </div>
   );
 }
