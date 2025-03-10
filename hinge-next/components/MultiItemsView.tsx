@@ -5,12 +5,16 @@ type MultiItemsViewProps = {
 };
 function MultiItemsView({ type, items }: MultiItemsViewProps) {
   return (
-    <>
-      <h1>{type}</h1>
-      {items.map((item) => (
-        <div key={item}>{item}</div>
-      ))}
-    </>
+    <div className="flex flex-col items-center space-y-2">
+      <h1 className="font-bold">{type}</h1>
+      <div className="grid grid-cols-3 gap-4">
+        {items.map((item) => (
+          <div className="border-red-500 border p-1 text-center" key={item}>
+            {item}
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
 

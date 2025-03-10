@@ -77,7 +77,7 @@ export const zUser = z.object({
     .max(MAX_HOBBIES, { message: `Maximum ${MAX_HOBBIES} hobbies allowed` })
     .optional(),
 
-  website: z.string().url().max(MAX_WEBSITE_LENGTH).optional(),
+  website_url: z.string().url().max(MAX_WEBSITE_LENGTH).optional(),
 
   experience_years: z
     .preprocess((val) => Number(val), z.number().int().nonnegative().max(50))
@@ -96,7 +96,7 @@ const zNullableValuesBase = zUser
     skills: zUser.shape.skills.nullable(),
     hobbies: zUser.shape.hobbies.nullable(),
     experience_years: zUser.shape.experience_years.nullable(),
-    website: zUser.shape.website.nullable(),
+    website_url: zUser.shape.website_url.nullable(),
   });
 
 export const zID = z.preprocess((val) => String(val), z.string());
