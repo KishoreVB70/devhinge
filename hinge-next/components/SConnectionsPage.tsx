@@ -37,7 +37,7 @@ export default function SConnectionsPage() {
   }
 
   return (
-    <div className="h-screen flex flex-col items-center justify-center">
+    <div className="p-4 w-[50%] mx-auto my-auto">
       <div className="grid grid-cols-4 gap-4">
         {profiles.map((profile) => (
           <ProfileCard key={profile.name} profile={profile} />
