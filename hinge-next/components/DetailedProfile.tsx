@@ -11,7 +11,7 @@ type DetailedProfileProps = {
 
 function DetailedProfile({ profile, setBasicView }: DetailedProfileProps) {
   return (
-    <div className="overflow-y-auto pb-16  flex flex-col items-center  shadow-2xl w-[400px] h-[600px]">
+    <div className="overflow-y-auto pb-16 bg-gray-200  flex flex-col items-center  shadow-2xl w-[400px] h-[600px]">
       {/* Gradient */}
       <div className="absolute inset-x-0 bottom-0 h-[15%] bg-gradient-to-t from-gray-300/80 via-gray-300/40 to-transparent"></div>
 
@@ -40,11 +40,12 @@ function DetailedProfile({ profile, setBasicView }: DetailedProfileProps) {
       />
 
       {/* Gender & Gender Preference */}
-      <div className="w-full flex flex-col items-center space-y-4 p-4">
+      <div className="bg-white rounded-xl w-full flex flex-col items-center space-y-4 mt-2 p-3">
         {/* Gender Display */}
         <div className="bg-blue-500 text-white px-4 py-2 rounded-full text-sm font-semibold shadow-md">
           {profile.gender}
         </div>
+        <span className="block w-[75%] h-px bg-gray-300"></span>
 
         {/* Gender Preference Section */}
         <div className="w-full flex flex-col items-center">
@@ -66,32 +67,34 @@ function DetailedProfile({ profile, setBasicView }: DetailedProfileProps) {
 
       {/* Bio Section */}
       {profile.bio && (
-        <div className="bg-gray-100 p-3 rounded-sm w-full text-center text-gray-800">
-          <p className="font-semibold text-sm">Bio</p>
+        <div className="mt-2 rounded-xl space-y-2 bg-white p-3 w-full text-center text-gray-800">
+          <p className="font-semibold text-sm">About me</p>
           <p className="text-sm">{profile.bio}</p>
         </div>
       )}
 
-      {/* Experience Years */}
-      {profile.experience_years && (
-        <div className="w-full mt-2 text-gray-700 text-center flex flex-row items-center justify-center">
-          <p className="font-semibold pr-1">Experience:</p>
-          <p>{profile.experience_years} years</p>
-        </div>
-      )}
-
-      {/* Website URL */}
-      {profile.website_url && (
-        <a
-          href={profile.website_url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-blue-500 mt-2 hover:underline flex items-center space-x-1"
-        >
-          <Globe className="w-5 h-5 text-blue-500" />
-          <span>Visit Website</span>
-        </a>
-      )}
+      {/* Experience and website */}
+      <div className="bg-white rounded-xl p-4 w-full flex flex-col items-center space-y-2 mt-2">
+        {/* Experience Years */}
+        {profile.experience_years && (
+          <div className="w-full mt-2 text-gray-700 text-center flex flex-row items-center justify-center">
+            <p className="font-semibold pr-1">Experience:</p>
+            <p>{profile.experience_years} years</p>
+          </div>
+        )}
+        {/* Website URL */}
+        {profile.website_url && (
+          <a
+            href={profile.website_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-500 mt-2 hover:underline flex items-center space-x-1"
+          >
+            <Globe className="w-5 h-5 text-blue-500" />
+            <span>Visit Website</span>
+          </a>
+        )}
+      </div>
 
       {/* Skills and hobbies */}
       {profile.skills && (
