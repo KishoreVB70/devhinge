@@ -4,6 +4,7 @@ import { supabase } from "@/lib/config/supabase";
 import { headers } from "next/headers";
 import { z } from "zod";
 import {
+  zFeedProfile,
   zFeedProfiles,
   zGender,
   zSimpleProfile,
@@ -203,7 +204,7 @@ export const getConnectedProfiles = async (page: number) => {
   }
 };
 
-export const getUser = async () => {
+export const getUserSelf = async () => {
   try {
     const userId = (await headers()).get("id");
     if (!userId) {
@@ -222,6 +223,24 @@ export const getUser = async () => {
     }
 
     return zuser.parse(data[0]);
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
+export const getUser = async (id: string) => {
+  try {
+    const { data, error } = await supabase
+      .from("users")
+      .select("*")
+      .eq("id", id);
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return zFeedProfile.parse(data[0]);
   } catch (error) {
     console.error(error);
     return null;

@@ -6,14 +6,14 @@ import MultiItemsView from "@/components/MultiItemsView";
 
 type DetailedProfileProps = {
   profile: FeedProfile;
-  setBasicView: (v: boolean) => void;
+  setBasicView?: (v: boolean) => void;
 };
 
 function DetailedProfile({ profile, setBasicView }: DetailedProfileProps) {
   return (
-    <div className="overflow-y-auto pb-16 bg-gray-200  flex flex-col items-center  shadow-2xl w-[400px] h-[600px]">
+    <div className="overflow-y-auto pb-6 bg-gray-200  flex flex-col items-center  shadow-2xl w-[400px] h-[600px]">
       {/* Gradient */}
-      <div className="absolute inset-x-0 bottom-0 h-[15%] bg-gradient-to-t from-gray-300/80 via-gray-300/40 to-transparent"></div>
+      <div className="z-50 absolute inset-x-0 bottom-0 h-[15%] bg-gradient-to-t from-gray-300/80 via-gray-300/40 to-transparent"></div>
 
       {/* Name, Age, Downbutton */}
       <div className="flex top-0 sticky z-10 bg-white flex-row py-2 items-center w-[100%] px-4 justify-between">
@@ -21,12 +21,14 @@ function DetailedProfile({ profile, setBasicView }: DetailedProfileProps) {
           <p className="font-semibold text-2xl">{profile.name}</p>
           <p className="text-2xl">{profile.age}</p>
         </div>
-        <button
-          onClick={() => setBasicView(true)}
-          className="w-9 h-9 right-5 p-1 bottom-28 border-2 border-red-500 hover:border-red-600 flex flex-col items-center justify-center rounded-full group"
-        >
-          <ArrowDownFromLine className="w-5 h-5 text-red-500" />
-        </button>
+        {setBasicView && (
+          <button
+            onClick={() => setBasicView(true)}
+            className="w-9 h-9 right-5 p-1 bottom-28 border-2 border-red-500 hover:border-red-600 flex flex-col items-center justify-center rounded-full group"
+          >
+            <ArrowDownFromLine className="w-5 h-5 text-red-500" />
+          </button>
+        )}
       </div>
 
       {/* Profile Image */}
@@ -97,10 +99,10 @@ function DetailedProfile({ profile, setBasicView }: DetailedProfileProps) {
       </div>
 
       {/* Skills and hobbies */}
-      {profile.skills && (
+      {profile.skills && profile.skills.length > 0 && (
         <MultiItemsView type="Skills" items={profile.skills} />
       )}
-      {profile.hobbies && (
+      {profile.hobbies && profile.hobbies.length > 0 && (
         <MultiItemsView type="Hobbies" items={profile.hobbies} />
       )}
     </div>

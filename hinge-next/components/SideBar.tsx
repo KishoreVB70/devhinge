@@ -1,6 +1,6 @@
 import FeedSVG from "@/components/feed/FeedSVG";
 import { Avatar } from "@/components/ui/avatar";
-import { getUser } from "@/lib/dbhelpers/dbhelpers";
+import { getUserSelf } from "@/lib/dbhelpers/dbhelpers";
 import { AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import Link from "next/link";
 import React from "react";
@@ -10,7 +10,7 @@ type SideBarProps = {
 };
 
 export default async function SideBar({ page }: SideBarProps) {
-  const user = await getUser();
+  const user = await getUserSelf();
   const imageUrl = user ? user.avatar_url : "/devconnect.webp";
   const name = user ? user.name : "Prius";
   return (

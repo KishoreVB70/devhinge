@@ -35,7 +35,7 @@ function FeedProfileCard<T extends string>({
         <DetailedProfile profile={profile} setBasicView={setBasicView} />
       )}
       {/* Action Buttons */}
-      <div className="w-[70%] flex justify-between absolute -bottom-3">
+      <div className="z-50 w-[70%] flex justify-between absolute -bottom-3">
         {/* Pass Button */}
         <button
           className="w-14 h-14 bg-white border-2 border-gray-400 hover:bg-gray-200 hover:border-gray-700 flex flex-col items-center justify-center rounded-full group"

@@ -12,16 +12,19 @@ function ProfileCard({ profile }: ProfileCardProps) {
   return (
     <Link
       href={`/user/${profile.id}`}
-      className="cursor-pointer flex flex-col space-x-2 justify-center items-center shadow-md p-4"
+      className="rounded-lg relative cursor-pointer flex flex-col justify-center items-center shadow-lg border border-gray-300"
     >
-      <h1 className="text-2xl">{profile.name}</h1>
+      <h1 className="absolute bottom-5 left-5 font-semibold text-white text-2xl z-10">
+        {profile.name}
+      </h1>
       <Image
         src={profile.avatar_url}
-        className="w-[150px] h-[200px] object-cover"
+        className="w-[220px] h-[300px] object-cover"
         alt="Image"
-        width={150}
-        height={200}
+        width={220}
+        height={300}
       />
+      <div className="absolute inset-x-0 bottom-0 h-[33%] bg-gradient-to-t from-black via-black/70 to-transparent rounded-sm"></div>
     </Link>
   );
   // Mobile Profile
