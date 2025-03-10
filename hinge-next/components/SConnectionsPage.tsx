@@ -1,3 +1,4 @@
+"use client";
 import FeedSVG from "@/components/feed/FeedSVG";
 import ProfileCard from "@/components/ProfileCard";
 import { useConnectedProfiles } from "@/lib/hooks/useConnectedProfiles";
