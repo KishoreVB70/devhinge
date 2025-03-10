@@ -53,7 +53,7 @@ export default function EditProfileForm({ user }: EditProfileProps) {
   const form = useForm<UpdatableUser>({
     defaultValues: {
       bio: user.bio || "",
-      website: user.website || "",
+      website_url: user.website_url || "",
       age: user.age || 0,
       experience_years: user.experience_years || 0,
       gender: user.gender,
@@ -67,13 +67,13 @@ export default function EditProfileForm({ user }: EditProfileProps) {
   console.log(user);
 
   const bio = form.watch("bio");
-  const website = form.watch("website");
+  const website_url = form.watch("website_url");
   const hobbies = form.watch("hobbies");
   const skills = form.watch("skills");
 
   async function onSubmit(data: UpdatableUser) {
-    if (data.website === "") {
-      delete data.website;
+    if (data.website_url === "") {
+      delete data.website_url;
     }
     console.log(data);
 
@@ -111,9 +111,9 @@ export default function EditProfileForm({ user }: EditProfileProps) {
           <InputWithLimit
             maxLength={MAX_WEBSITE_LENGTH}
             control={form.control}
-            length={website?.length || 0}
-            label="Website"
-            name="website"
+            length={website_url?.length || 0}
+            label="Website url"
+            name="website_url"
           />
 
           {/* Age */}
