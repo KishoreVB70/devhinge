@@ -10,20 +10,21 @@ import { useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import InputWithLimit from "@/components/forms/edit-profile/InputWithLimit";
-import { UpdatableUser } from "@/lib/schema/userSchema";
+import { genderOptions, UpdatableUser } from "@/lib/schema/userSchema";
 import { Input } from "@/components/ui/input";
 import GenderSelect from "@/components/forms/GenderSelect";
-import GenderPreference from "@/components/forms/GenderPreference";
 import ProfileImageUploadForm from "@/components/forms/auth/signup/ProfileImageUpload";
 import { Button } from "@/components/ui/button";
 import MultiItemsInput from "@/components/forms/edit-profile/MultiItemsInputWrapper";
 import updateUser from "@/lib/actions/updateUserAction";
+import { Checkbox } from "@radix-ui/react-checkbox";
 
 type EditProfileProps = {
   user: UpdatableUser;
@@ -155,7 +156,44 @@ export default function EditProfileForm({ user }: EditProfileProps) {
           <GenderSelect control={form.control} />
 
           {/* Gender Preference */}
-          <GenderPreference control={form.control} />
+          <FormField
+            control={form.control}
+            name="gender_preference"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Select Gender Preferences</FormLabel>
+                <FormDescription>
+                  You must select at least one option.
+                </FormDescription>
+                <FormControl>
+                  <div className="flex flex-col space-y-2">
+                    {genderOptions.map((gender) => (
+                      <FormItem
+                        key={gender}
+                        className="flex items-center space-x-3"
+                      >
+                        <Checkbox
+                          id={gender}
+                          className="mt-2"
+                          checked={field.value?.includes(gender)}
+                          onCheckedChange={(checked) => {
+                            const newValue = checked
+                              ? [...field.value, gender]
+                              : field.value.filter((item) => item !== gender);
+                            field.onChange(newValue);
+                          }}
+                        />
+                        <FormLabel className="mt-2" htmlFor={gender}>
+                          {gender}
+                        </FormLabel>
+                      </FormItem>
+                    ))}
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
           {/* Image */}
           <ProfileImageUploadForm control={form.control} />

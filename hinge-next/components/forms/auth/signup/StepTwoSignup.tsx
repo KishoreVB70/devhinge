@@ -18,8 +18,9 @@ import { z } from "zod";
 import { useSignupStore } from "@/lib/store/useSignupStore";
 import ProfileImageUploadForm from "@/components/forms/auth/signup/ProfileImageUpload";
 import GenderSelect from "@/components/forms/GenderSelect";
-import GenderPreference from "@/components/forms/GenderPreference";
 import axios from "axios";
+import { Checkbox } from "@/components/ui/checkbox";
+import { genderOptions } from "@/lib/schema/userSchema";
 
 type SignupStepTwo = z.infer<typeof zSignupStepTwo>;
 
@@ -115,7 +116,44 @@ export default function StepTwoSignup() {
         {/* Gender */}
         <GenderSelect control={form.control} />
         {/* Gender Preference */}
-        <GenderPreference control={form.control} />
+        <FormField
+          control={form.control}
+          name="gender_preference"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Select Gender Preferences</FormLabel>
+              <FormDescription>
+                You must select at least one option.
+              </FormDescription>
+              <FormControl>
+                <div className="flex flex-col space-y-2">
+                  {genderOptions.map((gender) => (
+                    <FormItem
+                      key={gender}
+                      className="flex items-center space-x-3"
+                    >
+                      <Checkbox
+                        id={gender}
+                        className="mt-2"
+                        checked={field.value?.includes(gender)}
+                        onCheckedChange={(checked) => {
+                          const newValue = checked
+                            ? [...field.value, gender]
+                            : field.value.filter((item) => item !== gender);
+                          field.onChange(newValue);
+                        }}
+                      />
+                      <FormLabel className="mt-2" htmlFor={gender}>
+                        {gender}
+                      </FormLabel>
+                    </FormItem>
+                  ))}
+                </div>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <ProfileImageUploadForm control={form.control} />
         <Button type="submit" disabled={form.formState.isSubmitting}>
           {form.formState.isSubmitting ? "loading" : "Submit"}
