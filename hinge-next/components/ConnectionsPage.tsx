@@ -1,16 +1,22 @@
+"use client";
 import FeedSVG from "@/components/feed/FeedSVG";
-import NavigationButtons from "@/components/NavigationButtons";
 import ProfileCard from "@/components/ProfileCard";
-import { UserProfile } from "@/lib/schema/userSchema";
+import { useConnectedProfiles } from "@/lib/hooks/useConnectedProfiles";
 import React from "react";
 
-type ConnectionsPageProps = {
-  profiles: UserProfile[] | null;
-  totalConnections: number;
-};
+export default function SConnectionsPage() {
+  const { data, isError, isLoading } = useConnectedProfiles();
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
-function ConnectionsPage({ profiles, totalConnections }: ConnectionsPageProps) {
-  if (!profiles || profiles.length === 0) {
+  if (!data || isError) {
+    return <div>Retry</div>;
+  }
+
+  const profiles = data.pages?.flatMap((page) => page.profiles);
+
+  if (profiles.length === 0) {
     return (
       <div className="flex flex-col w-full items-center justify-center h-full text-center">
         {/* Empty State Illustration */}
@@ -30,23 +36,13 @@ function ConnectionsPage({ profiles, totalConnections }: ConnectionsPageProps) {
     );
   }
 
-  const cardProfiles = profiles.map((profile) => {
-    return {
-      name: profile.name,
-      avatar_url: profile.avatar_url,
-    };
-  });
-
   return (
-    <div className="h-screen flex flex-col items-center justify-center">
-      <div className="grid grid-cols-3 gap-4">
-        {cardProfiles.map((profile) => (
+    <div className="p-4 w-[50%] mx-auto my-auto">
+      <div className="grid grid-cols-4 gap-4">
+        {profiles.map((profile) => (
           <ProfileCard key={profile.name} profile={profile} />
         ))}
       </div>
-      <NavigationButtons totalConnections={totalConnections} />
     </div>
   );
 }
-
-export default ConnectionsPage;

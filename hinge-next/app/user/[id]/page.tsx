@@ -2,13 +2,13 @@ import DetailedProfile from "@/components/DetailedProfile";
 import SideBar from "@/components/SideBar";
 import { getUser } from "@/lib/dbhelpers/dbhelpers";
 import React from "react";
-type UserProfileProps = {
-  params: {
-    id: string;
-  };
+
+type PageProps = {
+  params: Promise<{ id: string }>;
 };
-export default async function UserProfile({ params }: UserProfileProps) {
-  const id = params.id;
+
+export default async function UserProfile({ params }: PageProps) {
+  const { id } = await params;
 
   const profile = await getUser(id);
 

@@ -9,7 +9,7 @@ export default async function page() {
   return (
     <div className="h-screen flex w-full">
       <SideBar page="requests" />
-      <RequestsClient interestedProfiles={interestedProfiles} />
+      <RequestsClient profiles={interestedProfiles} />
     </div>
   );
 }

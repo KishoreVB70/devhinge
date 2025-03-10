@@ -6,14 +6,8 @@ export async function PATCH(req: NextRequest) {
   try {
     const data = await req.json();
     const userData = zUser.parse(data);
-    const formData: FormData = new FormData();
-    for (const key in userData) {
-      if (userData.hasOwnProperty(key)) {
-        formData.append(key, userData[key as keyof typeof userData] as string);
-      }
-    }
 
-    await updateUser(formData);
+    await updateUser(userData);
     return NextResponse.json({ message: "User created" });
   } catch (error) {
     console.error(error);

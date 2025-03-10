@@ -2,13 +2,13 @@
 import FeedSVG from "@/components/feed/FeedSVG";
 import ProfileCard from "@/components/FeedProfileCard";
 import { modifyConnectionAction } from "@/lib/actions/connectionAction";
-import { InterestedProfiles } from "@/lib/schema/connectionSchema";
+import { FeedProfile } from "@/lib/schema/userSchema";
 import React from "react";
 type RequestsClientProps = {
-  interestedProfiles: InterestedProfiles | null;
+  profiles: FeedProfile[] | null;
 };
-function RequestsClient({ interestedProfiles }: RequestsClientProps) {
-  if (!interestedProfiles || interestedProfiles.length === 0) {
+function RequestsClient({ profiles }: RequestsClientProps) {
+  if (!profiles || profiles.length === 0) {
     return (
       <div className="flex flex-col w-full items-center justify-center h-full text-center">
         {/* Empty State Illustration */}
@@ -27,13 +27,8 @@ function RequestsClient({ interestedProfiles }: RequestsClientProps) {
       </div>
     );
   }
-
-  const profiles = interestedProfiles.map((profile) => {
-    return profile.sender_profile;
-  });
-
   const handleAction = (index: number, action: "accepted" | "rejected") => {
-    modifyConnectionAction(interestedProfiles[index].sender_profile.id, action);
+    modifyConnectionAction(profiles[index].id, action);
   };
 
   return (
