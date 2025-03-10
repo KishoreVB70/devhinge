@@ -11,12 +11,12 @@ type DetailedProfileProps = {
 
 function DetailedProfile({ profile, setBasicView }: DetailedProfileProps) {
   return (
-    <div className="overflow-y-auto space-y-3 pt-3 pb-16  flex flex-col items-center  shadow-2xl w-[400px] h-[600px]">
+    <div className="overflow-y-auto pb-16  flex flex-col items-center  shadow-2xl w-[400px] h-[600px]">
       {/* Gradient */}
       <div className="absolute inset-x-0 bottom-0 h-[15%] bg-gradient-to-t from-gray-300/80 via-gray-300/40 to-transparent"></div>
 
       {/* Name, Age, Downbutton */}
-      <div className="flex flex-row items-center w-[90%] justify-between">
+      <div className="flex top-0 sticky z-10 bg-white flex-row py-2 items-center w-[100%] px-4 justify-between">
         <div className="flex flex-row space-x-2 items-center">
           <p className="font-semibold text-2xl">{profile.name}</p>
           <p className="text-2xl">{profile.age}</p>
@@ -28,6 +28,7 @@ function DetailedProfile({ profile, setBasicView }: DetailedProfileProps) {
           <ArrowDownFromLine className="w-5 h-5 text-red-500" />
         </button>
       </div>
+
       {/* Profile Image */}
       <Image
         src={profile.avatar_url}
@@ -73,7 +74,7 @@ function DetailedProfile({ profile, setBasicView }: DetailedProfileProps) {
 
       {/* Experience Years */}
       {profile.experience_years && (
-        <div className="w-full text-gray-700 text-center flex flex-row items-center justify-center">
+        <div className="w-full mt-2 text-gray-700 text-center flex flex-row items-center justify-center">
           <p className="font-semibold pr-1">Experience:</p>
           <p>{profile.experience_years} years</p>
         </div>
@@ -85,7 +86,7 @@ function DetailedProfile({ profile, setBasicView }: DetailedProfileProps) {
           href={profile.website_url}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-blue-500 hover:underline flex items-center space-x-1"
+          className="text-blue-500 mt-2 hover:underline flex items-center space-x-1"
         >
           <Globe className="w-5 h-5 text-blue-500" />
           <span>Visit Website</span>
