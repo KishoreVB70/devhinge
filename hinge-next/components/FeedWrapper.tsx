@@ -36,7 +36,11 @@ export default function FeedWrapper() {
 
   return (
     <div className="h-full w-full flex justify-center items-center">
-      <ProfileCard profiles={profiles} handleAction={handleAction} />
+      <ProfileCard
+        profiles={profiles}
+        handleAction={handleAction}
+        actions={["ignored", "interested"]}
+      />
     </div>
   );
 }

@@ -11,25 +11,15 @@ function RequestsClient({ interestedProfiles }: RequestsClientProps) {
     return profile.sender_profile;
   });
 
-  const handleLike = (index: number) => {
-    modifyConnectionAction(
-      interestedProfiles[index].sender_profile.id,
-      "accepted"
-    );
-  };
-
-  const handlePass = (index: number) => {
-    modifyConnectionAction(
-      interestedProfiles[index].sender_profile.id,
-      "rejected"
-    );
+  const handleAction = (index: number, action: "accepted" | "rejected") => {
+    modifyConnectionAction(interestedProfiles[index].sender_profile.id, action);
   };
 
   return (
     <ProfileCard
       profiles={profiles}
-      handleLike={handleLike}
-      handlePass={handlePass}
+      handleAction={handleAction}
+      actions={["rejected", "accepted"]}
     />
   );
 }

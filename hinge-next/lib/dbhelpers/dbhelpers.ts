@@ -5,6 +5,7 @@ import { headers } from "next/headers";
 import { zInterestedProfiles } from "@/lib/schema/connectionSchema";
 import { z } from "zod";
 import {
+  zFeedProfile,
   zFeedProfiles,
   zGender,
   zUpdatableUser,
@@ -126,7 +127,7 @@ export const getInterestedProfiles = async () => {
       .select(
         `
           id,
-          sender_profile:sender_id (id, name, avatar_url)
+          sender_profile:sender_id (*)
         `
       )
       .eq("target_id", userId)
@@ -174,8 +175,8 @@ export const getConnectedProfiles = async (page: number) => {
       .from("connections")
       .select(
         `
-          sender_profile:sender_id (id, name, avatar_url),
-          target_profile:target_id (id, name, avatar_url)
+          sender_profile:sender_id (*),
+          target_profile:target_id (*)
         `
       )
       .or(`sender_id.eq.${userId},target_id.eq.${userId}`)
@@ -191,8 +192,8 @@ export const getConnectedProfiles = async (page: number) => {
     }
 
     const parser = z.object({
-      sender_profile: zUserFeedProfile,
-      target_profile: zUserFeedProfile,
+      sender_profile: zFeedProfile,
+      target_profile: zFeedProfile,
     });
 
     const parsedData = parser.array().parse(data);

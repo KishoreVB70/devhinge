@@ -5,12 +5,17 @@ import React, { useState } from "react";
 import BasicProfile from "@/components/BasicProfile";
 import DetailedProfile from "@/components/DetailedProfile";
 
-type ProfileCardProps = {
+type ProfileCardProps<T extends string> = {
   profiles: FeedProfile[];
-  handleAction: (index: number, action: "interested" | "ignored") => void;
+  actions: T[];
+  handleAction: (index: number, action: T) => void;
 };
 
-function FeedProfileCard({ profiles, handleAction }: ProfileCardProps) {
+function FeedProfileCard<T extends string>({
+  profiles,
+  actions,
+  handleAction,
+}: ProfileCardProps<T>) {
   const [index, setIndex] = useState(0);
   const [basicView, setBasicView] = useState(true);
   const profile = profiles[index];
@@ -36,7 +41,7 @@ function FeedProfileCard({ profiles, handleAction }: ProfileCardProps) {
           className="w-14 h-14 bg-white border-2 border-gray-400 hover:bg-gray-200 hover:border-gray-700 flex flex-col items-center justify-center rounded-full group"
           onClick={() => {
             moveIndex();
-            handleAction(index, "ignored");
+            handleAction(index, actions[0]);
           }}
         >
           <X className="w-6 h-6 text-gray-600 group-hover:text-gray-700" />
@@ -46,7 +51,7 @@ function FeedProfileCard({ profiles, handleAction }: ProfileCardProps) {
           className="w-14 h-14 bg-white border-2 border-red-500 hover:bg-red-100 hover:border-red-700 rounded-full  flex flex-col items-center justify-center group"
           onClick={() => {
             moveIndex();
-            handleAction(index, "interested");
+            handleAction(index, actions[1]);
           }}
         >
           <Heart className="w-6 h-6 text-red-500 fill-red-500 group-hover:fill-red-600 group-hover:text-red-700" />
