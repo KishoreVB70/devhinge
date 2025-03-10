@@ -16,11 +16,13 @@ function RequestsClient({ interestedProfiles }: RequestsClientProps) {
   };
 
   return (
-    <ProfileCard
-      profiles={profiles}
-      handleAction={handleAction}
-      actions={["rejected", "accepted"]}
-    />
+    <div className="h-full w-full flex justify-center items-center">
+      <ProfileCard
+        profiles={profiles}
+        handleAction={handleAction}
+        actions={["rejected", "accepted"]}
+      />
+    </div>
   );
 }
 

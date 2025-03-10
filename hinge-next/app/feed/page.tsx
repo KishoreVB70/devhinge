@@ -22,7 +22,7 @@ async function page() {
 
   return (
     <div className="h-screen flex w-full">
-      <SideBar />
+      <SideBar page="feed" />
       <HydrationBoundary state={dehydrate(queryClient)}>
         <FeedClient />
       </HydrationBoundary>
