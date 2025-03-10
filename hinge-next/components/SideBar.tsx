@@ -61,7 +61,7 @@ export default async function SideBar({ page }: SideBarProps) {
         {page !== "requests" && (
           <Link
             href={"/requests"}
-            className="flex flex-row justify-center items-center items-center gap-3 w-full px-4 py-3 bg-gray-100 hover:bg-gray-200 transition-all rounded-lg shadow-sm"
+            className="flex flex-row justify-center items-center gap-3 w-full px-4 py-3 bg-gray-100 hover:bg-gray-200 transition-all rounded-lg shadow-sm"
           >
             <svg
               className="w-6 h-6 text-red-500"

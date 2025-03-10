@@ -36,6 +36,7 @@ function ConnectionsPage({ profiles, totalConnections }: ConnectionsPageProps) {
       avatar_url: profile.avatar_url,
     };
   });
+
   return (
     <div className="h-screen flex flex-col items-center justify-center">
       <div className="grid grid-cols-3 gap-4">
