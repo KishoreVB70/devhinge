@@ -33,3 +33,11 @@ export const zInterestedProfiles = z
   })
   .array();
 export type InterestedProfiles = z.infer<typeof zInterestedProfiles>;
+
+export const zInterestedProfilesCursor = z.object({
+  profiles: zInterestedProfiles,
+  nextPage: z.number(),
+});
+export type InterestedProfilesCursor = z.infer<
+  typeof zInterestedProfilesCursor
+>;

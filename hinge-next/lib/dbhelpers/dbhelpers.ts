@@ -207,7 +207,7 @@ export const getConnectedProfiles = async (page: number) => {
 
     return {
       profiles: cleansedData,
-      total: count,
+      nextPage: page + 1,
     };
   } catch (error) {
     console.error(error);

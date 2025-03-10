@@ -126,6 +126,17 @@ export const zUpdatableUser = zNullableValuesBase.omit({
 });
 export type UpdatableUser = z.infer<typeof zUpdatableUser>;
 
+// Simple profile for connections page
+export const zSimpleProfile = zUser
+  .pick({
+    name: true,
+    avatar_url: true,
+  })
+  .extend({
+    id: zID,
+  });
+export type SimpleProfile = z.infer<typeof zSimpleProfile>;
+
 export type UserCardProfile = { name: string; avatar_url: string };
 export type UserProfile = UserCardProfile & { id: string };
 export const genderOptions = Object.values(zGender.Values);
