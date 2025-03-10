@@ -7,8 +7,8 @@ export default async function SideBar() {
   const imageUrl = user ? user.avatar_url : "/devconnect.webp";
   const name = user ? user.name : "Prius";
   return (
-    <div className="w-1/3 h-full border-r border-black">
-      <div className="h-[10%] w-full bg-red-400 flex flex-row justify-start items-center p-3 text-white">
+    <div className="w-[24.5%] h-full border-r border-gray-200 shadow-lg">
+      <div className="h-[10%] w-full bg-gradient-to-r from-red-500 via-red-400 to-red-500 flex flex-row justify-start items-center p-3 text-white">
         <Avatar>
           <AvatarImage
             src={imageUrl}
@@ -17,7 +17,52 @@ export default async function SideBar() {
           />
           <AvatarFallback>DC</AvatarFallback>
         </Avatar>
-        <p className="ml-3">{name}</p>
+        <p className="ml-3 font-bold">{name}</p>
+      </div>
+      {/* Sidebar Options */}
+      <div className="flex flex-col mt-4 px-4 space-y-3">
+        {/* View Connections */}
+        <button className="flex items-center gap-3 w-full px-4 py-3 bg-gray-100 hover:bg-gray-200 transition-all rounded-lg shadow-sm">
+          <svg
+            className="w-6 h-6 text-red-500"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="M5 13c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm14 0c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zM5 15c-2.21 0-4 1.79-4 4v2h6v-2c0-2.21-1.79-4-4-4zm14 0c-2.21 0-4 1.79-4 4v2h6v-2c0-2.21-1.79-4-4-4zm-7-2c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm0 2c-2.21 0-4 1.79-4 4v2h8v-2c0-2.21-1.79-4-4-4z"
+            />
+          </svg>
+
+          <span className="font-medium text-gray-700">View Connections</span>
+        </button>
+
+        {/* View Matches */}
+        <button className="flex items-center gap-3 w-full px-4 py-3 bg-gray-100 hover:bg-gray-200 transition-all rounded-lg shadow-sm">
+          <svg
+            className="w-6 h-6 text-red-500"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="M12 6.00019C10.2006 3.90317 7.19377 3.2551 4.93923 5.17534C2.68468 7.09558 2.36727 10.3061 4.13778 12.5772C5.60984 14.4654 10.0648 18.4479 11.5249 19.7369C11.6882 19.8811 11.7699 19.9532 11.8652 19.9815C11.9483 20.0062 12.0393 20.0062 12.1225 19.9815C12.2178 19.9532 12.2994 19.8811 12.4628 19.7369C13.9229 18.4479 18.3778 14.4654 19.8499 12.5772C21.6204 10.3061 21.3417 7.07538 19.0484 5.17534C16.7551 3.2753 13.7994 3.90317 12 6.00019Z"
+            />
+          </svg>
+          <span className="font-medium text-gray-700">View Matches</span>
+        </button>
       </div>
     </div>
   );
