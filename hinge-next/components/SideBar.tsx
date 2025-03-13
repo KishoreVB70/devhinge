@@ -1,6 +1,6 @@
 import ConnectionsSVG from "@/components/svgs/ConnectionsSVG";
 import FeedSVG from "@/components/svgs/FeedSVG";
-import ProfileIcon from "@/components/svgs/ProfileIcon";
+import ProfileSVG from "@/components/svgs/ProfileSVG";
 import RequestsSVG from "@/components/svgs/RequestsSVG";
 import SVGLink from "@/components/svgs/SVGLink";
 import { Avatar } from "@/components/ui/avatar";
@@ -35,7 +35,7 @@ export default async function SideBar({ page }: SideBarProps) {
         <ConnectionsSVG selected={page === "connections"} />
       </SVGLink>
       <SVGLink href="/profile">
-        <ProfileIcon selected={page === "profile"} />
+        <ProfileSVG selected={page === "profile"} />
       </SVGLink>
     </div>
   );
