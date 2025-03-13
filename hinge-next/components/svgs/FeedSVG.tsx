@@ -2,7 +2,7 @@ import React from "react";
 
 type FeedSVGProps = {
   variant: "sidebar" | "page";
-  selected: boolean;
+  selected?: boolean;
 };
 
 function FeedSVG({ variant, selected }: FeedSVGProps) {
