@@ -1,4 +1,5 @@
 "use client";
+import toast, { Toaster } from "react-hot-toast";
 
 import React from "react";
 import {
@@ -17,14 +18,19 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import InputWithLimit from "@/components/forms/edit-profile/InputWithLimit";
-import { genderOptions, UpdatableUser } from "@/lib/schema/userSchema";
+import {
+  genderOptions,
+  UpdatableUser,
+  zUpdatableUser,
+} from "@/lib/schema/userSchema";
 import { Input } from "@/components/ui/input";
 import GenderSelect from "@/components/forms/GenderSelect";
 import ProfileImageUploadForm from "@/components/forms/auth/signup/ProfileImageUpload";
 import { Button } from "@/components/ui/button";
 import MultiItemsInput from "@/components/forms/edit-profile/MultiItemsInputWrapper";
 import updateUser from "@/lib/actions/updateUserAction";
-import { Checkbox } from "@radix-ui/react-checkbox";
+import { Checkbox } from "@/components/ui/checkbox";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 type EditProfileProps = {
   user: UpdatableUser;
@@ -52,6 +58,7 @@ export default function EditProfileForm({ user }: EditProfileProps) {
   }
 
   const form = useForm<UpdatableUser>({
+    resolver: zodResolver(zUpdatableUser),
     defaultValues: {
       bio: user.bio || "",
       website_url: user.website_url || "",
@@ -64,8 +71,6 @@ export default function EditProfileForm({ user }: EditProfileProps) {
       avatar_url: user.avatar_url,
     },
   });
-
-  console.log(user);
 
   const bio = form.watch("bio");
   const website_url = form.watch("website_url");
@@ -82,6 +87,7 @@ export default function EditProfileForm({ user }: EditProfileProps) {
     data.skills = data.skills?.filter((skill) => skill !== "");
     try {
       await updateUser(data);
+      toast("Profile updated successfully");
     } catch (error) {
       console.error(error);
       form.setError("root", {
@@ -97,8 +103,12 @@ export default function EditProfileForm({ user }: EditProfileProps) {
           className="flex flex-col justify-center p-10 space-y-4"
         >
           <div className="flex flex-col items-center gap-2 text-center">
-            <h1 className="text-2xl font-bold">Edit your profile</h1>
+            <h1 className="text-2xl font-bold">Profile</h1>
           </div>
+
+          {/* Image */}
+          <ProfileImageUploadForm control={form.control} />
+
           {/* Bio */}
           <InputWithLimit
             maxLength={MAX_BIO_LENGTH}
@@ -106,15 +116,6 @@ export default function EditProfileForm({ user }: EditProfileProps) {
             length={bio?.length || 0}
             label="Bio"
             name="bio"
-          />
-
-          {/* Website */}
-          <InputWithLimit
-            maxLength={MAX_WEBSITE_LENGTH}
-            control={form.control}
-            length={website_url?.length || 0}
-            label="Website url"
-            name="website_url"
           />
 
           {/* Age */}
@@ -161,7 +162,7 @@ export default function EditProfileForm({ user }: EditProfileProps) {
             name="gender_preference"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Select Gender Preferences</FormLabel>
+                <FormLabel>Gender Preferences</FormLabel>
                 <FormDescription>
                   You must select at least one option.
                 </FormDescription>
@@ -195,8 +196,14 @@ export default function EditProfileForm({ user }: EditProfileProps) {
             )}
           />
 
-          {/* Image */}
-          <ProfileImageUploadForm control={form.control} />
+          {/* Website */}
+          <InputWithLimit
+            maxLength={MAX_WEBSITE_LENGTH}
+            control={form.control}
+            length={website_url?.length || 0}
+            label="Website url"
+            name="website_url"
+          />
 
           {/* Hobbies */}
           <MultiItemsInput
@@ -218,10 +225,11 @@ export default function EditProfileForm({ user }: EditProfileProps) {
             <p className="text-red-500">{form.formState.errors.root.message}</p>
           )}
           <Button type="submit" disabled={form.formState.isLoading}>
-            {form.formState.isLoading ? "Loading..." : "Save"}
+            {form.formState.isSubmitting ? "Submitting..." : "Save"}
           </Button>
         </form>
       </Form>
+      <Toaster />
     </div>
   );
 }
