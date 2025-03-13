@@ -1,5 +1,6 @@
 import ConnectionsSVG from "@/components/svgs/ConnectionsSVG";
 import FeedSVG from "@/components/svgs/FeedSVG";
+import ProfileIcon from "@/components/svgs/ProfileIcon";
 import RequestsSVG from "@/components/svgs/RequestsSVG";
 import SVGLink from "@/components/svgs/SVGLink";
 import { Avatar } from "@/components/ui/avatar";
@@ -18,7 +19,7 @@ export default async function SideBar({ page }: SideBarProps) {
   const imageUrl = user ? user.avatar_url : "/devconnect.webp";
   const name = user ? user.name : "Prius";
   return (
-    <div className="flex flex-row absolute bottom-0">
+    <div className="w-full flex flex-row absolute bottom-0 bg-gray-100 justify-between">
       {/* Feed */}
       <SVGLink href="/feed">
         <FeedSVG variant="sidebar" selected={page === "feed"} />
@@ -32,6 +33,9 @@ export default async function SideBar({ page }: SideBarProps) {
       {/* View Connections */}
       <SVGLink href="/connections">
         <ConnectionsSVG selected={page === "connections"} />
+      </SVGLink>
+      <SVGLink href="/profile">
+        <ProfileIcon selected={page === "profile"} />
       </SVGLink>
     </div>
   );

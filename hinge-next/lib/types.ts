@@ -1,1 +1,1 @@
-export type Page = "requests" | "feed" | "connections";
+export type Page = "requests" | "feed" | "connections" | "page";
