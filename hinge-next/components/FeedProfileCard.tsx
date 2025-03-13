@@ -28,7 +28,7 @@ function FeedProfileCard<T extends string>({
 
   // TODO: Clear doubt on what would happen if I unmount component on handleLike, will it still increment index?
   return (
-    <div className="relative flex flex-col items-center justify-center w-[400px] h-[600px]">
+    <div className="relative flex flex-col w-[90%] items-center justify-center lg:w-[400px] lg:h-[600px]">
       {basicView ? (
         <BasicProfile profile={profile} setBasicView={setBasicView} />
       ) : (

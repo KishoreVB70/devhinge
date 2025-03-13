@@ -34,7 +34,9 @@ function FeedSVG({ variant }: { variant: "sidebar" | "page" }) {
           d="M28 11c-.553 0-1 .447-1 1s.447 1 1 1c8.284 0 15 6.716 15 15 0 .553.447 1 1 1s1-.447 1-1c0-9.389-7.611-17-17-17z"
         />
       </svg>
-      <span className={`font-medium ${text} `}>Get back to feed</span>
+      <span className={`hidden lg:block font-medium ${text} `}>
+        Get back to feed
+      </span>
     </Link>
   );
 }

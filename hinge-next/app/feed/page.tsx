@@ -21,12 +21,17 @@ async function page() {
   });
 
   return (
-    <div className="h-screen flex w-full">
-      <SideBar page="feed" />
-      <HydrationBoundary state={dehydrate(queryClient)}>
-        <FeedClient />
-      </HydrationBoundary>
-    </div>
+    <>
+      <div className="block w-screen md:hidden">
+        <h1>Dev connect</h1>
+      </div>
+      <div className="h-[90%] lg:h-screen flex w-screen">
+        <SideBar page="feed" />
+        <HydrationBoundary state={dehydrate(queryClient)}>
+          <FeedClient />
+        </HydrationBoundary>
+      </div>
+    </>
   );
 }
 

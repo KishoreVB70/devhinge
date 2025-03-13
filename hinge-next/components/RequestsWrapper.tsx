@@ -1,5 +1,5 @@
 "use client";
-import FeedSVG from "@/components/feed/FeedSVG";
+import FeedSVG from "@/components/svgs/FeedSVG";
 import ProfileCard from "@/components/FeedProfileCard";
 import { modifyConnectionAction } from "@/lib/actions/connectionAction";
 import { FeedProfile } from "@/lib/schema/userSchema";
