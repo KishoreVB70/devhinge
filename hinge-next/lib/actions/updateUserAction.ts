@@ -11,7 +11,6 @@ export default async function updateUser(rawData: UpdatableUser) {
   }
   const userData = zUpdatableUser.parse(rawData);
 
-  console.log("Data in server: ", userData);
   const { data, error } = await supabase
     .from("users")
     .update(userData)
@@ -22,5 +21,4 @@ export default async function updateUser(rawData: UpdatableUser) {
   if (!data) {
     throw new Error("User not found");
   }
-  console.log("return data", data);
 }
