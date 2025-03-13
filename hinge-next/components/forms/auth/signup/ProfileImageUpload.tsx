@@ -20,7 +20,8 @@ export default function ProfileImageUploadForm({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: Control<any>;
 }) {
-  const [preview, setPreview] = useState<string | null>(null);
+  const existingImage = control._defaultValues.avatar_url || null;
+  const [preview, setPreview] = useState<string | null>(existingImage);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -38,6 +39,18 @@ export default function ProfileImageUploadForm({
         render={({ field }) => (
           <FormItem>
             <FormLabel>Profile Image</FormLabel>
+            {preview && (
+              <div className="flex justify-center">
+                <div className="relative w-48 h-64">
+                  <Image
+                    src={preview}
+                    alt="Profile Preview"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              </div>
+            )}
             <FormControl>
               <Input
                 type="file"
@@ -55,19 +68,6 @@ export default function ProfileImageUploadForm({
           </FormItem>
         )}
       />
-
-      {preview && (
-        <div className="flex justify-center">
-          <div className="relative w-48 h-64">
-            <Image
-              src={preview}
-              alt="Profile Preview"
-              fill
-              className="object-cover"
-            />
-          </div>
-        </div>
-      )}
     </>
   );
 }
