@@ -1,6 +1,6 @@
 import ConnectionsSVG from "@/components/svgs/ConnectionsSVG";
 import FeedSVG from "@/components/svgs/FeedSVG";
-// import ProfileSVG from "@/components/svgs/ProfileSVG";
+import ProfileSVG from "@/components/svgs/ProfileSVG";
 import RequestsSVG from "@/components/svgs/RequestsSVG";
 import SVGLink from "@/components/svgs/SVGLink";
 import { Avatar } from "@/components/ui/avatar";
@@ -19,27 +19,27 @@ export default async function SideBar({ page }: SideBarProps) {
   const user = await getUserSelf();
   const imageUrl = user ? user.avatar_url : "/devconnect.webp";
   const name = user ? user.name : "Prius";
-  // return (
-  //   <div className="w-full flex flex-row absolute bottom-0 bg-gray-100 justify-between">
-  //     {/* Feed */}
-  //     <SVGLink href="/feed">
-  //       <FeedSVG variant="sidebar" selected={page === "feed"} />
-  //     </SVGLink>
+  return (
+    <div className="w-full flex flex-row absolute bottom-0 bg-gray-100 justify-between">
+      {/* Feed */}
+      <SVGLink href="/feed">
+        <FeedSVG variant="sidebar" selected={page === "feed"} />
+      </SVGLink>
 
-  //     {/* View requests */}
-  //     <SVGLink href="/requests">
-  //       <RequestsSVG selected={page === "requests"} />
-  //     </SVGLink>
+      {/* View requests */}
+      <SVGLink href="/requests">
+        <RequestsSVG selected={page === "requests"} />
+      </SVGLink>
 
-  //     {/* View Connections */}
-  //     <SVGLink href="/connections">
-  //       <ConnectionsSVG selected={page === "connections"} />
-  //     </SVGLink>
-  //     <SVGLink href="/profile">
-  //       <ProfileSVG selected={page === "profile"} />
-  //     </SVGLink>
-  //   </div>
-  // );
+      {/* View Connections */}
+      <SVGLink href="/connections">
+        <ConnectionsSVG selected={page === "connections"} />
+      </SVGLink>
+      <SVGLink href="/profile">
+        <ProfileSVG selected={page === "profile"} />
+      </SVGLink>
+    </div>
+  );
   return (
     <div className="w-[24.5%] h-full border-r border-gray-200 shadow-lg">
       <div className="h-[10%] w-full bg-gradient-to-r from-red-500 via-red-400 to-red-500 flex flex-row justify-start items-center p-3 text-white">

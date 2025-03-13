@@ -21,7 +21,7 @@ export default function MultiItemsInputWrapper({
   return (
     <>
       <Label>{label}</Label>
-      <div className="grid grid-cols-3 gap-2">
+      <div className="flex flex-col space-y-3 lg:grid lg:grid-cols-3 lg:gap-2">
         {Array.from({ length: MAX_HOBBIES }).map((_, i) => (
           <MultiItemInput
             key={`${name}${i}`}
