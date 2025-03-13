@@ -16,7 +16,7 @@ export async function middleware(req: NextRequest) {
     return response;
   } catch (error) {
     console.error(error);
-    return NextResponse.redirect(new URL("/signup", req.url));
+    return NextResponse.redirect(new URL("/signin", req.url));
   }
 }
 export const config = {
