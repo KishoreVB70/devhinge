@@ -1,14 +1,14 @@
-import Link from "next/link";
 import React from "react";
 
-function RequestsSVG() {
+type RequestsSVGProps = {
+  selected: boolean;
+};
+
+function RequestsSVG({ selected }: RequestsSVGProps) {
   return (
-    <Link
-      href={"/requests"}
-      className="flex flex-row justify-center items-center gap-3 w-full px-4 py-3 bg-gray-100 hover:bg-gray-200 transition-all rounded-lg shadow-sm"
-    >
+    <>
       <svg
-        className="w-6 h-6 text-red-500"
+        className={`w-6 h-6 ${selected ? "text-red-500" : "text-black"}`}
         viewBox="0 0 24 24"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -26,7 +26,7 @@ function RequestsSVG() {
       <span className="hidden lg:block font-medium text-gray-700">
         View Matches
       </span>
-    </Link>
+    </>
   );
 }
 

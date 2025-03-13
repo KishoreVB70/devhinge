@@ -1,6 +1,7 @@
 import ConnectionsSVG from "@/components/svgs/ConnectionsSVG";
 import FeedSVG from "@/components/svgs/FeedSVG";
 import RequestsSVG from "@/components/svgs/RequestsSVG";
+import SVGLink from "@/components/svgs/SVGLink";
 import { Avatar } from "@/components/ui/avatar";
 import { getUserSelf } from "@/lib/dbhelpers/dbhelpers";
 import { AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
@@ -18,13 +19,45 @@ export default async function SideBar({ page }: SideBarProps) {
   return (
     <div className="flex flex-row absolute bottom-0">
       {/* Feed */}
-      <FeedSVG variant="sidebar" />
+      <SVGLink href="/feed">
+        <FeedSVG variant="sidebar" selected={page === "feed"} />
+      </SVGLink>
+
+      {/* View requests */}
+      <SVGLink href="/requests">
+        <RequestsSVG selected={page === "requests"} />
+      </SVGLink>
 
       {/* View Connections */}
-      <ConnectionsSVG />
-
-      {/* View Matches */}
-      <RequestsSVG />
+      <SVGLink href="/connections">
+        <ConnectionsSVG selected={page === "connections"} />
+      </SVGLink>
     </div>
   );
+  // return (
+  //   <div className="w-[24.5%] h-full border-r border-gray-200 shadow-lg">
+  //     <div className="h-[10%] w-full bg-gradient-to-r from-red-500 via-red-400 to-red-500 flex flex-row justify-start items-center p-3 text-white">
+  //       <Avatar>
+  //         <AvatarImage
+  //           src={imageUrl}
+  //           alt="avatar"
+  //           className="w-full h-full object-cover"
+  //         />
+  //         <AvatarFallback>DC</AvatarFallback>
+  //       </Avatar>
+  //       <p className="ml-3 font-bold">{name}</p>
+  //     </div>
+  //     {/* Sidebar Options */}
+  //     <div className="flex flex-col mt-4 px-4 space-y-3">
+  //       {/* Feed */}
+  //       {page !== "feed" && <FeedSVG variant="sidebar" />}
+
+  //       {/* View Connections */}
+  //       {page !== "connections" && <ConnectionsSVG />}
+
+  //       {/* View Matches */}
+  //       {page !== "requests" && <RequestsSVG />}
+  //     </div>
+  //   </div>
+  // );
 }

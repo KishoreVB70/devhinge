@@ -1,14 +1,14 @@
-import Link from "next/link";
 import React from "react";
 
-export default function ConnectionsSVG() {
+type ConnectionsSVGProps = {
+  selected: boolean;
+};
+
+export default function ConnectionsSVG({ selected }: ConnectionsSVGProps) {
   return (
-    <Link
-      href={"/connections"}
-      className="flex flex-row justify-center items-center gap-3 w-full px-4 py-3 bg-gray-100 hover:bg-gray-200 transition-all rounded-lg shadow-sm"
-    >
+    <>
       <svg
-        className="w-6 h-6 text-red-500"
+        className={`w-6 h-6 ${selected ? "text-red-500" : "text-black"}`}
         viewBox="0 0 24 24"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -27,6 +27,6 @@ export default function ConnectionsSVG() {
       <span className="hidden lg:block lg:font-medium lg:text-gray-700">
         View Connections
       </span>
-    </Link>
+    </>
   );
 }

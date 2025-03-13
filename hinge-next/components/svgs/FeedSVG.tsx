@@ -1,18 +1,22 @@
-import Link from "next/link";
 import React from "react";
 
-function FeedSVG({ variant }: { variant: "sidebar" | "page" }) {
+type FeedSVGProps = {
+  variant: "sidebar" | "page";
+  selected: boolean;
+};
+
+function FeedSVG({ variant, selected }: FeedSVGProps) {
   const bg =
     variant === "sidebar" ? "bg-gray-100 hover:bg-gray-200" : "bg-red-600";
-  const svg = variant === "sidebar" ? "text-red-700" : "text-gray-100";
+  let svg = variant === "sidebar" ? "text-red-600" : "text-gray-200";
+  if (variant === "sidebar" && !selected) {
+    svg = "text-black";
+  }
   const text = variant === "sidebar" ? "text-gray-800" : "text-gray-100";
   return (
-    <Link
-      href={"/feed"}
-      className={`flex flex-row justify-center items-center gap-3 w-full px-4 py-3 transition-all rounded-lg shadow-sm ${bg}`}
-    >
+    <>
       <svg
-        className={`w-6 h-6 text-gray-200 ${svg}`}
+        className={`w-6 h-6 ${svg}`}
         viewBox="0 0 64 64"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -37,7 +41,7 @@ function FeedSVG({ variant }: { variant: "sidebar" | "page" }) {
       <span className={`hidden lg:block font-medium ${text} `}>
         Get back to feed
       </span>
-    </Link>
+    </>
   );
 }
 
