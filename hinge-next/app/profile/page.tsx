@@ -10,7 +10,7 @@ export default async function EditProfile() {
 
   return (
     <div className="flex flex-col items-center justify-center">
-      <EditProfileForm user={user} />{" "}
+      <EditProfileForm user={user} />
     </div>
   );
 }
