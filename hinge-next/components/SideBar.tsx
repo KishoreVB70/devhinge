@@ -4,12 +4,13 @@ import RequestsSVG from "@/components/svgs/RequestsSVG";
 import SVGLink from "@/components/svgs/SVGLink";
 import { Avatar } from "@/components/ui/avatar";
 import { getUserSelf } from "@/lib/dbhelpers/dbhelpers";
+import { Page } from "@/lib/types";
 import { AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 // import Link from "next/link";
 import React from "react";
 
 type SideBarProps = {
-  page: "requests" | "feed" | "connections";
+  page: Page;
 };
 
 export default async function SideBar({ page }: SideBarProps) {

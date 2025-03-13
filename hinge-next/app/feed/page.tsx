@@ -1,5 +1,4 @@
 import FeedClient from "@/components/FeedWrapper";
-import SideBar from "@/components/SideBar";
 import { getFeedProfiles } from "@/lib/dbhelpers/dbhelpers";
 import React from "react";
 
@@ -9,6 +8,7 @@ import {
   QueryClient,
 } from "@tanstack/react-query";
 import { FeedProfileCursor } from "@/lib/schema/userSchema";
+import Layout from "@/components/BaseLayout";
 
 async function page() {
   const queryClient = new QueryClient();
@@ -21,17 +21,11 @@ async function page() {
   });
 
   return (
-    <>
-      <div className="block w-screen md:hidden">
-        <h1>Dev connect</h1>
-      </div>
-      <div className="h-[90%] lg:h-screen flex w-screen">
-        <SideBar page="feed" />
-        <HydrationBoundary state={dehydrate(queryClient)}>
-          <FeedClient />
-        </HydrationBoundary>
-      </div>
-    </>
+    <Layout page="feed">
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <FeedClient />
+      </HydrationBoundary>
+    </Layout>
   );
 }
 

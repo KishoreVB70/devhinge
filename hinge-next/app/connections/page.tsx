@@ -1,5 +1,5 @@
+import Layout from "@/components/BaseLayout";
 import SConnectionsPage from "@/components/ConnectionsPage";
-import SideBar from "@/components/SideBar";
 import { getConnectedProfiles } from "@/lib/dbhelpers/dbhelpers";
 // import { InterestedProfilesCursor } from "@/lib/schema/connectionSchema";
 import { QueryClient } from "@tanstack/react-query";
@@ -16,9 +16,8 @@ export default async function Page() {
   });
 
   return (
-    <div className="h-screen flex w-full">
-      <SideBar page="connections" />
+    <Layout page="connections">
       <SConnectionsPage />
-    </div>
+    </Layout>
   );
 }
