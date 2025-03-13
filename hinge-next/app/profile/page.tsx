@@ -11,7 +11,9 @@ export default async function EditProfile() {
 
   return (
     <Layout page="profile">
-      <EditProfileForm user={user} />
+      <div className="flex flex-col items-center justify-center w-full">
+        <EditProfileForm user={user} />
+      </div>
     </Layout>
   );
 }
