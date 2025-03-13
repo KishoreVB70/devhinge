@@ -8,7 +8,7 @@ type NoProfilesFoundProps = {
 
 function NoProfilesFound({ message }: NoProfilesFoundProps) {
   return (
-    <div className="flex flex-col w-full items-center justify-center h-full text-center">
+    <div className="flex flex-col w-full h-full items-center justify-center text-center">
       <div className="flex flex-col items-center space-y-6 p-6 bg-gray-50 shadow-lg rounded-xl border border-gray-200">
         <p className="text-lg font-semibold text-gray-700">{message}</p>
         <p className="text-gray-500">
