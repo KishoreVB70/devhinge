@@ -4,6 +4,7 @@ import ProfileCard from "@/components/FeedProfileCard";
 import { modifyConnectionAction } from "@/lib/actions/connectionAction";
 import { FeedProfile } from "@/lib/schema/userSchema";
 import React from "react";
+import SVGLink from "@/components/svgs/SVGLink";
 type RequestsClientProps = {
   profiles: FeedProfile[] | null;
 };
@@ -22,7 +23,9 @@ function RequestsClient({ profiles }: RequestsClientProps) {
           </p>
 
           {/* Explore More Button */}
-          <FeedSVG variant="page" />
+          <SVGLink variant="page" href="/feed">
+            <FeedSVG variant="page" />
+          </SVGLink>
         </div>
       </div>
     );

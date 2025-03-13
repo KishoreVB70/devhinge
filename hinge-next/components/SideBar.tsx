@@ -1,6 +1,6 @@
 import ConnectionsSVG from "@/components/svgs/ConnectionsSVG";
 import FeedSVG from "@/components/svgs/FeedSVG";
-import ProfileSVG from "@/components/svgs/ProfileSVG";
+// import ProfileSVG from "@/components/svgs/ProfileSVG";
 import RequestsSVG from "@/components/svgs/RequestsSVG";
 import SVGLink from "@/components/svgs/SVGLink";
 import { Avatar } from "@/components/ui/avatar";

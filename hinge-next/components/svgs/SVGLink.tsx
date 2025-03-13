@@ -4,13 +4,16 @@ import React from "react";
 type SVGLinkProps = {
   href: string;
   children: React.ReactElement;
+  variant?: "sidebar" | "page";
 };
 
-function SVGLink({ children, href }: SVGLinkProps) {
+function SVGLink({ children, href, variant }: SVGLinkProps) {
+  const bg =
+    variant === "page" ? "bg-red-600" : "lg:bg-gray-100 lg:hover:bg-gray-200";
   return (
     <Link
       href={href}
-      className="flex flex-row justify-center items-center gap-3 w-full px-4 py-3 lg:bg-gray-100 lg:hover:bg-gray-200 transition-all lg:rounded-lg lg:shadow-sm"
+      className={`flex flex-row justify-center items-center gap-3 w-full px-4 py-3  transition-all lg:rounded-lg lg:shadow-sm ${bg}`}
     >
       {children}
     </Link>
