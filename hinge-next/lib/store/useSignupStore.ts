@@ -16,8 +16,8 @@ export const useSignupStore = create<SignupState>((set) => ({
     password: "",
   },
   setFormData: (newData) =>
-    set(() => ({
-      data: { ...newData },
-    })),
+    set({
+      data: newData,
+    }),
   nextStep: () => set(() => ({ step: 2 })),
 }));
