@@ -14,13 +14,12 @@ function BasicProfile({ profile, setBasicView }: BasicProfileProps) {
       <h1 className="z-50 absolute bottom-16 left-10 text-2xl font-bold text-white">
         {profile.name} {profile.age}
       </h1>
-      <div className="relative w-full lg:w-[400px] lg:h-[600px]">
+      <div className="relative h-full w-full lg:w-[400px] lg:h-[600px]">
         <Image
           src={profile.avatar_url}
-          className="rounded-3xl"
+          className="rounded-3xl object-cover"
           alt="Image"
-          width={400}
-          height={600}
+          fill
         />
         {/* Gradient Overlay */}
         <div className="w-full absolute inset-x-0 bottom-0 h-[33%] bg-gradient-to-t from-black via-black/70 to-transparent rounded-b-3xl"></div>

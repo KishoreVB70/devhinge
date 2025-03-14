@@ -35,7 +35,8 @@ export default function FeedWrapper() {
   };
 
   return (
-    <div className="h-[80%] lg:h-full w-full flex justify-center items-center">
+    // 83% instead of 90% to prevent buttons from overflowing
+    <div className="h-[83%] lg:h-full w-full flex justify-center items-center">
       <ProfileCard
         profiles={profiles}
         handleAction={handleAction}

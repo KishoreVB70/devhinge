@@ -21,7 +21,8 @@ export default async function SideBar({ page }: SideBarProps) {
   const name = user ? user.name : "Prius";
   return (
     <>
-      <div className="lg:hidden z-20 w-full flex flex-row absolute bottom-0 bg-gray-100 justify-between">
+      {/* Mobile Layout */}
+      <div className="lg:hidden h-[10%] z-20 w-full flex flex-row absolute bottom-0 bg-gray-100 justify-between">
         {/* Feed */}
         <SVGLink href="/feed">
           <FeedSVG variant="sidebar" selected={page === "feed"} />
@@ -40,6 +41,8 @@ export default async function SideBar({ page }: SideBarProps) {
           <ProfileSVG selected={page === "profile"} />
         </SVGLink>
       </div>
+
+      {/* Lg layout */}
       <div className="hidden lg:block w-[24.5%] h-full border-r border-gray-200 shadow-lg">
         <div className="h-[10%] w-full bg-gradient-to-r from-red-500 via-red-400 to-red-500 flex flex-row justify-start items-center p-3 text-white">
           <Link
