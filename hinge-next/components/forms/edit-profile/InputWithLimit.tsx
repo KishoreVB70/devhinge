@@ -5,7 +5,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { UpdatableUser } from "@/lib/schema/userSchema";
 import React from "react";
 import { Control } from "react-hook-form";
@@ -44,11 +44,10 @@ function InputWithLimit({
               {length}/{maxLength}
             </p>
             <FormControl>
-              <Input
+              <Textarea
+                className="pr-14"
                 {...field}
                 value={field.value ?? ""}
-                className="h-20"
-                type="text"
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => setIsFocused(false)}
               />

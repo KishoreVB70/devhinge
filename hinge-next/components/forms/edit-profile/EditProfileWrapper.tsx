@@ -96,7 +96,7 @@ export default function EditProfileForm({ user }: EditProfileProps) {
     }
   }
   return (
-    <div className="w-full mb-[30%] lg:mb-0 lg:w-4/12 lg:h-full custom-scrollbar overflow-y-auto">
+    <div className="w-full mb-[30%] lg:mb-0 lg:w-9/12 max-w-[700px] lg:h-full custom-scrollbar overflow-y-auto">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -126,7 +126,13 @@ export default function EditProfileForm({ user }: EditProfileProps) {
               <FormItem>
                 <FormLabel>Age</FormLabel>
                 <FormControl>
-                  <Input {...field} type="number" max={100} min={10} />
+                  <Input
+                    {...field}
+                    className="max-w-[100px]"
+                    type="number"
+                    max={100}
+                    min={10}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -146,6 +152,7 @@ export default function EditProfileForm({ user }: EditProfileProps) {
                     value={field.value ?? 0}
                     type="number"
                     max={50}
+                    className="max-w-[100px]"
                     min={0}
                   />
                 </FormControl>
@@ -224,7 +231,11 @@ export default function EditProfileForm({ user }: EditProfileProps) {
           {form.formState.errors.root && (
             <p className="text-red-500">{form.formState.errors.root.message}</p>
           )}
-          <Button type="submit" disabled={form.formState.isLoading}>
+          <Button
+            type="submit"
+            className="mx-auto w-full max-w-[300px]"
+            disabled={form.formState.isLoading}
+          >
             {form.formState.isSubmitting ? "Submitting..." : "Save"}
           </Button>
         </form>

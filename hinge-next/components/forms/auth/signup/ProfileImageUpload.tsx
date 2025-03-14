@@ -53,6 +53,7 @@ export default function ProfileImageUploadForm({
             )}
             <FormControl>
               <Input
+                className="max-w-[400px]"
                 type="file"
                 accept="image/*"
                 onChange={(e) => {
