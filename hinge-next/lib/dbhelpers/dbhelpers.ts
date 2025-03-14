@@ -120,21 +120,17 @@ export const getInterestedProfiles = async () => {
 
     const { data, error } = await supabase
       .from("connections")
-      .select(
-        `
-          id,
-          sender_profile:sender_id (*)
-        `
-      )
+      .select("sender_profile:sender_id (*)")
       .eq("target_id", userId)
       .eq("status", "interested");
 
     if (error) {
       throw new Error(error.message);
     }
+    const senderProfiles = data?.map((row) => row.sender_profile) || [];
 
     // Validate the data
-    const validatedData = zFeedProfiles.parse(data);
+    const validatedData = zFeedProfiles.parse(senderProfiles);
     return validatedData;
   } catch (error) {
     console.error(error);
