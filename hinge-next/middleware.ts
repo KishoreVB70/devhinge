@@ -16,11 +16,11 @@ export async function middleware(req: NextRequest) {
     return response;
   } catch (error) {
     console.error(error);
-    return NextResponse.redirect(new URL("/signin", req.url));
+    return NextResponse.redirect(new URL("/auth/signin", req.url));
   }
 }
 export const config = {
   matcher: [
-    "/((?!^$|signin|signup|unique-email|unique-username|test/login$|test/users$|_next/static|_next/image|favicon.ico).*)",
+    "/((?!^$|auth/signin|auth/signup|unique-email|unique-username|test/login$|test/users$|_next/static|_next/image|favicon.ico).*)",
   ],
 };

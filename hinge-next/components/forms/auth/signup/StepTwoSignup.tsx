@@ -72,7 +72,7 @@ export default function StepTwoSignup() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onsubmit)}
-        className="flex flex-col gap-6 min-w-[500px]"
+        className="flex flex-col gap-6 lg:min-w-[500px] pb-12"
       >
         <div className="flex flex-col items-center gap-2 text-center">
           <h1 className="text-2xl font-bold">Enter your details</h1>
@@ -155,7 +155,11 @@ export default function StepTwoSignup() {
           )}
         />
         <ProfileImageUploadForm control={form.control} />
-        <Button type="submit" disabled={form.formState.isSubmitting}>
+        <Button
+          className="max-w-[200px] mx-auto w-8/12"
+          type="submit"
+          disabled={form.formState.isSubmitting}
+        >
           {form.formState.isSubmitting ? "loading" : "Submit"}
         </Button>
       </form>

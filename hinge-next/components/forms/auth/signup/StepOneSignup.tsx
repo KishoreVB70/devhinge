@@ -17,6 +17,7 @@ import Link from "next/link";
 import { z } from "zod";
 import { useSignupStore } from "@/lib/store/useSignupStore";
 import axios from "axios";
+import PasswordInput from "@/components/forms/PasswordInput";
 
 type SignupStepOne = z.infer<typeof zSignupStepOne>;
 export default function StepOneSignup() {
@@ -54,9 +55,9 @@ export default function StepOneSignup() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onsubmit)}
-        className="flex flex-col gap-6 min-w-[500px]"
+        className="flex flex-col gap-6 w-full max-w-[300px]"
       >
-        <div className="flex flex-col items-center gap-2 text-center">
+        <div className="flex flex-col gap-2 text-center">
           <h1 className="text-2xl font-bold">Create a new account</h1>
         </div>
         {/* Email */}
@@ -81,28 +82,17 @@ export default function StepOneSignup() {
           )}
         />
         {/* Password */}
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <Input {...field} type="password" />
-              </FormControl>
-              <FormDescription>
-                Password must contain 8 characters
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit" disabled={form.formState.isSubmitting}>
+        <PasswordInput control={form.control} />
+        <Button
+          className="w-full max-w-[200px] mx-auto "
+          type="submit"
+          disabled={form.formState.isSubmitting}
+        >
           {form.formState.isSubmitting ? "loading" : "Submit"}
         </Button>
         <div className="text-center text-sm">
           Already have an account?{" "}
-          <Link href="/signin" className="underline underline-offset-4">
+          <Link href="/auth/signin" className="underline underline-offset-4">
             Log in
           </Link>
         </div>
