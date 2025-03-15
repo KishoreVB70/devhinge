@@ -1,14 +1,12 @@
-import SideBar from "@/components/SideBar";
-import { Page } from "@/lib/types";
+import SideBar from "@/components/SideBarWrapper";
 import Image from "next/image";
-import React from "react";
+import React, { Suspense } from "react";
 
-type LayoutProps = {
-  page: Page;
-  children: React.ReactElement;
-};
-
-function Layout({ children, page }: LayoutProps) {
+export default function Layout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <div className="h-screen w-screen">
       {/* Only on Mobile layout */}
@@ -16,11 +14,11 @@ function Layout({ children, page }: LayoutProps) {
         <Image fill src="/devconnectwording.webp" alt="logo" />
       </div>
       <div className="h-full lg:h-screen flex w-screen">
-        <SideBar page={page} />
-        {children}
+        <Suspense fallback={<div>Loading...</div>}>
+          <SideBar />
+        </Suspense>
+        <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
       </div>
     </div>
   );
 }
-
-export default Layout;

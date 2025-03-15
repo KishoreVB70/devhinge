@@ -1,4 +1,3 @@
-import Layout from "@/components/BaseLayout";
 import EditProfileForm from "@/components/forms/edit-profile/EditProfileWrapper";
 import { getEditableUserDetails } from "@/lib/dbhelpers/dbhelpers";
 
@@ -10,10 +9,8 @@ export default async function EditProfile() {
   if (!user) return <div>loading...</div>;
 
   return (
-    <Layout page="profile">
-      <div className="flex flex-col items-center justify-center w-full">
-        <EditProfileForm user={user} />
-      </div>
-    </Layout>
+    <div className="flex flex-col items-center justify-center w-full">
+      <EditProfileForm user={user} />
+    </div>
   );
 }

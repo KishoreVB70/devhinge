@@ -1,4 +1,3 @@
-import Layout from "@/components/BaseLayout";
 import SConnectionsPage from "@/components/ConnectionsPage";
 import { getConnectedProfiles } from "@/lib/dbhelpers/dbhelpers";
 // import { InterestedProfilesCursor } from "@/lib/schema/connectionSchema";
@@ -15,9 +14,5 @@ export default async function Page() {
     // getNextPageParam: (lastPage: InterestedProfilesCursor) => lastPage.nextPage,
   });
 
-  return (
-    <Layout page="connections">
-      <SConnectionsPage />
-    </Layout>
-  );
+  return <SConnectionsPage />;
 }

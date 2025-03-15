@@ -8,7 +8,6 @@ import {
   QueryClient,
 } from "@tanstack/react-query";
 import { FeedProfileCursor } from "@/lib/schema/userSchema";
-import Layout from "@/components/BaseLayout";
 
 async function page() {
   const queryClient = new QueryClient();
@@ -21,11 +20,9 @@ async function page() {
   });
 
   return (
-    <Layout page="feed">
-      <HydrationBoundary state={dehydrate(queryClient)}>
-        <FeedClient />
-      </HydrationBoundary>
-    </Layout>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <FeedClient />
+    </HydrationBoundary>
   );
 }
 

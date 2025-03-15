@@ -1,5 +1,5 @@
 import DetailedProfile from "@/components/DetailedProfile";
-import SideBar from "@/components/SideBar";
+import SideBar from "@/components/SideBarWrapper";
 import { getUser } from "@/lib/dbhelpers/dbhelpers";
 import React from "react";
 
