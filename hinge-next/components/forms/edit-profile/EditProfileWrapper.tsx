@@ -96,7 +96,7 @@ export default function EditProfileForm({ user }: EditProfileProps) {
     }
   }
   return (
-    <div className="w-full mb-[30%] lg:mb-0 lg:w-9/12 max-w-[700px] lg:h-full custom-scrollbar overflow-y-auto">
+    <div className="w-full pb-[30%] lg:pb-[10%] lg:w-9/12 max-w-[700px] lg:h-full custom-scrollbar overflow-y-auto">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}

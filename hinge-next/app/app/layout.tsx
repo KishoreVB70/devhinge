@@ -8,7 +8,7 @@ export default function Layout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="h-screen w-screen overflow-y-hidden">
+    <div className="h-screen w-screen overflow-hidden">
       {/* Only on Mobile layout */}
       <div className="relative h-[4%] block lg:hidden w-[115px] ml-2 my-2">
         <Image fill src="/tindertext.png" alt="logo" />

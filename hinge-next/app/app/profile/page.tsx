@@ -9,7 +9,7 @@ export default async function EditProfile() {
   if (!user) return <div>loading...</div>;
 
   return (
-    <div className="flex flex-col items-center justify-center w-full">
+    <div className="flex flex-col items-center justify-center w-full overflow-y-hidden">
       <EditProfileForm user={user} />
     </div>
   );
