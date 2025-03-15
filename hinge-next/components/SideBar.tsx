@@ -24,7 +24,7 @@ function SideBar({ user }: SideBarProps) {
   return (
     <>
       {/* Mobile Layout */}
-      <div className="lg:hidden h-[10%] z-20 w-full flex flex-row absolute bottom-0 bg-gray-100 justify-between">
+      <div className="lg:hidden h-[10%] z-10 w-full flex flex-row absolute bottom-0 bg-gray-100 justify-between">
         {/* Feed */}
         <SVGLink href="/app/feed">
           <FeedSVG variant="sidebar" selected={path.includes("feed")} />

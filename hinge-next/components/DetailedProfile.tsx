@@ -11,7 +11,7 @@ type DetailedProfileProps = {
 
 function DetailedProfile({ profile, setBasicView }: DetailedProfileProps) {
   return (
-    <div className="overflow-y-auto pb-12 lg:pb-6 bg-gray-200 flex flex-col items-center lg:shadow-2xl lg:w-[400px] lg:h-[600px]">
+    <div className="fixed inset-0 z-20 lg:static overflow-y-auto pb-12 lg:pb-6 bg-gray-200 flex flex-col items-center lg:shadow-2xl lg:w-[400px] lg:h-[600px]">
       {/* Gradient */}
       <div className="hidden lg:block z-50 absolute inset-x-0 bottom-0 h-[15%] bg-gradient-to-t from-gray-300/80 via-gray-300/40 to-transparent"></div>
 

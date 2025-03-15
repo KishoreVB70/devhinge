@@ -8,12 +8,12 @@ export default function Layout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="h-screen w-screen">
+    <div className="h-screen w-screen overflow-y-hidden">
       {/* Only on Mobile layout */}
-      <div className="relative h-[5%] block lg:hidden w-[115px] ml-2 mb-1">
+      <div className="relative h-[4%] block lg:hidden w-[115px] ml-2 my-2">
         <Image fill src="/tindertext.png" alt="logo" />
       </div>
-      <div className="h-full lg:h-full flex w-full">
+      <div className="h-[96%] lg:h-full flex w-full">
         <Suspense fallback={<div>Loading...</div>}>
           <SideBar />
         </Suspense>

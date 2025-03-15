@@ -17,12 +17,12 @@ function BasicProfile({ profile, setBasicView }: BasicProfileProps) {
       <div className="relative h-full w-full lg:w-[400px] lg:h-[600px]">
         <Image
           src={profile.avatar_url}
-          className="lg:rounded-3xl object-cover"
+          className="lg:rounded-3xl rounded-md object-cover"
           alt="Image"
           fill
         />
         {/* Gradient Overlay */}
-        <div className="w-full absolute inset-x-0 bottom-0 h-[33%] bg-gradient-to-t from-black via-black/70 to-transparent lg:rounded-b-3xl"></div>
+        <div className="w-full absolute inset-x-0 bottom-0 h-[33%] bg-gradient-to-t from-black via-black/70 to-transparent rounded:sm lg:rounded-b-3xl"></div>
       </div>
 
       {/* View profile button */}
