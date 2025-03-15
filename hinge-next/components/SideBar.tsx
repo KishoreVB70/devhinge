@@ -47,10 +47,10 @@ function SideBar({ user }: SideBarProps) {
       </div>
 
       {/* Lg layout */}
-      <div className="hidden lg:block w-[24.5%] h-full border-r border-gray-200 shadow-lg">
+      <div className="hidden lg:block w-[24%] h-full border-r border-gray-200 shadow-lg">
         <div className="h-[10%] w-full bg-gradient-to-r from-red-500 via-red-400 to-red-500 flex flex-row justify-start items-center p-3 text-white">
           <Link
-            href="/profile"
+            href="/app/profile"
             className="hover:cursor-pointer hover:bg-gray-600 hover:rounded-3xl p-2  flex flex-row justify-start items-center"
           >
             <Avatar>

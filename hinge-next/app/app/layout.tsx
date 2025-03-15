@@ -13,7 +13,7 @@ export default function Layout({
       <div className="relative h-[5%] block lg:hidden w-[115px] ml-2 mb-1">
         <Image fill src="/devconnectwording.webp" alt="logo" />
       </div>
-      <div className="h-full lg:h-screen flex w-screen">
+      <div className="h-full lg:h-full flex w-full">
         <Suspense fallback={<div>Loading...</div>}>
           <SideBar />
         </Suspense>

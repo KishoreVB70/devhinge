@@ -20,11 +20,13 @@ export default function SConnectionsPage() {
     return <NoProfilesFound message="No Connected Profiles Found" />;
 
   return (
-    <div className="max-h-[80vh] p-4 lg:w-[50%] mx-auto my-auto overflow-y-auto">
-      <div className="lg:grid lg:grid-cols-4 lg:gap-4">
-        {profiles.map((profile) => (
-          <ProfileCard key={profile.name} profile={profile} />
-        ))}
+    <div className="w-full h-full flex justify-center items-center">
+      <div className="max-h-[80vh] p-4 lg:w-[50%] mx-auto my-auto overflow-y-auto">
+        <div className="lg:grid lg:grid-cols-4 lg:gap-4">
+          {profiles.map((profile) => (
+            <ProfileCard key={profile.name} profile={profile} />
+          ))}
+        </div>
       </div>
     </div>
   );
