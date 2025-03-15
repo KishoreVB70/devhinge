@@ -12,7 +12,7 @@ function ProfileCard({ profile }: ProfileCardProps) {
   return (
     <Link
       href={`/user/${profile.id}`}
-      className="rounded-lg relative cursor-pointer flex flex-col justify-center items-center shadow-lg border border-gray-300"
+      className="lg:rounded-lg relative cursor-pointer flex flex-col justify-center items-center shadow-lg border border-gray-300"
     >
       <h1 className="absolute bottom-5 left-5 font-semibold text-white text-2xl z-10">
         {profile.name}
