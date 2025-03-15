@@ -4,7 +4,7 @@ import { useConnectedProfiles } from "@/lib/hooks/useConnectedProfiles";
 import React from "react";
 import NoProfilesFound from "@/components/NoProfilesFound";
 
-export default function SConnectionsPage() {
+export default function ConnectionsPage() {
   const { data, isError, isLoading } = useConnectedProfiles();
   if (isLoading) {
     return <div>Loading...</div>;

@@ -1,4 +1,4 @@
-import SConnectionsPage from "@/components/ConnectionsPage";
+import ConnectionsPage from "@/components/ConnectionsPage";
 import { getConnectedProfiles } from "@/lib/dbhelpers/dbhelpers";
 // import { InterestedProfilesCursor } from "@/lib/schema/connectionSchema";
 import { QueryClient } from "@tanstack/react-query";
@@ -14,5 +14,5 @@ export default async function Page() {
     // getNextPageParam: (lastPage: InterestedProfilesCursor) => lastPage.nextPage,
   });
 
-  return <SConnectionsPage />;
+  return <ConnectionsPage />;
 }
