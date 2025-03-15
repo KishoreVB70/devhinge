@@ -86,6 +86,6 @@ export default async function signupAction(inputData: SignUpInput) {
   }
 
   if (success) {
-    redirect("/feed");
+    redirect("/app/feed");
   }
 }

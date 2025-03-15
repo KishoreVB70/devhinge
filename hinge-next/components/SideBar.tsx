@@ -26,22 +26,22 @@ function SideBar({ user }: SideBarProps) {
       {/* Mobile Layout */}
       <div className="lg:hidden h-[10%] z-20 w-full flex flex-row absolute bottom-0 bg-gray-100 justify-between">
         {/* Feed */}
-        <SVGLink href="/feed">
+        <SVGLink href="/app/feed">
           <FeedSVG variant="sidebar" selected={path.includes("feed")} />
         </SVGLink>
 
         {/* View requests */}
-        <SVGLink href="/requests">
+        <SVGLink href="/app/requests">
           <RequestsSVG selected={path.includes("requests")} />
         </SVGLink>
 
         {/* View Connections */}
-        <SVGLink href="/connections">
+        <SVGLink href="/app/connections">
           <ConnectionsSVG selected={path.includes("connections")} />
         </SVGLink>
 
         {/* Profile */}
-        <SVGLink href="/profile">
+        <SVGLink href="/app/profile">
           <ProfileSVG selected={path.includes("profile")} />
         </SVGLink>
       </div>
@@ -68,17 +68,17 @@ function SideBar({ user }: SideBarProps) {
         <div className="flex flex-col mt-4 px-4 space-y-3">
           {/* Feed */}
           {!path.includes("feed") && (
-            <SVGLink href="/feed">
+            <SVGLink href="/app/feed">
               <FeedSVG variant="sidebar" selected={true} />
             </SVGLink>
           )}
           {!path.includes("requests") && (
-            <SVGLink href="/requests">
+            <SVGLink href="/app/requests">
               <RequestsSVG selected={true} />
             </SVGLink>
           )}
           {!path.includes("connections") && (
-            <SVGLink href="/connections">
+            <SVGLink href="/app/connections">
               <ConnectionsSVG selected={true} />
             </SVGLink>
           )}

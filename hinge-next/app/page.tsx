@@ -3,7 +3,7 @@ import SideBar from "@/components/SideBarWrapper";
 export default function Home() {
   return (
     <>
-      <SideBar page="feed" />
+      <SideBar />
       <div className="flex flex-row items-center justify-center"></div>
     </>
   );

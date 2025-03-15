@@ -23,7 +23,7 @@ export default async function UserProfile({ params }: PageProps) {
 
   return (
     <div className="h-screen flex w-full">
-      <SideBar page="requests" />
+      <SideBar />
       <div className="relative flex items-center justify-center w-full">
         <div className="relative w-[400px] h-[600px]">
           <DetailedProfile profile={profile} />

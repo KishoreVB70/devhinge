@@ -61,6 +61,6 @@ export default async function signInAction(InputData: AuthSchema) {
   }
 
   if (isAuthenticated) {
-    redirect("/feed");
+    redirect("/app/feed");
   }
 }
