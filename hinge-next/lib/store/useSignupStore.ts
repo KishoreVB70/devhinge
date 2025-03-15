@@ -10,7 +10,7 @@ type SignupState = {
   nextStep: () => void;
 };
 export const useSignupStore = create<SignupState>((set) => ({
-  step: 2,
+  step: 1,
   data: {
     email: "",
     password: "",

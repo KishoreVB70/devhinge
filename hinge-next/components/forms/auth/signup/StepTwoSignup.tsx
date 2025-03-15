@@ -72,7 +72,7 @@ export default function StepTwoSignup() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onsubmit)}
-        className="flex flex-col gap-6 lg:min-w-[500px] pb-12"
+        className="flex flex-col pb-12 gap-6 lg:min-w-[500px]"
       >
         <div className="flex flex-col items-center gap-2 text-center">
           <h1 className="text-2xl font-bold">Enter your details</h1>
