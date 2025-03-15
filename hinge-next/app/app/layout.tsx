@@ -11,7 +11,7 @@ export default function Layout({
     <div className="h-screen w-screen">
       {/* Only on Mobile layout */}
       <div className="relative h-[5%] block lg:hidden w-[115px] ml-2 mb-1">
-        <Image fill src="/devconnectwording.webp" alt="logo" />
+        <Image fill src="/tindertext.png" alt="logo" />
       </div>
       <div className="h-full lg:h-full flex w-full">
         <Suspense fallback={<div>Loading...</div>}>

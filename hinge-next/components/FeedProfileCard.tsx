@@ -55,7 +55,7 @@ function FeedProfileCard<T extends string>({
 
   // TODO: Clear doubt on what would happen if I unmount component on handleLike, will it still increment index?
   return (
-    <div className="relative w-full h-full lg:w-[600px] lg:h-[800px] flex flex-col items-center justify-center">
+    <div className="relative w-full h-full lg:w-[600px] lg:h-[800px] lg:mb-32 flex items-center justify-center">
       <div className="relative h-full w-full lg:w-[400px] lg:h-[600px] flex flex-col items-center justify-center">
         {basicView ? (
           <BasicProfile profile={profile} setBasicView={setBasicView} />
@@ -63,7 +63,7 @@ function FeedProfileCard<T extends string>({
           <DetailedProfile profile={profile} setBasicView={setBasicView} />
         )}
         {/* Action Buttons */}
-        <div className="z-50 w-[70%] flex justify-between absolute -bottom-3">
+        <div className="absolute z-50 w-[70%] flex justify-between -bottom-3">
           {/* Pass Button */}
           <button
             className="w-14 h-14 bg-white border-2 border-gray-400 hover:bg-gray-200 hover:border-gray-700 flex flex-col items-center justify-center rounded-full group"

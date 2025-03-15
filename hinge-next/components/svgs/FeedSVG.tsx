@@ -6,9 +6,12 @@ type FeedSVGProps = {
 };
 
 function FeedSVG({ variant, selected }: FeedSVGProps) {
-  let svg = variant === "sidebar" ? "text-red-600" : "text-gray-200";
+  let svg =
+    variant === "sidebar"
+      ? "text-red-500 fill-red-500 lg:fill-transparent"
+      : "text-gray-200";
   if (variant === "sidebar" && !selected) {
-    svg = "text-black";
+    svg = "text-black fill-transparent";
   }
   const text = variant === "sidebar" ? "text-gray-800" : "text-gray-100";
   return (

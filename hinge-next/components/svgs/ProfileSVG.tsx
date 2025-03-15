@@ -10,7 +10,11 @@ function ProfileSVG({ selected }: ProfileIconProps) {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
-      className={`size-6 ${selected ? "text-red-500" : "text-black"}`}
+      className={`size-6 ${
+        selected
+          ? "text-red-500 fill-red-500 lg:fill-transparent"
+          : "text-black fill-transparent"
+      }`}
     >
       <path
         strokeLinecap="round"

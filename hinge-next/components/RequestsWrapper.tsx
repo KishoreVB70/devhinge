@@ -15,7 +15,7 @@ function RequestsClient({ profiles }: RequestsClientProps) {
   };
 
   return (
-    <div className="h-full w-full flex justify-center items-center">
+    <div className="h-[83%] lg:h-full w-full flex justify-center items-center">
       <ProfileCard
         profiles={profiles}
         handleAction={handleAction}
