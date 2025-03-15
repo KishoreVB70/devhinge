@@ -1,44 +1,48 @@
+"use client";
 import ConnectionsSVG from "@/components/svgs/ConnectionsSVG";
 import FeedSVG from "@/components/svgs/FeedSVG";
 import ProfileSVG from "@/components/svgs/ProfileSVG";
 import RequestsSVG from "@/components/svgs/RequestsSVG";
 import SVGLink from "@/components/svgs/SVGLink";
 import { Avatar } from "@/components/ui/avatar";
-import { getUserSelf } from "@/lib/dbhelpers/dbhelpers";
-import { Page } from "@/lib/types";
 import { AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import Link from "next/link";
-// import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React from "react";
 
 type SideBarProps = {
-  page: Page;
+  user: {
+    name: string;
+    avatar_url: string;
+  };
 };
 
-export default async function SideBar({ page }: SideBarProps) {
-  const user = await getUserSelf();
-  const imageUrl = user ? user.avatar_url : "/devconnect.webp";
-  const name = user ? user.name : "Prius";
+function SideBar({ user }: SideBarProps) {
+  const imageUrl = user.avatar_url;
+  const name = user.name;
+  const path = usePathname();
   return (
     <>
       {/* Mobile Layout */}
       <div className="lg:hidden h-[10%] z-20 w-full flex flex-row absolute bottom-0 bg-gray-100 justify-between">
         {/* Feed */}
         <SVGLink href="/feed">
-          <FeedSVG variant="sidebar" selected={page === "feed"} />
+          <FeedSVG variant="sidebar" selected={path.includes("feed")} />
         </SVGLink>
 
         {/* View requests */}
         <SVGLink href="/requests">
-          <RequestsSVG selected={page === "requests"} />
+          <RequestsSVG selected={path.includes("requests")} />
         </SVGLink>
 
         {/* View Connections */}
         <SVGLink href="/connections">
-          <ConnectionsSVG selected={page === "connections"} />
+          <ConnectionsSVG selected={path.includes("connections")} />
         </SVGLink>
+
+        {/* Profile */}
         <SVGLink href="/profile">
-          <ProfileSVG selected={page === "profile"} />
+          <ProfileSVG selected={path.includes("profile")} />
         </SVGLink>
       </div>
 
@@ -63,17 +67,17 @@ export default async function SideBar({ page }: SideBarProps) {
         {/* Sidebar Options */}
         <div className="flex flex-col mt-4 px-4 space-y-3">
           {/* Feed */}
-          {page !== "feed" && (
+          {!path.includes("feed") && (
             <SVGLink href="/feed">
               <FeedSVG variant="sidebar" selected={true} />
             </SVGLink>
           )}
-          {page !== "requests" && (
+          {!path.includes("requests") && (
             <SVGLink href="/requests">
               <RequestsSVG selected={true} />
             </SVGLink>
           )}
-          {page !== "connections" && (
+          {!path.includes("connections") && (
             <SVGLink href="/connections">
               <ConnectionsSVG selected={true} />
             </SVGLink>
@@ -83,3 +87,5 @@ export default async function SideBar({ page }: SideBarProps) {
     </>
   );
 }
+
+export default SideBar;
