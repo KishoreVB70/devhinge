@@ -10,7 +10,7 @@ function ProfileListing({ profile }: ProfileListingProps) {
   return (
     <Link
       href={`/user/${profile.id}`}
-      className={`py-2 space-x-2 cursor-pointer flex flex-row items-center shadow-lg border border-gray-100`}
+      className={`py-2 lg:hover:bg-gray-50 space-x-2 cursor-pointer flex flex-row items-center shadow-lg border border-gray-100`}
     >
       <Avatar className="ml-2 h-16 w-16">
         <AvatarImage
