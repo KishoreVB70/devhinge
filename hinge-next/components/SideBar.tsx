@@ -59,7 +59,9 @@ function SideBar({ user }: SideBarProps) {
                 alt="avatar"
                 className="w-full h-full object-cover"
               />
-              <AvatarFallback>DC</AvatarFallback>
+              <AvatarFallback>
+                <ProfileSVG selected={false} />
+              </AvatarFallback>
             </Avatar>
             <p className="ml-3 font-bold">{name}</p>
           </Link>
