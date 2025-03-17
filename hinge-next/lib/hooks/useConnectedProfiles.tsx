@@ -5,7 +5,7 @@ export function useConnectedProfiles() {
   return useInfiniteQuery({
     queryKey: ["connectedProfiles"],
     queryFn: ({ pageParam }) => getConnectedProfilesAPI(pageParam),
-    initialPageParam: 0,
+    initialPageParam: 1,
     getNextPageParam: (lastPage) => lastPage.nextPage,
   });
 }

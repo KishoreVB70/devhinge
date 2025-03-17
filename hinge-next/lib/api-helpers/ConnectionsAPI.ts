@@ -1,6 +1,6 @@
 import { zConnectedProfilesCursor } from "@/lib/schema/connectionSchema";
 import axios from "axios";
-export async function getConnectedProfilesAPI(pageParam: number | null) {
+export async function getConnectedProfilesAPI(pageParam: number) {
   const url = pageParam
     ? `/api/connections?nextPage=${pageParam}`
     : "/api/connections";
