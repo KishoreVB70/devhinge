@@ -42,7 +42,7 @@ const getConnectionsFilter = async (userId: string) => {
   return Array.from(filterSet);
 };
 
-export const getFeedProfiles = async (pageParam: string | null) => {
+export const getFeedProfiles = async (pageParam: string) => {
   const userId = (await headers()).get("id");
 
   if (!userId) {
@@ -67,26 +67,21 @@ export const getFeedProfiles = async (pageParam: string | null) => {
     ? zGender.array().parse(preferenceData.gender_preference)
     : [];
 
+  const isPrefetchQuery = pageParam === "0";
+
+  const pageSize = isPrefetchQuery
+    ? INITIAL_PROFILES_PER_PAGE_FEED
+    : PROFILES_PER_PAGE_FEED;
+
   const query = supabase
     .from("users")
     .select("*")
     .not("id", "in", `(${filterArray.join(",")})`)
-    .order("id", { ascending: true });
+    .order("id", { ascending: true })
+    .limit(pageSize + 1);
 
-  let cursor: boolean = false;
-  if (pageParam && pageParam !== "0") {
-    cursor = true;
-  }
-
-  const pageSize = cursor
-    ? PROFILES_PER_PAGE_FEED
-    : INITIAL_PROFILES_PER_PAGE_FEED;
-
-  if (cursor) {
+  if (!isPrefetchQuery) {
     query.gt("id", pageParam);
-    query.limit(pageSize + 1);
-  } else {
-    query.limit(pageSize + 1);
   }
 
   if (genderPreference.length > 0) {
@@ -110,7 +105,7 @@ export const getFeedProfiles = async (pageParam: string | null) => {
   };
 };
 
-export const getInterestedProfiles = async () => {
+export const getInterestedProfiles = async (pageParam: string) => {
   try {
     const header = await headers();
     const userId = header.get("id");
@@ -118,20 +113,41 @@ export const getInterestedProfiles = async () => {
       throw new Error("User ID not found");
     }
 
-    const { data, error } = await supabase
+    const isPrefetchQuery = pageParam === "0";
+    const pageSize = isPrefetchQuery
+      ? INITIAL_PROFILES_PER_PAGE_FEED
+      : PROFILES_PER_PAGE_FEED;
+
+    const query = supabase
       .from("connections")
       .select("sender_profile:sender_id (*)")
       .eq("target_id", userId)
-      .eq("status", "interested");
+      .eq("status", "interested")
+      .order("id", { ascending: true })
+      .limit(pageSize + 1);
+
+    if (!isPrefetchQuery) {
+      query.gt("id", pageParam);
+    }
+
+    const { data, error } = await query;
 
     if (error) {
       throw new Error(error.message);
     }
+
     const senderProfiles = data?.map((row) => row.sender_profile) || [];
 
-    // Validate the data
-    const validatedData = zFeedProfiles.parse(senderProfiles);
-    return validatedData;
+    const typedData = zFeedProfiles.parse(senderProfiles);
+
+    const hasNextPage = typedData.length > pageSize;
+    const profiles = hasNextPage ? typedData.slice(0, pageSize) : typedData;
+    const nextCursor = hasNextPage ? typedData[pageSize - 1].id : null;
+
+    return {
+      profiles,
+      nextCursor,
+    };
   } catch (error) {
     console.error(error);
     return null;
