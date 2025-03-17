@@ -28,7 +28,6 @@ export default function FeedWrapper() {
     }
   };
 
-  // TODO: consolidate the following two functions into one
   const handleAction = (index: number, action: "interested" | "ignored") => {
     likeorPassAction(profiles[index].id, action);
     handleNext(index);
