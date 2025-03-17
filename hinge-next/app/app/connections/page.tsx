@@ -1,7 +1,11 @@
 import ConnectionsPage from "@/components/ConnectionsPage";
 import { getConnectedProfiles } from "@/lib/dbhelpers/dbhelpers";
 import { ConnectedProfilesCursor } from "@/lib/schema/connectionSchema";
-import { QueryClient } from "@tanstack/react-query";
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
 import React from "react";
 
 export default async function Page() {
@@ -15,5 +19,9 @@ export default async function Page() {
       lastPage?.nextPage,
   });
 
-  return <ConnectionsPage />;
+  return (
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <ConnectionsPage />
+    </HydrationBoundary>
+  );
 }
