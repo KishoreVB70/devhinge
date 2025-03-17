@@ -36,6 +36,6 @@ export type ConnectedProfiles = z.infer<typeof zConnectedProfiles>;
 
 export const zConnectedProfilesCursor = z.object({
   profiles: zSimpleProfile.array(),
-  nextPage: z.number(),
+  nextPage: z.number().optional(),
 });
 export type ConnectedProfilesCursor = z.infer<typeof zConnectedProfilesCursor>;
