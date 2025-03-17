@@ -147,7 +147,7 @@ export const getConnectedProfiles = async (page: number) => {
     }
 
     const from = (page - 1) * CONNECTIONS_PER_PAGE;
-    const to = from + CONNECTIONS_PER_PAGE - 1;
+    const to = from + CONNECTIONS_PER_PAGE;
 
     const { data, error } = await supabase
       .from("connections")
@@ -187,9 +187,14 @@ export const getConnectedProfiles = async (page: number) => {
       }
     });
 
+    let nextPage = undefined;
+    if (cleansedData.length > CONNECTIONS_PER_PAGE) {
+      nextPage = page + 1;
+      cleansedData.pop();
+    }
     return {
       profiles: cleansedData,
-      nextPage: page + 1,
+      nextPage: nextPage,
     };
   } catch (error) {
     console.error(error);
