@@ -2,9 +2,11 @@
 import ProfileCard from "@/components/FeedProfileCard";
 import { likeorPassAction } from "@/lib/actions/connectionAction";
 import useFeedProfiles from "@/lib/hooks/useFeedProfiles";
+import { useDemoStore } from "@/lib/store/useDemoStore";
 import React from "react";
 
 export default function FeedWrapper() {
+  const { isDemo } = useDemoStore();
   const { data, isLoading, isError, fetchNextPage, hasNextPage } =
     useFeedProfiles();
 
@@ -29,7 +31,9 @@ export default function FeedWrapper() {
   };
 
   const handleAction = (index: number, action: "interested" | "ignored") => {
-    likeorPassAction(profiles[index].id, action);
+    if (!isDemo) {
+      likeorPassAction(profiles[index].id, action);
+    }
     handleNext(index);
   };
 
