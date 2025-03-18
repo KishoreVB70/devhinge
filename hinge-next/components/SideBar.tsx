@@ -15,18 +15,18 @@ type SideBarProps = {
     name: string;
     avatar_url: string;
   };
-  demo?: boolean;
+  isDemo?: boolean;
 };
 
-function SideBar({ user, demo }: SideBarProps) {
+function SideBar({ user, isDemo }: SideBarProps) {
   const imageUrl = user.avatar_url;
   const name = user.name;
   const path = usePathname();
 
-  const feedLink = demo ? "/demo/feed" : "/app/feed";
-  const profileLink = demo ? "/demo/feed" : "/app/profile";
-  const requestsLink = demo ? "/demo/feed" : "/app/requests";
-  const connectionsLink = demo ? "/demo/feed" : "/app/connections";
+  const feedLink = isDemo ? "/demo/feed" : "/app/feed";
+  const profileLink = isDemo ? "/demo/profile" : "/app/profile";
+  const requestsLink = isDemo ? "/demo/requests" : "/app/requests";
+  const connectionsLink = isDemo ? "/demo/connections" : "/app/connections";
 
   return (
     <>
