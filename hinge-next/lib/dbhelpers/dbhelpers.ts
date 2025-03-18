@@ -1,6 +1,7 @@
 // TODO: Breakdown each function into small helpers and try to re use
 import "server-only";
 import { supabase } from "@/lib/config/supabase";
+import demoData from "@/lib/store/demoData.json" assert { type: "json" };
 import { headers } from "next/headers";
 import { z } from "zod";
 import {
@@ -154,7 +155,7 @@ export const getInterestedProfiles = async (pageParam: string) => {
   }
 };
 
-export const getConnectedProfiles = async (page: number) => {
+export const getConnectedProfiles = async (page: number, isDemo?: boolean) => {
   try {
     const header = await headers();
     const userId = header.get("id");
@@ -164,6 +165,16 @@ export const getConnectedProfiles = async (page: number) => {
 
     const from = (page - 1) * CONNECTIONS_PER_PAGE;
     const to = from + CONNECTIONS_PER_PAGE;
+
+    if (isDemo) {
+      const data = demoData.slice(from, to);
+      const typedData = zSimpleProfile.array().parse(data);
+      const nextPage = demoData.length > to ? page + 1 : undefined;
+      return {
+        profiles: typedData,
+        nextPage: nextPage,
+      };
+    }
 
     const { data, error } = await supabase
       .from("connections")
@@ -218,7 +229,11 @@ export const getConnectedProfiles = async (page: number) => {
   }
 };
 
-export const getUserSelf = async () => {
+export const getUserSelf = async (isDemo?: boolean) => {
+  if (isDemo) {
+    const data = demoData[0];
+    return zSimpleProfile.parse(data);
+  }
   try {
     const userId = (await headers()).get("id");
     if (!userId) {
@@ -261,7 +276,11 @@ export const getUser = async (id: string) => {
   }
 };
 
-export async function getEditableUserDetails() {
+export async function getEditableUserDetails(isDemo?: boolean) {
+  if (isDemo) {
+    const data = demoData[0];
+    return zUpdatableUser.parse(data);
+  }
   try {
     const userId = (await headers()).get("id");
     if (!userId) {
