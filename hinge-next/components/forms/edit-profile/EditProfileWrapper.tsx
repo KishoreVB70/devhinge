@@ -31,12 +31,14 @@ import MultiItemsInput from "@/components/forms/edit-profile/MultiItemsInputWrap
 import updateUser from "@/lib/actions/updateUserAction";
 import { Checkbox } from "@/components/ui/checkbox";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useDemoStore } from "@/lib/store/useDemoStore";
 
 type EditProfileProps = {
   user: UpdatableUser;
 };
 
 export default function EditProfileForm({ user }: EditProfileProps) {
+  const { isDemo } = useDemoStore();
   let defaultHobbies = [];
   if (user.hobbies) {
     defaultHobbies = [
@@ -78,6 +80,10 @@ export default function EditProfileForm({ user }: EditProfileProps) {
   const skills = form.watch("skills");
 
   async function onSubmit(data: UpdatableUser) {
+    if (isDemo) {
+      return;
+    }
+
     if (data.website_url === "") {
       delete data.website_url;
     }
@@ -95,6 +101,7 @@ export default function EditProfileForm({ user }: EditProfileProps) {
       });
     }
   }
+
   return (
     <div className="w-full pb-[30%] lg:pb-[10%] lg:w-9/12 max-w-[700px] lg:h-full custom-scrollbar overflow-y-auto">
       <Form {...form}>

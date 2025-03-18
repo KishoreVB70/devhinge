@@ -1,4 +1,4 @@
-import { zFeedProfile, zID, zSimpleProfile } from "@/lib/schema/userSchema";
+import { zID, zSimpleProfile, zUser } from "@/lib/schema/userSchema";
 import { z } from "zod";
 
 const connectionstatusEnum = z.enum([
@@ -26,13 +26,15 @@ export const zConnection = z.object({
   status: connectionstatusEnum,
 });
 
-export const zConnectedProfiles = z
-  .object({
+export const zConnectedProfiles = zUser
+  .pick({
+    name: true,
+    avatar_url: true,
+  })
+  .extend({
     id: zID,
-    sender_profile: zFeedProfile,
   })
   .array();
-export type ConnectedProfiles = z.infer<typeof zConnectedProfiles>;
 
 export const zConnectedProfilesCursor = z.object({
   profiles: zSimpleProfile.array(),
