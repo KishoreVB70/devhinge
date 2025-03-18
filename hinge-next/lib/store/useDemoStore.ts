@@ -1,11 +1,11 @@
 import { create } from "zustand";
 
 interface PathState {
-  isDemo: boolean;
+  isDemo: boolean | undefined;
   setIsDemo: (isDemo: boolean) => void;
 }
 
 export const useDemoStore = create<PathState>((set) => ({
-  isDemo: false,
+  isDemo: undefined,
   setIsDemo: (isDemo) => set({ isDemo }),
 }));
