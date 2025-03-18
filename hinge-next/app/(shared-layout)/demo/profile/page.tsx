@@ -1,10 +1,10 @@
 import EditProfileForm from "@/components/forms/edit-profile/EditProfileWrapper";
-import { getEditableUserDetailsDemo } from "@/lib/dbhelpers/demoDataHelpers";
+import { getEditableUserDetails } from "@/lib/dbhelpers/dbhelpers";
 
 import React from "react";
 
 export default async function EditProfile() {
-  const user = await getEditableUserDetailsDemo();
+  const user = await getEditableUserDetails(true);
 
   if (!user) return <div>loading...</div>;
 

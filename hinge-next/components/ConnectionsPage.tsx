@@ -38,7 +38,7 @@ export default function ConnectionsPage() {
   if (!data || isError) {
     return <div>Retry</div>;
   }
-
+  console.log(data);
   const profiles = data.pages.flatMap((page) => page.profiles);
 
   if (profiles.length === 0)
