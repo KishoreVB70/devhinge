@@ -1,5 +1,5 @@
 import RequestsClient from "@/components/RequestsWrapper";
-import { getInterestedProfiles } from "@/lib/dbhelpers/dbhelpers";
+import { getInterestedProfilesDemo } from "@/lib/dbhelpers/demoDataHelpers";
 import { FeedProfileCursor } from "@/lib/schema/userSchema";
 import {
   dehydrate,
@@ -13,7 +13,7 @@ export default async function page() {
 
   await queryClient.prefetchInfiniteQuery({
     queryKey: ["interestedProfiles"],
-    queryFn: ({ pageParam }) => getInterestedProfiles(pageParam),
+    queryFn: ({ pageParam }) => getInterestedProfilesDemo(pageParam),
     initialPageParam: "0",
     getNextPageParam: (lastPage: FeedProfileCursor | null) =>
       lastPage?.nextCursor,

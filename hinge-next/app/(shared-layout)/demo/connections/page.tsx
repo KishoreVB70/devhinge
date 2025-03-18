@@ -1,5 +1,5 @@
 import ConnectionsPage from "@/components/ConnectionsPage";
-import { getConnectedProfiles } from "@/lib/dbhelpers/dbhelpers";
+import { getConnectedProfilesDemo } from "@/lib/dbhelpers/demoDataHelpers";
 import { ConnectedProfilesCursor } from "@/lib/schema/connectionSchema";
 import {
   dehydrate,
@@ -12,11 +12,10 @@ export default async function Page() {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchInfiniteQuery({
-    queryKey: ["connectedProfiles"],
-    queryFn: ({ pageParam }) => getConnectedProfiles(pageParam),
+    queryKey: ["connectedProfilesDemo"],
+    queryFn: ({ pageParam }) => getConnectedProfilesDemo(pageParam),
     initialPageParam: 1,
-    getNextPageParam: (lastPage: ConnectedProfilesCursor | null) =>
-      lastPage?.nextPage,
+    getNextPageParam: (lastPage: ConnectedProfilesCursor) => lastPage?.nextPage,
   });
 
   return (

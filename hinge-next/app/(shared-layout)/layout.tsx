@@ -15,9 +15,9 @@ export default function Layout({
       </div>
       <div className="h-[96%] lg:h-full flex w-full">
         <Suspense fallback={<div>Loading...</div>}>
-          <SideBar demo />
+          <SideBar />
         </Suspense>
-        <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+        {children}
       </div>
     </div>
   );
